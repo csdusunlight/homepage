@@ -13,5 +13,5 @@ class SubdomainMiddleware(object):
             try:
                 request.user = MyUser.objects.get(qq_number=qq_number)
             except:
-                pass
+                raise Http404
         return None
