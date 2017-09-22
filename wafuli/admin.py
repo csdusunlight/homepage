@@ -15,6 +15,6 @@ class ProjectAdmin(admin.ModelAdmin):
             batch_subscribe(request.user, True, obj)
         elif obj.state=='30':
             batch_deletesub(obj)
-admin.site.register(Project, ProjectAdmin)  
+admin.site.register(Project, ProjectAdmin)
 admin.site.register(Company)
-admin.site.register(SubscribeShip)          
+admin.site.register(SubscribeShip)
