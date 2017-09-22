@@ -11,8 +11,8 @@ def index(request):
         data = {
             'id':p.id,
             'title' : p.title,
-            'intrest': p.intrest,
-            'price': p.cprice if not r.price else r.price,
+            'intrest': r.intrest if r.intrest else p.intrest,
+            'price': r.price,
             'term': p.term,
             'range': p.investrange,
             'pic': p.pic.url,
