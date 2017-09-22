@@ -131,7 +131,7 @@
     <div class="popup m-submit-proj">
         <div class="popup__content" style="width: 600px;">
             <div class="popup__top">
-                <h2 class="popup__title">新建项目</h2><button type="button" class="popup__close popup__close-btn" onclick="canclePopup(this)">×</button>
+                <h2 class="popup__title">项目交单</h2><button type="button" class="popup__close popup__close-btn" onclick="canclePopup(this)">×</button>
             </div>
             <div class="popup__detail">
                 <div class="popup__item">
@@ -285,7 +285,7 @@
         console.log(search_key);
         if (search_key) {
             $("#pagedata1").ajaxPage({
-              url: "/restapi/projects/?page={page}&size={pageSize}&project_title_contains="+search_key,
+              url: "/restapi/sub/?page={page}&size={pageSize}&is_on=true&project_title_contains="+search_key,
               pageId:$("#page1"),
               run:true,
               content:data,
