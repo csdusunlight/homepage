@@ -15,7 +15,7 @@ def index(request):
             'price': r.price,
             'term': p.term,
             'range': p.investrange,
-            'pic': p.pic.url,
+            'pic': p.picture_url(),
             'investrange': p.investrange,
             'strategy': p.strategy
         }

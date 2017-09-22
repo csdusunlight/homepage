@@ -102,8 +102,20 @@ class Project(models.Model):
         now = datetime.datetime.now()
         days = (now-self.pub_date).days
         return days == 0
-    def is_hot(self):
-        return self.view_count > 1000
+    def picture_url(self):
+        """
+        Returns the URL of the image associated with this Object.
+        If an image hasn't been uploaded yet, it returns a stock image
+        
+        :returns: str -- the image url
+        
+        """
+        if self.pic and hasattr(self.pic, 'url'):
+            return self.picture.url
+        else:
+            return ''
+        def __unicode__(self):
+            return self.mobile
     def __unicode__(self):
         return self.title
     
