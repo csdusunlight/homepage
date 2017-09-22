@@ -46,7 +46,7 @@
                                 <p class="hot__money hot__info">投资区间：{{recom.investrange}}</p>
                                 <p class="hot__term hot__info">标期：{{recom.term}}</p>
                                 <div class="btn-box">
-                                    <a href="#" class="btn m-green m-hot">查看攻略</a>
+                                    <a href="{{recom.strategy}}" class="btn m-green m-hot">查看攻略</a>
                                     <a class="btn m-green m-hot" projectid="{{recom.id}}" onclick="submit({{recom.id}})">交&nbsp;&nbsp;单</a>
                                 </div>
                             </li>
@@ -187,7 +187,7 @@
       '<div class="project-btn-box"><a href="{strategy}" target="_blank" class="btn m-green m-project">查看攻略</a>'+
       '<a class="btn m-green m-project" onclick="submit({id})">交&nbsp;&nbsp;单</a></div></div></li>[/results]';
       
-    var colors = ['red','blue','green','yellow','black','indianred'];
+    var colors = ['#8cd9f1','#a0a2cf','#a6d7b9','#f7bbd1','#feb8a6','#99badf','#d0aea1','#a0d6d6','#ff9a8c'];
     function pagecallback (){
         $('.project__img').each(function(){
             var imgurl = $(this).data('pic');
@@ -197,7 +197,7 @@
             } else{
                 var imgtxt = ''+$(this).data('imgtxt');
                 imgtxt = imgtxt.substr(0, 1);
-                var num = parseInt(Math.random()*6);
+                var num = parseInt(Math.random()*9);
                 $(this).text(imgtxt).css('background-color', colors[num]);
             }
         })
@@ -205,7 +205,7 @@
     $('.hot__img').each(function(){
         var imgurl = $(this).data('pic');
         console.log(imgurl);
-        if (!imgurl) {
+        if (imgurl) {
             $(this).css('background', 'url('+imgurl+') center center/120px 120px no-repeat');
         } else{
             var imgtxt = ''+$(this).data('imgtxt');
@@ -280,7 +280,7 @@
 
     $(function(){
         $("#pagedata1").ajaxPage({
-          url: "/restapi/projects/?page={page}&size={pageSize}",
+          url: "/restapi/sub/?page={page}&size={pageSize}&is_on=true",
           pageId:$("#page1"),
           run:true,
           content:data,
