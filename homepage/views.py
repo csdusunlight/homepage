@@ -16,6 +16,8 @@ def index(request):
             'term': p.term,
             'range': p.investrange,
             'pic': p.pic.url,
+            'investrange': p.investrange,
+            'strategy': p.strategy
         }
         recom_list.append(data)
     notice_list = Notice.objects.filter(user=request.user)
