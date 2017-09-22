@@ -1,0 +1,180 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>用户中心</title>
+<link href="{% static 'images/favicon.ico'%}" rel="shortcut icon"/>
+<!--<link rel="stylesheet" type="text/css" href="{% static 'css/User.css' %}" />-->
+<link rel="stylesheet" type="text/css" href="{% static 'css/wfl-common.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/account-base.css' %}" />
+<!--<link rel="stylesheet" type="text/css" href="{% static 'css/style-i.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />-->
+<script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+
+</head>
+
+<body>
+    	<!--头部-->
+{% include "header.html" %}
+   	<!--内容-->
+<div class="Content">
+   	<!--<div class="w1100">-->
+			{% include "account/left.html" %}
+            <div class="RightCont">
+                <div class="notice-index">
+                    <h3 class="notice__title">通知栏</h3>
+                    <div id="noticeBox" class="notice__box">
+                        <ul id="con1">
+                            <li><a class="notice__txt oneline">1、这里是通知11111111111111111111这里是通知11111111111111111111这里是通知11111111111111111111这里是通知11111111111111111111这里是通知11111111111111111111这里是通知11111111111111111111</a></li>
+                            <li><a class="notice__txt oneline">2、这里是通知22222222222222222222这里是通知222222222222222222这里是通知2222222222222222222</a></li>
+                            <li><a class="notice__txt oneline">3、这里是通知33333333333333333这里是通知33333333333333333333333这里是通知33333333333333333</a></li>
+                            <li><a class="notice__txt oneline">4、这里是通知4444444444444444这里是通知4444444444444444444444444这里是通知4444</a></li>
+                        </ul>
+                        <ul id="con2">
+                        </ul>
+                    </div>
+                    <div class="copy-link">
+                        <p class="link-box">我的主页：<span class="target-link">http://www.wafuli.cn{%url 'register' %}?icode={{user.invite_code}}</span></p>
+                        <a id="copy" class="btn m-green m-link">复制链接</a><a href="" class="btn m-green m-link">设置</a>
+                    </div>
+                </div>
+                
+                <ul class="benefit">
+                    <li class="benefit__item">累计收益（元）<br /><span class="benefit__item-txt">19999</span></li>
+                    <li class="benefit__item">昨日收益（元）<br /><span class="benefit__item-txt">19999</span></li>
+                    <li class="benefit__item">账户余额（元）<br /><span class="benefit__item-txt">19999</span></li>
+                    <li class="benefit__withdraw"><a href="" class="btn m-green">提现</a></li>
+                    <div id="main" class="chart" style="width: 600px;height:400px;"></div>
+                </ul>
+                <div class="recommend">
+                    <div class="recommend__titlebox clearfix">
+                        <h2 class="recommend__title l">热门推荐</h2>
+                        <a class="recommend__more r" href="#">查看更多>></a>
+                    </div>
+                    <ul class="recommend__itembox">
+                        <li class="recommend__item"><a href="#">
+                            <img class="recommend__img" src="" alt="" />
+                            <h4 class="recommend__name oneline">这里是标题</h4>
+                            <p class="recommend__detail oneline">这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍</p>
+                        </a></li>
+                        <li class="recommend__item"><a href="#">
+                            <img class="recommend__img" src="" alt="" />
+                            <h4 class="recommend__name oneline">这里是标题</h4>
+                            <p class="recommend__detail oneline">这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍</p>
+                        </a></li>
+                        <li class="recommend__item"><a href="#">
+                            <img class="recommend__img" src="" alt="" />
+                            <h4 class="recommend__name oneline">这里是标题</h4>
+                            <p class="recommend__detail oneline">这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍</p>
+                        </a></li>
+                        <li class="recommend__item"><a href="#">
+                            <img class="recommend__img" src="" alt="" />
+                            <h4 class="recommend__name oneline">这里是标题</h4>
+                            <p class="recommend__detail oneline">这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍</p>
+                        </a></li>
+                    </ul>
+                </div>
+                
+                
+            </div>
+</div>
+
+<script type="text/javascript" src="{% static 'js/wfl-common.js' %}"></script>
+<script type="text/javascript" src="{%static 'js/echarts.common.min.js'%}"></script>
+<!--<script type="text/javascript" src="{% static "js/ZeroClipboard.js" %}"></script>-->
+<script type="text/javascript" src="{% static 'js/clipboard.min.js' %}"></script>
+<script type="text/javascript">
+$(function(){
+    $('.back-a1').toggleClass("on");
+    
+    var clipboard = new Clipboard('#copy', {
+        target: function() {
+            return document.querySelector('.target-link');
+        }
+    });
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+//  var clipboard = new Clipboard('#copy');
+//  
+//  clipboard.on('success', function(e) {
+//      console.log(e);
+//  });
+//  
+//  clipboard.on('error', function(e) {
+//      console.log(e);
+//  });
+
+//  图表部分
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    var data_x = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '本月返现'
+        },
+        tooltip: {},
+        legend: {
+            data:['元']
+        },
+        xAxis: {
+//          data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            data: data_x
+        },
+        yAxis: {},
+        series: [{
+            name: '元',
+            type: 'bar',
+//          barWidth: 20,
+            grid:{
+                x:0,
+                y:0,
+                x2:0,
+                y2:0
+            },
+            data: [50, 300, 360, 100, 100, 200, 200, 306, 100, 100, 220, 80, 50, 230, 90, 40, 170, 40, 110, 320, 360, 50, 220, 250,280,90,76,110,365,220,250]
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+//  图表部分---end
+
+});
+//  滚动部分
+    var area = document.getElementById('noticeBox');
+    var con1 = document.getElementById('con1');
+    var con2 = document.getElementById('con2');
+    var speed = 50;
+    area.scrollTop = 0;
+    console.log(area.scrollTop);
+    console.log(con1.scrollTop);
+    if (area.clientHeight > con1.clientHeight) {
+    } else {    
+        con2.innerHTML = con1.innerHTML;
+        function scrollUp(){
+            if(area.scrollTop >= con1.scrollHeight) {
+                area.scrollTop = 0;
+                }else{
+                   area.scrollTop ++;
+                }
+        }
+        var myScroll = setInterval("scrollUp()",speed);
+        area.onmouseover = function(){
+            clearInterval(myScroll);
+        }
+        area.onmouseout = function(){
+            myScroll = setInterval("scrollUp()",speed);
+        }
+    }
+//  滚动部分---end 
+</script>
+</body>
+</html>
