@@ -22,7 +22,7 @@ from wafuli_admin.models import DayStatis
 class BaseViewMixin(object):
     authentication_classes = (CsrfExemptSessionAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
-class ProjectList(BaseViewMixin, generics.ListCreateAPIView):
+class ProjectList(BaseViewMixin, generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         queryset = Project.objects.filter(state__in=['10','20'], )
@@ -46,7 +46,7 @@ class ProjectDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProjectSerializer
     permission_classes = (IsOwnerOrStaff,)
     
-class UserList(BaseViewMixin, generics.ListCreateAPIView):
+class UserList(BaseViewMixin, generics.ListAPIView):
     queryset = MyUser.objects.all()
     permission_classes = (IsAdmin,)
     serializer_class = UserSerializer
@@ -60,7 +60,7 @@ class UserDetail(BaseViewMixin,generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     permission_classes = (IsSelfOrStaff,)
     
-class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
+class InvestlogList(BaseViewMixin, generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         if user.is_staff:
@@ -89,7 +89,7 @@ class TranslistList(BaseViewMixin, generics.ListAPIView):
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend, )
     filter_class = TranslistFilter
     
-class NoticeList(BaseViewMixin, generics.ListCreateAPIView):
+class NoticeList(BaseViewMixin, generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return Notice.objects.filter(user=user)
@@ -118,7 +118,7 @@ class SubscribeShipDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SubscribeShipSerializer
     permission_classes = (IsOwnerOrStaff,)
     
-class AnnouncementList(BaseViewMixin, generics.ListCreateAPIView):
+class AnnouncementList(BaseViewMixin, generics.ListAPIView):
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
     pagination_class = MyPageNumberPagination
@@ -128,7 +128,7 @@ class AnnouncementDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AnnouncementSerializer
     permission_classes = (IsAdmin,)
     
-class DayStatisList(BaseViewMixin, generics.ListCreateAPIView):
+class DayStatisList(BaseViewMixin, generics.ListAPIView):
     queryset = DayStatis.objects.all()
     permission_classes = (IsAdmin,)
     serializer_class = DayStatisSerializer
@@ -143,7 +143,7 @@ class ApplyLogList(BaseViewMixin, generics.ListAPIView):
     pagination_class = MyPageNumberPagination
     
     
-class WithdrawLogList(BaseViewMixin, generics.ListCreateAPIView):
+class WithdrawLogList(BaseViewMixin, generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         if user.is_staff:
