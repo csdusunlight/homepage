@@ -12,7 +12,7 @@ def index(request):
             'id':p.id,
             'title' : p.title,
             'intrest': r.intrest if r.intrest else p.intrest,
-            'price': r.price,
+            'price': r.price if r.price else p.cprice,
             'term': p.term,
             'range': p.investrange,
             'pic': p.picture_url(),
