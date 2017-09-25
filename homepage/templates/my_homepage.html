@@ -185,7 +185,7 @@
       '<p class="project__money project__info">投资区间<br />{project_investrange}</p>'+
       '<p class="project__term project__info">标期<br />{project_term}</p>'+
       '<div class="project-btn-box"><a href="{project_strategy}" target="_blank" class="btn m-green m-project">查看攻略</a>'+
-      '<a class="btn m-green m-project" onclick="submit({id})">交&nbsp;&nbsp;单</a></div></div></li>[/results]';
+      '<a class="btn m-green m-project" onclick="submit({project})">交&nbsp;&nbsp;单</a></div></div></li>[/results]';
       
     var colors = ['#8cd9f1','#a0a2cf','#a6d7b9','#f7bbd1','#feb8a6','#99badf','#d0aea1','#a0d6d6','#ff9a8c'];
     function pagecallback (){
@@ -283,7 +283,7 @@
     $('.search-submit').click(function(){
         var search_key = $('.search-input').val();
         console.log(search_key);
-        if (search_key) {
+//      if (search_key) {
             $("#pagedata1").ajaxPage({
               url: "/restapi/sub/?page={page}&size={pageSize}&is_on=true&project_title_contains="+search_key,
               pageId:$("#page1"),
@@ -291,7 +291,7 @@
               content:data,
               complete:pagecallback,
             });
-        }
+//      }
     })
 
     $(function(){
@@ -324,6 +324,12 @@
             alert("必填写项不能为空");
             return;
         }
+        if(date.match(/^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/)) { 
+            return true; 
+            console.log('日期格式正确');
+        } else { 
+            alert('日期格式不符合规范'); 
+        } 
 
         $.ajax({
             url: '/restapi/investlogs/',
