@@ -4,7 +4,9 @@ from wafuli.models import SubscribeShip, Notice
 # Create your views here.
 
 def index(request):
-    recoms = SubscribeShip.objects.filter(user=request.user, is_recommend=True, is_on=True)[0:10]
+    recoms = list(SubscribeShip.objects.filter(user=request.user, is_recommend=True, is_on=True)[0:10])
+    if len(recoms)==0:
+        recoms = list(SubscribeShip.objects.filter(user=request.user, is_on=True)[0:4])
     recom_list = []
     for r in recoms:
         p = r.project
@@ -12,7 +14,7 @@ def index(request):
             'id':p.id,
             'title' : p.title,
             'intrest': r.intrest if r.intrest else p.intrest,
-            'price': r.price,
+            'price': r.price if r.price else p.cprice,
             'term': p.term,
             'range': p.investrange,
             'pic': p.picture_url(),
