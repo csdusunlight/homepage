@@ -208,6 +208,7 @@
 .project__profit-num,
 .project__price-num {
     display: inline-block;
+    margin-top: 16px;
     font-size: 20px;
     color: #ffbe00;
     line-height: 24px;
