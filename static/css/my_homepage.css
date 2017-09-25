@@ -103,10 +103,11 @@
 .hot__itembox {
     display: inline-block;
     width: 245px;
+    vertical-align: top;
     transition: transform 0.4s ease;
 }
 .hot__itembox:hover {
-    transform: translateY(-64px);
+    transform: translateY(-80px);
 }
 .hot__img {
     margin: 16px auto 10px;

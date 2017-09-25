@@ -25,13 +25,14 @@
 </script>
 </head>
 <body>
-    <div class="user__top">
+    <div class="user__top" style="position: relative;">
         <div class="user__info">
             <img class="user__img" src="{{user.picture_url}}" alt="" />
             <div class="user__detail">
                 <h1 class="user__name">{{user.qq_name}}</h1>
                 <p class="user__intro">{{user.profile}}</p>
             </div>
+            <p style="position: absolute;right: 0;color: #fff;bottom: 64px;">投资有风险，入市需谨慎！</p>
         </div>
     </div>
     <div class="content clearfix">
