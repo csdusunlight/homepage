@@ -119,14 +119,6 @@
                 <h3 class="rank__title">大家都在</h3>
                 <div id="rankBox" class="rank__box">
                     <ul id="rank_con1">
-                        <li><a class="rank__txt oneline">1、152****2344体验了<span class="rank__project">核时代一期</span></a></li>
-                        <li><a class="rank__txt oneline">2、152****2344体验了<span class="rank__project">核时代一期</span></a></li>
-                        <li><a class="rank__txt oneline">3、152****2344体验了<span class="rank__project">核时代一期</span></a></li>
-                        <li><a class="rank__txt oneline">4、152****2344体验了<span class="rank__project">核时代一期</span></a></li>
-                        <li><a class="rank__txt oneline">5、152****2344体验了<span class="rank__project">核时代一期</span></a></li>
-                        <li><a class="rank__txt oneline">6、152****2344体验了<span class="rank__project">核时代一期</span></a></li>
-                        <li><a class="rank__txt oneline">7、152****2344体验了<span class="rank__project">核时代一期</span></a></li>
-                        <li><a class="rank__txt oneline">8、152****2344体验了<span class="rank__project">核时代一期</span></a></li>
                     </ul>
                     <ul id="rank_con2">
                     </ul>
@@ -182,7 +174,7 @@
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript">
-    var data='[results]<li class="project__itembox"><h2 class="project__name">{project_title}<span class="project__name-small">{introduction}</span></h2>'+
+    var data='[results]<li class="project__itembox"><h2 class="project__name">{project_title}<span class="project__name-small oneline">{project_introduction}</span></h2>'+
       '<div class="project__detail">'+
 //    '<img class="project__img" src="" alt="" />'+
       '<div data-pic="{project_picture}" data-imgtxt="{project_title}" class="project__img"></div>'+
@@ -217,6 +209,7 @@
                 $(this).text($(this).data('intrest'));
             }
         })
+        $('.state20').text('已结束');
     }
     $('.hot__img').each(function(){
         var imgurl = $(this).data('pic');
@@ -259,7 +252,9 @@
             console.log(ret.results);
             var notice_html='';
             for (var i=0; i<ret.results.length; i++) {
-            	notice_html += '<li><a class="rank__txt oneline">' + (i+1) + '、' + ret.results[i].invest_mobile +
+                var phone = ret.results[i].invest_mobile;
+                var phone2 = phone.substr(0, 3) + '****' + phone.substr(7, 11);
+            	notice_html += '<li><a class="rank__txt oneline">' + (i+1) + '、' + phone2 +
             	'体验了<span class="rank__project">' + ret.results[i].project_title + '</span></a></li>';
             }
             console.log(notice_html);
@@ -314,6 +309,8 @@
     });
 
     $(function(){
+        $('.state20').text('已结束');
+        
         $("#pagedata1").ajaxPage({
           url: "/restapi/sub/?page={page}&size={pageSize}&is_on=true",
           pageId:$("#page1"),
