@@ -306,6 +306,15 @@
     var project_id;
     function submit (id) {
         project_id = id;
+        
+        $(".telnum").val('');
+        $(".term").val('');
+        $(".money").val('');
+        $(".date").val('');
+        $(".zhifubao").val('');
+        $(".zfbname").val('');
+        $(".remark").val('');
+        
         $('.popup.m-submit-proj').addClass('in');
     }
     $(".popup.m-submit-proj").on("focus", ".date_picker", function() {
@@ -325,7 +334,6 @@
             return;
         }
         if(date.match(/^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/)) { 
-            return true; 
             console.log('日期格式正确');
         } else { 
             alert('日期格式不符合规范'); 
