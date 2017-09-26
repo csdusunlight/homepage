@@ -18,6 +18,7 @@ from restapi.Filters import InvestLogFilter, SubscribeShipFilter, UserFilter,\
     ApplyLogFilter, TranslistFilter, WithdrawLogFilter
 from django.db.models import Q
 from wafuli_admin.models import DayStatis
+from rest_framework.exceptions import ValidationError
 # from wafuli.Filters import UserEventFilter
 class BaseViewMixin(object):
     authentication_classes = (CsrfExemptSessionAuthentication,)
@@ -74,6 +75,10 @@ class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
     def perform_create(self, serializer):
         project = serializer.validated_data['project']
         is_official = project.is_official
+        invest_mobile = serializer.validated_data['invest_mobile']
+        if not project.is_multisub_allowed:
+            if InvestLog.objects.filter(invest_mobile=invest_mobile, project__company_id=project.id).exclude(audit_state='2').exists():
+                raise ValidationError({'detail':u"投资手机号重复"})
         serializer.save(is_official=is_official, audit_state='1', user=self.request.user)
 
 class InvestlogDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
