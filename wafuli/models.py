@@ -58,6 +58,9 @@ class Mark(models.Model):
                                 blank=True, null=True, on_delete=models.SET_NULL)
     def __unicode__(self):
         return self.name
+    class Meta:
+        verbose_name = u"标签"
+        verbose_name_plural = u"标签"
 
 Project_STATE = (
     ('00', u'即将开始'),
@@ -98,6 +101,11 @@ class Project(models.Model):
         ordering = ["-priority", "-pub_date"]
     def is_expired(self):
         return self.state != '10'
+    def marks_list(self):
+        mark_list = []
+        for mark in self.marks.all():
+            mark_list.append(mark.name)
+        return '|'.join(mark_list)
     def is_new(self):
         now = datetime.datetime.now()
         days = (now-self.pub_date).days
@@ -132,7 +140,7 @@ class SubscribeShip(models.Model):
         return self.user.mobile + self.project.title
     class Meta:
         unique_together = (('user', 'project'),)
-        ordering = ["-project__pub_date"]
+        ordering = ["-project__priority", "-project__pub_date",]
 
 class InvestLog(models.Model):
     user = models.ForeignKey(MyUser, related_name="investlog_submit")
@@ -210,6 +218,12 @@ class TransList(models.Model):
                                        self.user_event.time if self.user_event else "")
     class Meta:
         ordering = ["-time",]
+    
+    def balance(self):
+        if self.transType == '0':
+            return self.initAmount + self.transAmount
+        else:
+            return self.initAmount - self.transAmount
 
 class WithdrawLog(models.Model):
     user = models.ForeignKey(MyUser, related_name="withdrawlog")

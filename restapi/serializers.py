@@ -33,6 +33,7 @@ class InvestLogSerializer(serializers.ModelSerializer):
     qq_name = serializers.CharField(source='user.qq_name', read_only=True)
     user_level = serializers.CharField(source='user.level', read_only=True)
     user_mobile = serializers.CharField(source='user.mobile', read_only=True)
+    audit_state_des = serializers.CharField(source='get_audit_state_display', read_only=True)
     class Meta:
         model = InvestLog
         fields = '__all__'
@@ -40,6 +41,7 @@ class InvestLogSerializer(serializers.ModelSerializer):
                              'user_mobile', 'settle_amount','return_amount', "admin_user", "is_official")
 class TransListSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(source='user.mobile', read_only=True)
+    username = serializers.CharField(source='user.qq_number', read_only=True)
     class Meta:
         model = TransList
         fields = '__all__'
