@@ -385,11 +385,14 @@
                 alert('提交成功');
                 $('.popup.m-submit-proj').removeClass('in');
             },
-            error: function(ret) {
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
                 if (ret.detail) {
                 	alert(ret.detail);
                 } else{
-                    alert("请检查网络连接");
+                    alert("数据错误");
                 }
             }
         });
