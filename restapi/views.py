@@ -79,7 +79,7 @@ class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
         invest_mobile = serializer.validated_data['invest_mobile']
         if not project.is_multisub_allowed:
             if InvestLog.objects.filter(invest_mobile=invest_mobile, project__company_id=project.id).exclude(audit_state='2').exists():
-                raise ValidationError({'detail':u"Í¶×ÊÊÖ»úºÅÖØ¸´"})
+                raise ValidationError({'detail':u"æŠ•èµ„æ‰‹æœºå·é‡å¤"})
         serializer.save(is_official=is_official, audit_state='1', user=self.request.user)
 
 class InvestlogDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
