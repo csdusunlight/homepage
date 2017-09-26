@@ -385,8 +385,12 @@
                 alert('提交成功');
                 $('.popup.m-submit-proj').removeClass('in');
             },
-            error: function() {
-                alert("请检查网络连接");
+            error: function(ret) {
+                if (ret.detail) {
+                	alert(ret.detail);
+                } else{
+                    alert("请检查网络连接");
+                }
             }
         });
     });
