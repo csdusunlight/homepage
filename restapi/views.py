@@ -60,7 +60,7 @@ class UserDetail(BaseViewMixin,generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     permission_classes = (IsSelfOrStaff,)
     
-class InvestlogList(BaseViewMixin, generics.ListAPIView):
+class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
     def get_queryset(self):
         user = self.request.user
         if user.is_staff:
