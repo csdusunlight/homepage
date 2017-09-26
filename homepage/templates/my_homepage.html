@@ -28,7 +28,7 @@
         <div class="user__info" style="position: relative;">
             <img class="user__img" src="{{user.picture_url}}" alt="" />
             <div class="user__detail">
-                <h1 class="user__name">{{user.qq_name}}</h1>
+                <h1 class="user__name">{{user.username}}</h1>
                 <p class="user__intro">{{user.profile}}</p>
             </div>
             <p style="position: absolute;right: 0;color: #fff;bottom: 64px;">投资有风险，入市需谨慎！</p>
@@ -138,11 +138,11 @@
                 </div>
                 <div class="popup__item">
                     <span class="popup__itemname">投资标期：</span>
-                    <input type="text" class="term" placeholder="填写投资标期" />
+                    <input type="text" class="term" placeholder="填写投资标期，数字" />
                 </div>
                 <div class="popup__item">
                     <span class="popup__itemname">投资金额：</span>
-                    <input type="text" class="money" placeholder="填写投资金额" />
+                    <input type="text" class="money" placeholder="填写投资金额，数字" />
                 </div>
                 <div class="popup__item">
                     <span class="popup__itemname">投资日期：</span>
@@ -354,7 +354,18 @@
         } else { 
             alert('日期格式不符合规范'); 
             return;
-        } 
+        }
+        var re = /^1[1,2,3,4,6,5,7,8,9]\d{9}$/, //验证手机号
+            re_amount = /^\d+(\.\d+)?$/; //验证数字格式
+        if(!re.test(telnum)) {
+            alert('手机号格式不正确');
+        }
+        if(!re_amount.test(term)) {
+            alert('标期必须为纯数字格式');
+        }
+        if(!re_amount.test(money)) {
+            alert('金额必须为纯数字格式');
+        }
 
         $.ajax({
             url: '/restapi/investlogs/',
