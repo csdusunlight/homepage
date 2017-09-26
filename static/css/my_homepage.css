@@ -93,6 +93,7 @@
     padding-left: 42px;
     font-size: 24px;
     line-height: 72px;
+    background: url(../images/bg-icon-hot.png) left center no-repeat;
 }
 .hot__box {
     height: 300px;
@@ -138,6 +139,7 @@
     padding-left: 42px;
     font-size: 24px;
     line-height: 84px;
+    background: url(../images/bg-icon-list.png) left center no-repeat;
 }
 .search__left {
     position: relative;
@@ -236,6 +238,7 @@
     line-height: 38px;
     text-align: center;
     color: #fff;
+    background: url(../images/bg-icon-qq.png) left center no-repeat;
 }
 .ask-time {
     font-size: 14px;
