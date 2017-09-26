@@ -25,12 +25,13 @@
 </head>
 <body>
     <div class="user__top">
-        <div class="user__info">
+        <div class="user__info" style="position: relative;">
             <img class="user__img" src="{{user.picture_url}}" alt="" />
             <div class="user__detail">
                 <h1 class="user__name">{{user.qq_name}}</h1>
                 <p class="user__intro">{{user.profile}}</p>
             </div>
+            <p style="position: absolute;right: 0;color: #fff;bottom: 64px;">投资有风险，入市需谨慎！</p>
         </div>
     </div>
     <div class="content clearfix">
@@ -101,7 +102,7 @@
             </div>
         </div>
         <div class="con-right r">
-            <a href="http://wpa.qq.com/msgrd?v=3&uin={{user.qq_number}}&site=qq&menu=yes" target="_blank"><div class="ask">点击咨询我<br /><span class="ask-time">(9:00-20:00)</span></div></a>
+            <a href="http://wpa.qq.com/msgrd?v=3&uin={{user.qq_number}}&site=qq&menu=yes" target="_blank"><div class="ask">点击咨询我</div></a>
             <div class="notice">
                 <h3 class="notice__title">最新公告</h3>
                 <div id="noticeBox" class="notice__box">
