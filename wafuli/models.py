@@ -78,7 +78,8 @@ class Project(models.Model):
     priority = models.IntegerField(u"优先级",default=3)
     pub_date = models.DateTimeField(u"创建时间", default=timezone.now)
     user = models.ForeignKey(MyUser, null=True, related_name="created_projects")
-    is_official = models.BooleanField(u"是否官方项目")
+    is_official = models.BooleanField(u"是否官方项目", default=True)
+    is_addedto_repo = models.BooleanField(u"是否加入项目库", default=True)
     state = models.CharField(u"项目状态", max_length=2, choices=Project_STATE)
     pic = models.ImageField(upload_to='photos/%Y/%m/%d', verbose_name=u"标志图片上传（最大不超过30k，越小越好）")
     strategy = models.URLField(u"攻略链接")
@@ -140,7 +141,7 @@ class SubscribeShip(models.Model):
         return self.user.mobile + self.project.title
     class Meta:
         unique_together = (('user', 'project'),)
-        ordering = ["-project__priority", "-project__pub_date",]
+        ordering = ['project__state', "-project__priority", "-project__pub_date",]
 
 class InvestLog(models.Model):
     user = models.ForeignKey(MyUser, related_name="investlog_submit")
@@ -155,8 +156,8 @@ class InvestLog(models.Model):
     invest_image = models.CharField(u"投资截图", max_length=1000, blank=True)
     invest_date = models.DateField(u'投资日期', default=get_today)
     qq_number = models.CharField(u"QQ号", max_length=20, blank=True)
-    zhifubao = models.CharField(u'支付宝账号', max_length=64)
-    zhifubao_name = models.CharField(u'支付宝姓名', max_length=30)
+    zhifubao = models.CharField(u'支付宝账号', max_length=64, blank=True)
+    zhifubao_name = models.CharField(u'支付宝姓名', max_length=30, blank=True)
     admin_user = models.ForeignKey(MyUser, related_name="investlog_admin", null=True)
     audit_time = models.DateTimeField(u'审核时间', null=True, blank=True)
     audit_state = models.CharField(max_length=10, choices=AUDIT_STATE, verbose_name=u"审核状态")
