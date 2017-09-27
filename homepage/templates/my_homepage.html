@@ -29,7 +29,7 @@
             <img class="user__img" src="{{user.picture_url}}" alt="" />
             <div class="user__detail">
                 <h1 class="user__name">{{user.username}}</h1>
-                <p class="user__intro">{{user.profile}}</p>
+                <p class="user__intro oneline">{{user.profile}}</p>
             </div>
             <p style="position: absolute;right: 0;color: #fff;bottom: 64px;">投资有风险，入市需谨慎！</p>
         </div>
@@ -170,7 +170,6 @@
 
 <script type="text/javascript" src="{% static 'js/wfl-common.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/wfl-popup.js' %}"></script>
-<!--<script type="text/javascript" src="{% static 'js/clipboard.min.js' %}"></script>-->
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript">
@@ -189,7 +188,7 @@
     function pagecallback (){
         $('.project__img').each(function(){
             var imgurl = $(this).data('pic');
-            console.log(imgurl);
+//          console.log(imgurl);
             if (imgurl) {
             	$(this).css('background', 'url('+imgurl+') center center/120px 120px no-repeat');
             } else{
@@ -213,13 +212,13 @@
     }
     $('.hot__img').each(function(){
         var imgurl = $(this).data('pic');
-        console.log(imgurl);
+//      console.log(imgurl);
         if (imgurl) {
             $(this).css('background', 'url('+imgurl+') center center/120px 120px no-repeat');
         } else{
             var imgtxt = ''+$(this).data('imgtxt');
             imgtxt = imgtxt.substr(0, 1);
-            console.log(imgtxt);
+//          console.log(imgtxt);
             var num = parseInt(Math.random()*6);
             $(this).text(imgtxt).css('background-color', colors[num]);
         }
@@ -249,7 +248,7 @@
     	type: 'get',
     	dataType: "json",
     	success: function(ret) {
-            console.log(ret.results);
+//          console.log(ret.results);
             var notice_html='';
             for (var i=0; i<ret.results.length; i++) {
                 var phone = ret.results[i].invest_mobile;
@@ -257,12 +256,12 @@
             	notice_html += '<li><a class="rank__txt oneline">' + (i+1) + '、' + phone2 +
             	'体验了<span class="rank__project">' + ret.results[i].project_title + '</span></a></li>';
             }
-            console.log(notice_html);
+//          console.log(notice_html);
             $('#rank_con1').html(notice_html);
             
             
-            console.log(rankarea.clientHeight);
-            console.log(rank_con1.clientHeight);
+//          console.log(rankarea.clientHeight);
+//          console.log(rank_con1.clientHeight);
             if (rankarea.clientHeight >= rank_con1.clientHeight) {
             } else {    
                 rank_con2.innerHTML = rank_con1.innerHTML;
@@ -349,22 +348,30 @@
             alert("必填写项不能为空");
             return;
         }
-        if(date.match(/^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/)) { 
-            console.log('日期格式正确');
-        } else { 
-            alert('日期格式不符合规范'); 
+//      if(date.match(/^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/)) { 
+//          console.log('日期格式正确');
+//      } else { 
+//          alert('日期格式不符合规范'); 
+//          return;
+//      }
+        var re_date = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/, //验证日期
+            re_phone = /^1[1,2,3,4,6,5,7,8,9]\d{9}$/, //验证手机号
+            re_amount = /^\d+(\.\d+)?$/; //验证数字格式
+        if(!re_date.test(date)) {
+            alert('日期格式不正确，请重新选择');
             return;
         }
-        var re = /^1[1,2,3,4,6,5,7,8,9]\d{9}$/, //验证手机号
-            re_amount = /^\d+(\.\d+)?$/; //验证数字格式
-        if(!re.test(telnum)) {
+        if(!re_phone.test(telnum)) {
             alert('手机号格式不正确');
+            return;
         }
         if(!re_amount.test(term)) {
             alert('标期必须为纯数字格式');
+            return;
         }
         if(!re_amount.test(money)) {
             alert('金额必须为纯数字格式');
+            return;
         }
 
         $.ajax({
@@ -386,14 +393,8 @@
                 $('.popup.m-submit-proj').removeClass('in');
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR);
-                console.log(textStatus);
-                console.log(errorThrown);
-                if (ret.detail) {
-                	alert(ret.detail);
-                } else{
-                    alert("数据错误");
-                }
+                console.log(jqXHR.responseText);
+                alert("数据错误");
             }
         });
     });
@@ -468,32 +469,6 @@
         }
     }
     
-//  var rankarea = document.getElementById('rankBox');
-//  var rank_con1 = document.getElementById('rank_con1');
-//  var rank_con2 = document.getElementById('rank_con2');
-//  var rank_speed = 50;
-//  rankarea.scrollTop = 0;
-//  console.log(rankarea.clientHeight);
-//  console.log(rank_con1.clientHeight);
-//  if (rankarea.clientHeight >= rank_con1.clientHeight) {
-//  } else {    
-//      rank_con2.innerHTML = rank_con1.innerHTML;
-//      function scrollUpRank(){
-//          if(rankarea.scrollTop >= rank_con1.scrollHeight) {
-//              rankarea.scrollTop = 0;
-//              }else{
-//                 rankarea.scrollTop ++;
-//              }
-//      }
-//      var myScroll_rank = setInterval("scrollUpRank()",rank_speed);
-//      rankarea.onmouseover = function(){
-//          clearInterval(myScroll_rank);
-//      }
-//      rankarea.onmouseout = function(){
-//          myScroll_rank = setInterval("scrollUpRank()",rank_speed);
-//      }
-//  }
-//  滚动部分---end 
 </script>
 </body>
 </html>
