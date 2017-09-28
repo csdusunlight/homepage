@@ -173,7 +173,7 @@
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript">
-    var data='[results]<li class="project__itembox"><h2 class="project__name">{project_title}<span class="project__name-small oneline">{project_introduction}</span></h2>'+
+    var data='[results]<li class="project__itembox"><h2 class="project__name">{project_title}<span data-intro="project_introduction" class="project__name-small oneline">{introduction}</span></h2>'+
       '<div class="project__detail">'+
 //    '<img class="project__img" src="" alt="" />'+
       '<div data-pic="{project_picture}" data-imgtxt="{project_title}" class="project__img"></div>'+
@@ -206,6 +206,11 @@
         $('.intrest').each(function() {
             if ($(this).text() == "") {
                 $(this).text($(this).data('intrest'));
+            }
+        })
+        $('.project__name-small').each(function(){
+            if ($(this).text() == "") {
+                $(this).text($(this).data('intro'));
             }
         })
         $('.state20').text('已结束');
