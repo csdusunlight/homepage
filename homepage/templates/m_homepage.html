@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <!-- 添加到主屏后的标题（iOS 6 新增） -->
+    <meta name="apple-mobile-web-app-title" content="">
+    <!-- 是否启用 WebApp 全屏模式，删除苹果默认的工具栏和菜单栏 -->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- 设置苹果工具栏颜色 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <!-- 添加智能 App 广告条 Smart App Banner（iOS 6+ Safari） -->
+    <meta name="apple-itunes-app" content="app-id=myAppStoreID, affiliate-data=myAffiliateData, app-argument=myURL">
+    <!-- 忽略页面中的数字识别为电话，忽略email识别 -->
+    <meta name="format-detection" content="telphone=no, email=no"/>
+    <title>挖福利-首页</title>
+    <link href="../../static/css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../../static/css/m_common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/css/m_index.css"/>
+</head>
+<body>
+<div id="pullrefresh" class="mui-scroll-wrapper">
+    <div class="header">
+        <div class="user">
+            <img class="user__img l" src="../../static/images/m-skin-1.png"/>
+            <div class="user__detail clearfix">
+                <h2 class="user__title">爱德华舞女</h2>
+                <p class="user__intro">价单啊飒飒的分公司豆腐干豆腐干让地方换个地方</p>
+            </div>
+        </div>
+        <div id="noticeBox" class="notice__box">
+            <ul id="con1">
+                <li class="notice__item">1、公告1111111、公告1111111、公告1111111、公告1111111、公告1111111、公告1111111、公告111111</li>
+                <li class="notice__item">2、公告222222222</li>
+                <li class="notice__item">3、公告33333333333</li>
+                <li class="notice__item">4、公告44444444444</li>
+            </ul>
+            <ul id="con2">
+            </ul>
+        </div>
+        <div id="rankBox" class="rank__box">
+            <ul id="rank_con1">
+                <li class="rank__item">1、15233445555体验了<span class="rank__proj">111反对恢复对话</span></li>
+                <li class="rank__item">2、15233445555体验了<span class="rank__proj">222反对恢复对话</span></li>
+                <li class="rank__item">3、15233445555体验了<span class="rank__proj">333反对恢复对话</span></li>
+                <li class="rank__item">4、15233445555体验了<span class="rank__proj">444反对恢复对话</span></li>
+            </ul>
+            <ul id="rank_con2">
+            </ul>
+        </div>
+    </div>
+    <div class="mui-content">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a class="clearfix" href="{{wel.url}}">
+                    <img class="hongbao__img" src="{{wel.pic.url}}">
+                    <h6 class="hongbao__title">{{wel.title}}<i class="hongbao__tag icon iconfont">&#xe602;</i></h6>
+                    <h6 class="hongbao__subtitle">{{wel.subtitle}}</h6>
+                    <p class="hongbao__detail">
+                        <span class="hongbao__source">{{wel.provider}}</span><span class="hongbao__time">{{wel.time_limit}}</span><span class="hongbao__look">阅读量:{{wel.view_count}}</span>
+                    </p>
+                </a>
+            </li>
+        </ul>
+    
+    
+    
+    
+    </div>
+    <!--测试-->
+</div>
+    <!--回到顶部部分-->
+<a id="scrollToTop" class="backTop hide"><i class="icon iconfont">&#xe623;</i></a>
+<!--底部导航-->
+<div class="footer">
+	<ul class="clearfix tc">
+    	<li class="on">热门推荐</li>
+    	<li>项目列表</li>
+    	
+    </ul>
+</div>
+
+    <script src="../../static/js/mui.min.js"></script>
+    <!--<script type="text/javascript" charset="utf-8">
+      	mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						auto:true,
+						contentrefresh: '正在加载...',
+						contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: pullupRefresh
+					}
+				}
+		});
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		var count = 0;
+		var get_wel_url = "{% url 'welfare_json' %}"
+		function get_wel_list(n){
+			mui.ajax(get_wel_url,{
+				data:{
+					count:n,
+				},
+				dataType:'json',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				timeout:10000,//超时时间设置为10秒；
+//				headers:{'Content-Type':'application/json'},
+				success:function(data){
+					if (!data.length){
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					}
+					else {
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
+						var table = document.body.querySelector('.mui-table-view');
+//						var cells = document.body.querySelectorAll('.mui-table-view-cell');
+						for (var i in data) {
+							var wel = data[i];
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell hongbao';
+							var str_block = '<a class="clearfix" href="' + wel.url + '"><img class="hongbao__img" src="'+
+											wel.picurl + '" /><h6 class="hongbao__title">' + wel.title;
+							if (wel.is_hot){
+								str_block += '<i class="hongbao__tag icon iconfont">&#xe621;</i>';
+							} else if(wel.is_new) {
+                                str_block += '<i class="hongbao__tag icon iconfont">&#xe657;</i>';
+                            }
+							str_block += ' </h6><h6 class="hongbao__subtitle">' + wel.subtitle + '</h6>';
+							str_block += '<p class="hongbao__detail">'+
+											'<span class="hongbao__source">'+wel.provider+'</span><span class="hongbao__time">'+wel.time_limit+'</span><span class="hongbao__look">阅读量:'+wel.view_count+'</span>'+
+											'</p></a>';
+							li.innerHTML = str_block;
+							table.appendChild(li);
+						}
+					}
+
+				},
+				error:function(xhr,type,errorThrown){
+					alert(type);
+				}
+			});
+		}
+		function pullupRefresh() {
+			if (count == 0){
+				mui('#pullrefresh').pullRefresh().scrollTo(0,0);
+			}
+			get_wel_list(count++);
+		}
+		
+
+
+    </script>-->
+    <script type="text/javascript">
+        var scrollToTopBox = document.getElementById('scrollToTop'); //返回按钮tap
+        scrollToTopBox.addEventListener('tap', function(e) {
+            e.stopPropagation();
+            mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 500);//滚动到顶部
+        });
+        document.getElementById('pullrefresh').addEventListener('scrollend', function() {
+            if (mui('#pullrefresh').pullRefresh().y <= window.innerHeight * (-0.5) && scrollToTopBox.classList.contains('hide'))
+                scrollToTopBox.classList.remove('hide');
+            else if (mui('#pullrefresh').pullRefresh().y > window.innerHeight * (-0.5) && !scrollToTopBox.classList.contains('hide'))
+                scrollToTopBox.classList.add('hide');
+        });
+        
+        //  滚动部分
+        var area = document.getElementById('noticeBox');
+        var con1 = document.getElementById('con1');
+        var con2 = document.getElementById('con2');
+        var speed = 100;
+        area.scrollTop = 0;
+        console.log(area.scrollTop);
+        console.log(con1.scrollTop);
+        if (area.clientHeight > con1.clientHeight) {
+        } else {    
+            con2.innerHTML = con1.innerHTML;
+            function scrollUp(){
+                if(area.scrollTop >= con1.scrollHeight) {
+                    area.scrollTop = 0;
+                    }else{
+                       area.scrollTop ++;
+                    }
+            }
+            var myScroll = setInterval("scrollUp()",speed);
+            area.onmouseover = function(){
+                clearInterval(myScroll);
+            }
+            area.onmouseout = function(){
+                myScroll = setInterval("scrollUp()",speed);
+            }
+        }
+        
+        var rankarea = document.getElementById('rankBox');
+        var rank_con1 = document.getElementById('rank_con1');
+        var rank_con2 = document.getElementById('rank_con2');
+        var rank_speed = 100;
+        rankarea.scrollTop = 0;
+        function scrollUpRank(){
+            if(rankarea.scrollTop >= rank_con1.scrollHeight) {
+                rankarea.scrollTop = 0;
+                }else{
+                   rankarea.scrollTop ++;
+                }
+        }
+        if (rankarea.clientHeight >= rank_con1.clientHeight) {
+        } else {    
+            rank_con2.innerHTML = rank_con1.innerHTML;
+            
+            var myScroll_rank = setInterval("scrollUpRank()",rank_speed);
+            rankarea.onmouseover = function(){
+                clearInterval(myScroll_rank);
+            }
+            rankarea.onmouseout = function(){
+                myScroll_rank = setInterval("scrollUpRank()",rank_speed);
+            }
+        }
+    </script>
+
+</body>
+</html>

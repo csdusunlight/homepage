@@ -12,4 +12,5 @@ from homepage import views
 # ]
 urlpatterns = [
     url(r'^$', 'homepage.views.index', name='index'),
+    url(r'^m_homepage$', 'homepage.views.m_homepage', name='m_homepage'),
 ]
