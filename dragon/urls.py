@@ -18,9 +18,9 @@ from django.contrib import admin
 
 
 urlpatterns = [
-#     url(r'^', include('wafuli.urls',)),
+    url(r'^', include('wafuli.urls',)),
     url('^restapi/', include('restapi.urls')),
-#     url('^account/', include('account.urls')),
+    url('^account/', include('account.urls')),
 #     url('^Admin/', include('wafuli_admin.urls')),
 #     url(r'^ueditor/',  include('DjangoUeditor.urls' )),
 #     url(r'^captcha/', include('captcha.urls')),
@@ -29,6 +29,7 @@ urlpatterns = [
 #     url(r'^project/', include('project_admin.urls')),
 # #     url(r'^test/$', 'wafuli.views.index', name='captcha-refresh'),
     url('^', include('homepage.urls')),        #jzy
+    url('^homepage/', include('homepage.urls')),  
 ]
 
 from django.conf.urls.static import static
