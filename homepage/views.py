@@ -3,7 +3,7 @@ from wafuli.models import SubscribeShip, Notice
 
 # Create your views here.
 
-def index(request):
+def hm_index(request):
     recoms = list(SubscribeShip.objects.filter(user=request.user, is_recommend=True, is_on=True)[0:10])
     if len(recoms)==0:
         recoms = list(SubscribeShip.objects.filter(user=request.user, is_on=True)[0:4])
