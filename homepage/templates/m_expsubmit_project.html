@@ -103,7 +103,7 @@
                         return;
                     }
                     var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-                    var project_id = '16';
+                    var project_id = '{{id}}';
                     console.log(project_id+","+telnum+","+term+","+amount+","+date+","+zhifubao+","+zfbname+","+remark+",");
                     mui.ajax('/restapi/investlogs/',{
                         data: {
@@ -121,6 +121,7 @@
                         timeout:10000,//超时时间设置为10秒；
                         success:function(data){
                             mui.alert('提交成功');
+                            mui.back();
         
                         },
                         error:function(xhr,type,errorThrown){
