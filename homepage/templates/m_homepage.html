@@ -10,7 +10,7 @@
     <title>{{user.username}}</title>
     <link href="{% static 'css/mui.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/m_common.css' %}" rel="stylesheet"/>
-    <link href="{% static 'css/m_index.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/m_homepage.css' %}" rel="stylesheet"/>
     <link id="skin" href="/static/css/m-skin1.css" rel="stylesheet" />
     <script type="text/javascript">
     	var skin_id = "{{user.color}}";
@@ -38,13 +38,13 @@
             <ul id="con2">
             </ul>
         </div>
-        <div id="rankBox" class="rank__box">
+        <!--<div id="rankBox" class="rank__box">
             <ul id="rank_con1">
             
             </ul>
             <ul id="rank_con2">
             </ul>
-        </div>
+        </div>-->
     </div>
     <div class="mui-content">
         <ul class="mui-table-view" style="margin-bottom: 70px;">
@@ -84,7 +84,7 @@
     <!--回到顶部部分-->
 <!--<a id="scrollToTop" class="backTop hide"><i class="icon iconfont">&#xe623;</i></a>-->
 <!--底部导航-->
-<div class="popup m-submit-proj">
+<!--<div class="popup m-submit-proj">
     <div class="popup__content">
         <div class="popup__top">
             <h2 class="popup__title">项目交单</h2><span class="popup__close popup__close-btn" onclick="canclePopup(this)">×</span>
@@ -124,7 +124,7 @@
             <button id="confirm" class="mui-btn mui-btn-yellow m-popup popup-confirm popup__close-btn">确认</button>
         </div>
     </div>
-</div>
+</div>-->
 
 <ul class="footer clearfix tc">
 	<li class="tabnav footer__item on">热门推荐</li>
@@ -233,7 +233,7 @@
         var iliHeight = 20;//单行滚动的高度
         var speed = 50;//滚动的速度
         var time;
-        var delay= 2000;
+        var delay= 2500;
         area.scrollTop = 0;
         con2.innerHTML = con1.innerHTML;
         function startScroll(){
@@ -253,53 +253,53 @@
         }
         setTimeout(startScroll,delay);
         
-        var rankarea = document.getElementById('rankBox');
-        var rank_con1 = document.getElementById('rank_con1');
-        var rank_con2 = document.getElementById('rank_con2');
-        var rank_speed = 100;
-        rankarea.scrollTop = 0;
-        function scrollUpRank(){
-            if(rankarea.scrollTop >= rank_con1.scrollHeight) {
-                rankarea.scrollTop = 0;
-                }else{
-                   rankarea.scrollTop ++;
-                }
-        }
-        mui.ajax("/restapi/investlogs/?page=1&pageSize=8",{
-            type: 'get',
-            dataType: "json",
-            success: function(ret) {
-                console.log(ret.results);
-                var notice_html='';
-                for (var i=0; i<ret.results.length; i++) {
-                    var phone = ret.results[i].invest_mobile;
-                    var phone2 = phone.substr(0, 3) + '****' + phone.substr(7, 11);
-                    notice_html += '<li class="rank__item one-line">' + (i+1) + '、<span class="rank__phone">' + phone2 +
-                    '</span>体验了<span class="rank__proj">' + ret.results[i].project_title + '</span></li>';
-                }
-                console.log(notice_html);
-                document.getElementById('rank_con1').innerHTML = notice_html;
-                
-                
-                console.log(rankarea.clientHeight);
-                console.log(rank_con1.clientHeight);
-                if (rankarea.clientHeight >= rank_con1.clientHeight) {
-                } else {    
-                    rank_con2.innerHTML = rank_con1.innerHTML;
-                    
-                    var myScroll_rank = setInterval("scrollUpRank()",rank_speed);
-                    rankarea.onmouseover = function(){
-                        clearInterval(myScroll_rank);
-                    }
-                    rankarea.onmouseout = function(){
-                        myScroll_rank = setInterval("scrollUpRank()",rank_speed);
-                    }
-                }
-            },
-            error: function() {
-                alert("请检查网络连接");
-            }
-        });
+//      var rankarea = document.getElementById('rankBox');
+//      var rank_con1 = document.getElementById('rank_con1');
+//      var rank_con2 = document.getElementById('rank_con2');
+//      var rank_speed = 100;
+//      rankarea.scrollTop = 0;
+//      function scrollUpRank(){
+//          if(rankarea.scrollTop >= rank_con1.scrollHeight) {
+//              rankarea.scrollTop = 0;
+//              }else{
+//                 rankarea.scrollTop ++;
+//              }
+//      }
+//      mui.ajax("/restapi/investlogs/?page=1&pageSize=8",{
+//          type: 'get',
+//          dataType: "json",
+//          success: function(ret) {
+//              console.log(ret.results);
+//              var notice_html='';
+//              for (var i=0; i<ret.results.length; i++) {
+//                  var phone = ret.results[i].invest_mobile;
+//                  var phone2 = phone.substr(0, 3) + '****' + phone.substr(7, 11);
+//                  notice_html += '<li class="rank__item one-line">' + (i+1) + '、<span class="rank__phone">' + phone2 +
+//                  '</span>体验了<span class="rank__proj">' + ret.results[i].project_title + '</span></li>';
+//              }
+//              console.log(notice_html);
+//              document.getElementById('rank_con1').innerHTML = notice_html;
+//              
+//              
+//              console.log(rankarea.clientHeight);
+//              console.log(rank_con1.clientHeight);
+//              if (rankarea.clientHeight >= rank_con1.clientHeight) {
+//              } else {    
+//                  rank_con2.innerHTML = rank_con1.innerHTML;
+//                  
+//                  var myScroll_rank = setInterval("scrollUpRank()",rank_speed);
+//                  rankarea.onmouseover = function(){
+//                      clearInterval(myScroll_rank);
+//                  }
+//                  rankarea.onmouseout = function(){
+//                      myScroll_rank = setInterval("scrollUpRank()",rank_speed);
+//                  }
+//              }
+//          },
+//          error: function() {
+//              alert("请检查网络连接");
+//          }
+//      });
 //      mui('.rank__phone').each(function(){
 //          this.innerHTML = this.innerHTML.substr(0, 3) + '****' + this.innerHTML.substr(7, 11);
 //      })

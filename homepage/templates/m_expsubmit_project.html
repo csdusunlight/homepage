@@ -65,7 +65,7 @@
             <form class="mui-input-group">
                 {% csrf_token %}
                 <div class="mui-input-row">
-                    <label>提交手机号</label>
+                    <label>提交手机号&nbsp;&nbsp;</label>
                     <input id="telnum" type="text" maxlength=11 placeholder="请输入手机号">
                 </div>
                 <div class="mui-input-row">
@@ -77,15 +77,15 @@
                   <input type="text" placeholder="请输入投资金额（仅限数字）" id="amount">
                 </div>
                 <div class="mui-input-row">
-                  <label>投资日期</label>
+                  <label>投资日期&nbsp;&nbsp;</label>
                   <input type="date" placeholder="请选择投资日期" id="date">
                 </div>
                 <div class="mui-input-row">
-                  <label>支付宝账号</label>
+                  <label>支付宝账号&nbsp;&nbsp;</label>
                   <input type="text" placeholder="请输入支付宝账号" id="zhifubao">
                 </div>
                 <div class="mui-input-row">
-                  <label>支付宝姓名</label>
+                  <label>支付宝姓名&nbsp;&nbsp;</label>
                   <input type="text" placeholder="请输入投资金额（仅限数字）" id="zfbname">
                 </div>
 
@@ -99,8 +99,6 @@
         <script src="{%static 'js/mui.min.js'%}"></script>
         <!--弹窗部分-->
         <script type="text/javascript" charset="utf-8">
-                var id = '{{id}}';
-                var type = '{{type}}';
                 mui.init({
                     swipeBack:true //启用右滑关闭功能
                 });
@@ -113,22 +111,28 @@
                     var zfbname = document.getElementById('zfbname').value;
                     var remark = document.getElementById('remark').value;
                     // amount = parseFloat(amount);
+                    
+                    if(!telnum || !term || !amount || !date ||  !zhifubao || !zfbname ) {
+                        mui.alert("必填写项不能为空");
+                        return;
+                    }
                     var re=/^1[1,2,3,4,6,5,7,8,9]\d{9}$/;
                     var re_amount=/^\d+(\.\d+)?$/;
                     if(!re.test(telnum)){
                     mui.alert("手机号格式不正确！");
                         return;
                     }
-                    if(!re_amount.test(amount)){
-                        alert("投资金额不能为空且必须为纯数字格式！")
+                    if(!re_amount.test(term)){
+                        mui.alert("投资标期不能为空且必须为纯数字格式！")
                         return;
                     }
-                    if(!re_amount.test(term)){
-                        alert("投资标期不能为空且必须为纯数字格式！")
+                    if(!re_amount.test(amount)){
+                        mui.alert("投资金额不能为空且必须为纯数字格式！")
                         return;
                     }
                     var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-                    var project_id;
+                    var project_id = '16';
+                    console.log(project_id+","+telnum+","+term+","+amount+","+date+","+zhifubao+","+zfbname+","+remark+",");
                     mui.ajax('/restapi/investlogs/',{
                         data: {
                             'project': project_id,
@@ -148,7 +152,7 @@
         
                         },
                         error:function(xhr,type,errorThrown){
-                            console.log(xhr.responseText);
+                            mui.alert(xhr.responseText);
                             console.log('数据错误');
                         }
                     });
