@@ -62,7 +62,7 @@
                         <div data-pic="{{recom.pic}}" data-imgtxt="{{recom.title}}" class="proj__img"></div>
                         <p class="proj__intrest"><span class="proj__intrest-num">{{recom.intrest}}</span><br />预计最高年化</p>
                         <div class="proj__detail">
-                            <p><span class="proj__detail-name">返现价格：</span><span class="proj__detail-val">{{recom.price}}</span></p>
+                            <p class="proj__detail-item"><span class="proj__detail-name">返现价格：</span><span class="proj__detail-val">{{recom.price}}</span></p>
                             <p class="proj__detail-item m-mt"><span class="proj__detail-name">投标区间：</span><span class="proj__detail-val">{{recom.investrange}}</span></p>
                             <p class="proj__detail-item m-mt"><span class="proj__detail-name">投资标期：</span><span class="proj__detail-val">{{recom.term}}</span></p>
                         </div>
@@ -190,12 +190,12 @@
 								str_block += '<div style="background-color: '+ colors[num] +';" class="proj__img">'+ item.project_title.substr(0, 1) +'</div>';
 							}
                             str_block += '<p class="proj__intrest"><span class="proj__intrest-num">'+ (item.intrest ? item.intrest : item.project_intrest) +'</span><br />预计最高年化</p>'+
-                            '<div class="proj__detail"><p><span class="proj__detail-name">返现价格：</span><span class="proj__detail-val">'+ (item.price?item.price:item.project_cprice) +'</span></p>'+
+                            '<div class="proj__detail"><p class="proj__detail-item"><span class="proj__detail-name">返现价格：</span><span class="proj__detail-val">'+ (item.price?item.price:item.project_cprice) +'</span></p>'+
                             '<p class="proj__detail-item m-mt"><span class="proj__detail-name">投标区间：</span><span class="proj__detail-val">'+ item.project_investrange +'</span></p>'+
                             '<p class="proj__detail-item m-mt"><span class="proj__detail-name">投资标期：</span><span class="proj__detail-val">'+ item.project_term +'</span></p>'+
                             '</div></div>'+
                             '<div class="proj__btnbox"><a href="'+ item.project_strategy +'" target="_blank" class="proj__btn state'+ item.project_state +'">查看攻略</a>'+
-                            '<a data-projectid="'+ item.project +'" class="proj__btn proj_btn-submit">交单</a></div>';
+                            '<a data-projectid="'+ item.project +'" class="proj__btn proj__btn-submit">交单</a></div>';
 
 							li.innerHTML = str_block;
 							table.appendChild(li);
@@ -237,53 +237,28 @@
         var area = document.getElementById('noticeBox');
         var con1 = document.getElementById('con1');
         var con2 = document.getElementById('con2');
-        var speed = 100;
+        var iliHeight = 20;//单行滚动的高度
+        var speed = 50;//滚动的速度
+        var time;
+        var delay= 2000;
         area.scrollTop = 0;
-        console.log(area.scrollTop);
-        console.log(con1.scrollTop);
-        if (area.clientHeight > con1.clientHeight) {
-        } else {    
-            con2.innerHTML = con1.innerHTML;
-            function scrollUp(){
-                if(area.scrollTop >= con1.scrollHeight) {
-                    area.scrollTop = 0;
-                    }else{
-                       area.scrollTop ++;
-                    }
-            }
-            var myScroll = setInterval("scrollUp()",speed);
-            area.onmouseover = function(){
-                clearInterval(myScroll);
-            }
-            area.onmouseout = function(){
-                myScroll = setInterval("scrollUp()",speed);
-            }
+        con2.innerHTML = con1.innerHTML;
+        function startScroll(){
+            time=setInterval("scrollUp()",speed);
+            area.scrollTop++;
         }
-        
-        var rankarea = document.getElementById('rankBox');
-        var rank_con1 = document.getElementById('rank_con1');
-        var rank_con2 = document.getElementById('rank_con2');
-        var rank_speed = 100;
-        rankarea.scrollTop = 0;
-        function scrollUpRank(){
-            if(rankarea.scrollTop >= rank_con1.scrollHeight) {
-                rankarea.scrollTop = 0;
+        function scrollUp(){
+            if(area.scrollTop % iliHeight==0){
+                    clearInterval(time);
+                    setTimeout(startScroll,delay);
                 }else{
-                   rankarea.scrollTop ++;
+                    area.scrollTop++;
+                    if(area.scrollTop >= area.scrollHeight/2){
+                        area.scrollTop =0;
+                    }
                 }
         }
-        if (rankarea.clientHeight >= rank_con1.clientHeight) {
-        } else {    
-            rank_con2.innerHTML = rank_con1.innerHTML;
-            
-            var myScroll_rank = setInterval("scrollUpRank()",rank_speed);
-            rankarea.onmouseover = function(){
-                clearInterval(myScroll_rank);
-            }
-            rankarea.onmouseout = function(){
-                myScroll_rank = setInterval("scrollUpRank()",rank_speed);
-            }
-        }
+        setTimeout(startScroll,delay);
         
         var rankarea = document.getElementById('rankBox');
         var rank_con1 = document.getElementById('rank_con1');
