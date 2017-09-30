@@ -52,5 +52,5 @@ def m_index(request):
     return render(request, 'm_homepage.html',{'recom_list':recom_list, 'notice_list':notice_list})
 
 @login_required
-def expsubmit_project(request):
-    return render(request, 'm_expsubmit_project.html',{})
+def expsubmit_project(request, id):
+    return render(request, 'm_expsubmit_project.html',{'id':id})
