@@ -13,4 +13,5 @@ import homepage.views
 urlpatterns = [
     url(r'^$', homepage.views.index, name='hm_index'),
     url(r'^mobile/$', homepage.views.m_index, name='hm_index_mobile'),
+    url(r'^expsubmit/project/$', homepage.views.expsubmit_project, name='hm_expsubmit_project'),
 ]

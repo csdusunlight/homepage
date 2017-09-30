@@ -50,3 +50,7 @@ def m_index(request):
         recom_list.append(data)
     notice_list = Notice.objects.filter(user=request.user)
     return render(request, 'm_homepage.html',{'recom_list':recom_list, 'notice_list':notice_list})
+
+@login_required
+def expsubmit_project(request):
+    return render(request, 'm_expsubmit_project.html',{})
