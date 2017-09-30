@@ -7,11 +7,8 @@
     background-size: auto 130px;
     background-color: #fff;
     background-repeat: no-repeat;
-    /*background: url(../images/skin_bg_1.png) top center/auto 130px no-repeat #fff;*/
 }
 .user {
-    /*position: absolute;
-    top: 50px;*/
     width: 100%;
     padding: 0 15px;
     font-size: 0;
@@ -51,8 +48,6 @@
     height: 20px;
     overflow: hidden;
     color: #fff;
-    /*box-shadow: 1px 1px 5px rgba(0,0,0,0.3) inset;*/
-    /*border-radius: 4px;*/
     background: url(../images/m-bg-notice.png) 4px center/auto 12px no-repeat;
     background-color: rgba(0,0,0,0.3);
 }
@@ -63,26 +58,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-/*.rank__box {
-    position: absolute;
-    top: 15px;
-    padding: 0 4px 0 4px;
-    width: 96%;
-    height: 20px;
-    overflow: hidden;
-    text-align: center;
-}
-.rank__item {
-    font-size: 10px;
-    line-height: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: #222;
-}
-.rank__proj {
-    color: #109ab7;
-}*/
 /*选项卡部分*/
 .proj {
     margin-top: 15px;
@@ -231,104 +206,3 @@
 .mui-table-view:before {
     display: none;
 }
-/*弹窗部分*/
-/*.popup {
-    position: fixed;
-    visibility: hidden;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0,0,0,0.3);
-    opacity: 0;
-    z-index: 11;
-    transition: all 0.4s ease;
-}
-.popup.in {
-    visibility: visible;
-    opacity: 1;
-}
-.popup__content {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    padding: 8px 8px;
-    margin-top: -100px;
-    width: 80%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 5px 5px 13px 2px rgba(0,0,0,0.4);
-    opacity: 0;
-    transition: all 0.4s ease;
-}
-.popup.in .popup__content {
-    opacity: 1;
-    margin-top: 0px;
-}
-.popup__title {
-    margin-bottom: 10px;
-    text-align: center;
-    font-size: 14px;
-    line-height: 20px;
-}
-.popup__close {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    float: right;
-    height: 30px;
-    width: 30px;
-    color: #000;
-    font-size: 20px;
-    line-height: 30px;
-    text-shadow: 0 1px 0 #fff;
-    background: none;
-    opacity: 0.4;
-    border: 0;
-    cursor: pointer;
-    text-align: center;
-}
-.popup__detail {
-    line-height: 20px;
-}
-.popup__item {
-    margin-bottom: 10px;
-}
-.popup__itemname {
-    display: inline-block;
-    width: 60px;
-    font-size: 10px;
-    text-align: right;
-    vertical-align: middle;
-}
-.popup__item .popup__input {
-    display: inline-block;
-    padding: 0 4px;
-    margin-bottom: 0;
-    width: 60%;
-    height: 30px;
-    font-size: 10px;
-}
-.popup__item .popup__input::-webkit-input-placeholder{
-    font-size: 10px;
-}
-.popup__btnbox {
-    margin-top: 10px;
-    text-align: center;
-}
-.popup__btnbox .btn:hover {
-    transform: translateY(0);
-}
-.mui-btn {
-    padding: 8px 10px;
-    display: inline-block;
-    width: 20%;
-    font-size: 10px;
-    line-height: 1;
-    vertical-align: middle;
-}
-.mui-btn.m-right {
-    margin-right: 30px;
-}*/
-/*弹窗部分---end*/
