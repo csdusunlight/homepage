@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from wafuli.models import SubscribeShip, Notice
+from wafuli.models import SubscribeShip, Notice, Project
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -53,4 +53,5 @@ def m_index(request):
 
 @login_required
 def expsubmit_project(request, id):
-    return render(request, 'm_expsubmit_project.html',{'id':id})
+    project_title = Project.objects.get(id=id).title
+    return render(request, 'm_expsubmit_project.html',{'id':id, 'project_title':project_title})
