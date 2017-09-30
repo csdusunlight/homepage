@@ -71,7 +71,7 @@
         </div>
     </div>
 </div>
-    
+<span id="qq_ask" class="qq-ask mui-icon mui-icon-qq"></span>
     <!--测试-->
 <!--</div>-->
     <!--回到顶部部分-->
@@ -139,8 +139,9 @@
                             '<p class="proj__detail-item m-mt"><span class="proj__detail-name">投标区间：</span><span class="proj__detail-val">'+ item.project_investrange +'</span></p>'+
                             '<p class="proj__detail-item m-mt"><span class="proj__detail-name">投资标期：</span><span class="proj__detail-val">'+ item.project_term +'</span></p>'+
                             '</div></div>'+
-                            '<div class="proj__btnbox"><a href="'+ item.project_strategy +'" target="_blank" class="proj__btn state'+ item.project_state +'">查看攻略</a>'+
-                            '<a data-projectid="'+ item.project +'" class="proj__btn proj__btn-submit">交单</a></div>';
+                            '<div class="proj__btnbox"><a href="'+ item.project_strategy +'" target="_blank" class="proj__btn state'+ item.project_state +'">'+
+                            (item.project_state == 10 ? '查看攻略' : '已结束') +
+                            '</a><a data-projectid="'+ item.project +'" class="proj__btn proj__btn-submit">交单</a></div>';
 
 							li.innerHTML = str_block;
 							table.appendChild(li);
@@ -263,6 +264,18 @@
                     title: '正在加载...', //等待对话框上显示的提示内容
                 }
             });
+        })
+        
+        document.getElementById('qq_ask').addEventListener('tap', function () {
+            console.log('s');
+            mui.openWindow({
+                url: "http://wpa.qq.com/msgrd?v=3&uin={{user.qq_number}}&site=qq&menu=yes",
+            });
+        })
+        
+        mui('.state20').each(function(){
+            console.log(this);
+            this.innerText = '已结束';
         })
         
     </script>
