@@ -78,7 +78,12 @@ class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
         is_official = project.is_official
         invest_mobile = serializer.validated_data['invest_mobile']
         if not project.is_multisub_allowed:
-            if InvestLog.objects.filter(invest_mobile=invest_mobile, project__company_id=project.company_id).exclude(audit_state='2').exists():
+            print project.company
+            if project.company is None:
+                queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project=project)
+            else:
+                queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project__company_id=project.company_id)
+            if queryset.exclude(audit_state='2').exists():    
                 raise ValidationError({'detail':u"投资手机号重复"})
         serializer.save(is_official=is_official, audit_state='1', user=self.request.user)
 
