@@ -185,7 +185,10 @@
       '<p class="project__money project__info">投资区间<br /><span class="investrange">{project_investrange}</span></p>'+
       '<p class="project__term project__info">标期<br />{project_term}</p>'+
       '<div class="project-btn-box"><a href="{project_strategy}" target="_blank" class="btn m-green m-project state{project_state}">查看攻略</a>'+
-      '<a class="btn m-green m-project" onclick="submit({project})">交&nbsp;&nbsp;单</a></div></div></li>[/results]';
+      '<a class="btn m-green m-project" onclick="submit({project})">交&nbsp;&nbsp;单</a></div></div>'+
+      '<span class="person-total">已有444人参与投资</span>'+
+      '<div class="detail-box"><a class="look-detail" onclick="show({project},this)">点击查看用户投资详情</a></div>'+
+      '<div class="detail-box2" style="display:none"><h4 class="detail-logs-title">投资用户名单</h4><ul class="detail-logs"></ul><span class="hide-detail" onclick="hide(this)"></span></div></li>[/results]';
       
     var colors = ['#8cd9f1','#a0a2cf','#a6d7b9','#f7bbd1','#feb8a6','#99badf','#d0aea1','#a0d6d6','#ff9a8c'];
     function pagecallback (){
@@ -319,7 +322,7 @@
         $('.state20').text('已结束');
         
         $("#pagedata1").ajaxPage({
-          url: "/restapi/sub/?page={page}&size={pageSize}&is_on=true",
+          url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true",
           pageId:$("#page1"),
           run:true,
           content:data,
@@ -327,6 +330,45 @@
         });
     })
     var project_id;
+    function show (id, obj) {
+        project_id = id;
+        console.log(project_id);
+        $(obj).parent().hide();
+        if ($(obj).parent().parent().find('.detail-logs').html() != '') {
+        	$(obj).parent().parent().find('.detail-box2').show();
+        } else{
+            $.ajax({
+                url: '/restapi/investlogs/?page=1&pageSize=20&project=' + project_id ,
+                dataType: "json",
+                type: 'get',
+                success: function(ret) {
+                    var detail_html = '';
+                    console.log(ret);
+                    if (ret.results.length == 0) {
+                    	detail_html = '<li class="logs-item">暂无投资记录</li>';
+                    } else{
+                        for (var i=0; i<ret.results.length; i++) {
+                            var phone = ret.results[i].invest_mobile;
+                            var phone2 = phone.substr(0, 3) + '****' + phone.substr(7, 11);
+                            detail_html += '<li class="logs-item"><a class="proj-rank__txt oneline">' + ret.results[i].invest_date + '' + phone2 +
+                            ' 投资了<span class="proj-rank__money"> ' + ret.results[i].invest_amount + ' 元</span></a></li>';
+                        }
+                    }
+                    $(obj).parent().parent().find('.detail-logs').html(detail_html);
+                    $(obj).parent().parent().find('.detail-box2').show();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                    alert("数据错误");
+                }
+            });
+        }
+    }
+    function hide (obj){
+        $(obj).parent().hide();
+        $(obj).parent().parent().find('.detail-box').show();
+    }
+    
     function submit (id) {
         project_id = id;
         
@@ -340,6 +382,7 @@
         
         $('.popup.m-submit-proj').addClass('in');
     }
+    
     $(".popup.m-submit-proj").on("focus", ".date_picker", function() {
         $(this).date_input();
     })
