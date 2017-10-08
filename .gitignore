@@ -8,3 +8,5 @@ dragon/settings.py
 .settings/
 uwsgi.ini
 reload
+debug*
+static/doc/
