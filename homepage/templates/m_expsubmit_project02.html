@@ -1,0 +1,162 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <!-- 优先使用 IE 最新版本和 Chrome -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <!-- 为移动设备添加 viewport -->
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <!-- 添加到主屏后的标题（iOS 6 新增） -->
+    <meta name="apple-mobile-web-app-title" content="">
+    <!-- 是否启用 WebApp 全屏模式，删除苹果默认的工具栏和菜单栏 -->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- 设置苹果工具栏颜色 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <!-- 添加智能 App 广告条 Smart App Banner（iOS 6+ Safari） -->
+    <meta name="apple-itunes-app" content="app-id=myAppStoreID, affiliate-data=myAffiliateData, app-argument=myURL">
+    <!-- 忽略页面中的数字识别为电话，忽略email识别 -->
+    <meta name="format-detection" content="telphone=no, email=no"/>
+    <!--下面三个是清除缓存 微信浏览器缓存严重又无刷新；这个方法调试的时候很方便-->
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>信息登记</title>
+    <link href="{%static 'css/mui.min.css'%}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{%static 'css/m_common.css'%}"/>
+    <link rel="stylesheet" type="text/css" href="{%static 'css/m_expsubmit_project.css'%}"/>
+
+</head>
+
+    <body>
+        <header id="header" class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">{{project_title}}</h1>
+        </header>
+        <div class="mui-content">
+            <form class="mui-input-group">
+                {% csrf_token %}
+                <div class="mui-input-row">
+                    <label>提交手机号&nbsp;&nbsp;</label>
+                    <input id="telnum" type="text" maxlength=11 placeholder="请输入手机号">
+                </div>
+                <div class="mui-input-row limit-input" data-limit="0">
+                    <label>投资用户名&nbsp;&nbsp;</label>
+                    <input id="invest-account" type="text" maxlength=11 placeholder="请输入投资用户名">
+                </div>
+                <div class="mui-input-row limit-input" data-limit="1">
+                  <label>投资金额（元）</label>
+                  <input type="text" placeholder="请输入投资金额（仅限数字）" id="amount">
+                </div>
+                <div class="mui-input-row limit-input" data-limit="2">
+                  <label>投资标期（天）</label>
+                  <input type="text" placeholder="请输入投资标期（仅限数字）" id="term">
+                </div>
+                <div class="mui-input-row limit-input" data-limit="3">
+                  <label>投资日期&nbsp;&nbsp;</label>
+                  <input type="date" placeholder="请选择投资日期" id="date">
+                </div>
+                <div class="mui-input-row limit-input" data-limit="5">
+                  <label>QQ&nbsp;&nbsp;</label>
+                  <input type="text" placeholder="请输入qq账号" id="qq">
+                </div>
+                <div class="mui-input-row limit-input" data-limit="6">
+                  <label>支付宝信息&nbsp;&nbsp;</label>
+                  <input type="text" placeholder="请输入支付宝信息" id="zfb">
+                </div>
+                <div class="mui-input-row limit-input" data-limit="6">
+                  <label>预期返现&nbsp;&nbsp;</label>
+                  <input type="text" placeholder="请输入用户预期返现金额" id="return-amount">
+                </div>
+                <div class="mui-input-row limit-input" data-limit="6">
+                  <label>投资姓名&nbsp;&nbsp;</label>
+                  <input type="text" placeholder="请输入投资姓名" id="invest-name">
+                </div>
+
+            </form>
+            <div class="mui-input-row beizhu" style="margin: 10px 5px;">
+                <p>备注:</p>
+                <textarea id="remark" rows="3" placeholder="请输入备注信息（可不填）"></textarea>
+            </div>
+            <button id="submit_btn" type="button" class="mui-btn mui-btn-blue">确认提交</button>
+        </div>
+        <script src="{%static 'js/mui.min.js'%}"></script>
+        <!--弹窗部分-->
+        <script type="text/javascript" charset="utf-8">
+                mui.init({
+                    swipeBack:true //启用右滑关闭功能
+                });
+                document.getElementById("submit_btn").addEventListener('tap', function() {
+                    var telnum = document.getElementById('telnum').value;
+                    var term = document.getElementById('term').value;
+                    var amount = document.getElementById('amount').value;
+                    var date = document.getElementById('date').value;
+                    var zhifubao = document.getElementById('zhifubao').value;
+                    var zfbname = document.getElementById('zfbname').value;
+                    var remark = document.getElementById('remark').value;
+                    // amount = parseFloat(amount);
+                    
+                    if(!telnum || !term || !amount || !date ||  !zhifubao || !zfbname ) {
+                        mui.alert("必填写项不能为空");
+                        return;
+                    }
+                    var re=/^1[1,2,3,4,6,5,7,8,9]\d{9}$/;
+                    var re_amount=/^\d+(\.\d+)?$/;
+                    if(!re.test(telnum)){
+                    mui.alert("手机号格式不正确！");
+                        return;
+                    }
+                    if(!re_amount.test(term)){
+                        mui.alert("投资标期不能为空且必须为纯数字格式！")
+                        return;
+                    }
+                    if(!re_amount.test(amount)){
+                        mui.alert("投资金额不能为空且必须为纯数字格式！")
+                        return;
+                    }
+                    var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+                    var project_id = '{{id}}';
+                    console.log(project_id+","+telnum+","+term+","+amount+","+date+","+zhifubao+","+zfbname+","+remark+",");
+                    mui.ajax('/restapi/investlogs/',{
+                        data: {
+                            'project': project_id,
+                            'invest_mobile': telnum,
+                            'invest_term': term,
+                            'invest_amount': amount,
+                            'invest_date': date,
+                            'zhifubao': zhifubao,
+                            'zhifubao_name': zfbname,
+                            'remark': remark
+                        },
+                        dataType:'json',//服务器返回json格式数据
+                        type:'post',//HTTP请求类型
+                        timeout:10000,//超时时间设置为10秒；
+                        success:function(data){
+                            mui.alert('提交成功', function(){
+                                mui.back();
+                            });
+        
+                        },
+                        error:function(xhr,type,errorThrown){
+                            mui.alert(xhr.responseText);
+                            console.log('数据错误');
+                        }
+                    });
+                });
+        </script>
+    {%if back %}
+        <script>
+        mui.back = function(){
+            var history = window.history;
+            if (history.length > 3 ){
+                history.go(-3);
+            }
+            else{
+                history.back();
+            }
+        };
+        </script>
+    {%endif%}
+    </body>
+
+</html>
