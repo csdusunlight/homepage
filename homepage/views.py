@@ -72,7 +72,7 @@ def submitOrder(request):
     invest_date = request.POST.get('invest_date')
     zhifubao = request.POST.get('zhifubao', '')
     qq_number = request.POST.get('qq_number', '')
-    expect_amount = request.POST.get('expect_amount', None)
+    expect_amount = request.POST.get('expect_amount', '')
     invest_name = request.POST.get('invest_name', '')
     invest_mobile = request.POST.get('invest_mobile')
     remark = request.POST.get('remark', '')
