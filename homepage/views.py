@@ -66,29 +66,30 @@ def expsubmit_project(request, id):
 @login_required_ajax
 def submitOrder(request):
     result = {}
-    project_id = request.POST.get('project', None)
-    invest_amount = request.POST.get('invest_amount', None)
-    invest_term = request.POST.get('invest_term', None)
-    invest_date = request.POST.get('invest_date', datetime.date.today())
+    project_id = request.POST.get('project')
+    invest_amount = request.POST.get('invest_amount')
+    invest_term = request.POST.get('invest_term')
+    invest_date = request.POST.get('invest_date')
     zhifubao = request.POST.get('zhifubao', '')
-    zhifubao_name = request.POST.get('zhifubao_name', '')
     qq_number = request.POST.get('qq_number', '')
     expect_amount = request.POST.get('expect_amount', None)
     invest_name = request.POST.get('invest_name', '')
-    invest_mobile = request.POST.get('invest_mobile', None)
+    invest_mobile = request.POST.get('invest_mobile')
     remark = request.POST.get('remark', '')
     invest_amount = None if invest_amount=='' else invest_amount
-    expect_amount = None if expect_amount=='' else expect_amount
     invest_term = None if invest_term=='' else invest_term
     invest_date = datetime.date.today() if invest_date=='' else invest_date
-    if not invest_mobile or not project_id:
-        result['code'] = 0
-        result['msg'] = u""
-        return JsonResponse(result)
     project = Project.objects.get(id=project_id)
+#     fields = re.split(r'[\s,]+', project.necessary_fields)
+    if not ( project_id and invest_mobile ):
+        result['code'] = 0
+        result['msg'] = u"请提交投资手机号"
+        return JsonResponse(result)
+    if invest_date:
+        invest_date = datetime.datetime.strptime(invest_date, "%Y-%m-%d")
     investlog=InvestLog.objects.create(user=request.user,project_id=project_id, invest_mobile=invest_mobile, invest_date=invest_date,
                              invest_name=invest_name, remark=remark, qq_number=qq_number, expect_amount=expect_amount,
-                             zhifubao=zhifubao, zhifubao_name=zhifubao_name, invest_amount=invest_amount,
+                             zhifubao=zhifubao, invest_amount=invest_amount,
                               invest_term=invest_term, is_official=project.is_official)
     imgurl_list = []
     if len(request.FILES)>6:
@@ -103,8 +104,9 @@ def submitOrder(request):
         block = request.FILES[key]
         imgurl = saveImgAndGenerateUrl(key, block, 'screenshot')
         imgurl_list.append(imgurl)
-    invest_image = ';'.join(imgurl_list)
-    investlog.invest_image = invest_image
-    investlog.save(update_fields=['invest_image',])
+    if imgurl_list:
+        invest_image = ';'.join(imgurl_list)
+        investlog.invest_image = invest_image
+        investlog.save(update_fields=['invest_image',])
     result['code'] = 0
     return JsonResponse(result)
