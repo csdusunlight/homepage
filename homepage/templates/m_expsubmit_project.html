@@ -126,23 +126,23 @@
                   <label>投资日期&nbsp;&nbsp;</label>
                   <input type="date" placeholder="请选择投资日期" id="date">
                 </div>
-                <div class="mui-input-row limit-input" data-limit="5">
-                  <label>QQ&nbsp;&nbsp;</label>
-                  <input type="text" placeholder="请输入qq账号" id="qq">
-                </div>
-                <div class="mui-input-row limit-input" data-limit="6">
+                <div class="mui-input-row limit-input" data-limit="4">
                   <label>支付宝信息&nbsp;&nbsp;</label>
                   <input type="text" placeholder="请输入支付宝信息" id="zfb">
                 </div>
-                <div class="mui-input-row limit-input" data-limit="7">
-                  <label>预期返现&nbsp;&nbsp;</label>
-                  <input type="text" placeholder="请输入用户预期返现金额" id="return_amount">
-                </div>
-                <div class="mui-input-row limit-input" data-limit="8">
+                <div class="mui-input-row limit-input" data-limit="5">
                   <label>投资姓名&nbsp;&nbsp;</label>
                   <input type="text" placeholder="请输入投资姓名" id="invest_name">
                 </div>
-                <div class="img-up limit-input"  data-limit="4">
+                <div class="mui-input-row limit-input" data-limit="6">
+                  <label>预期返现&nbsp;&nbsp;</label>
+                  <input type="text" placeholder="请输入用户预期返现金额" id="return_amount">
+                </div>
+                <div class="mui-input-row limit-input" data-limit="7">
+                  <label>QQ&nbsp;&nbsp;</label>
+                  <input type="text" placeholder="请输入qq账号" id="qq">
+                </div>
+                <div class="img-up limit-input"  data-limit="8">
                     <input type="file" name="picfile" id="choose" accept="image/png, image/jpeg" multiple=true>
                     <ul id="img-list" class="img-list"></ul>
                     <div class="mui-row img-btn">
@@ -403,19 +403,17 @@
                     key_arr[1] = document.getElementById('amount').value;
                     key_arr[2] = document.getElementById('term').value;
                     key_arr[3] = document.getElementById('date').value;
-                    key_arr[5] = document.getElementById('qq').value;
-                    key_arr[6] = document.getElementById('zfb').value;
-                    key_arr[7] = document.getElementById('return_amount').value;
-                    key_arr[8] = document.getElementById('invest_name').value;
+                    key_arr[4] = document.getElementById('zfb').value;
+                    key_arr[5] = document.getElementById('invest_name').value;
+                    key_arr[6] = document.getElementById('return_amount').value;
+                    key_arr[7] = document.getElementById('qq').value;
                     console.log(key_arr);
                     // amount = parseFloat(amount);
                     console.log(limit);
                     console.log(key_arr);
-                    console.log(key_arr[2]);
                     for (limit_id in limit) {
-                        if (key_arr[limit[limit_id].replace(/(^\s*)|(\s*$)/g, "")] || !key_arr[4]) {
-                            console.log(limit[limit_id]);
-                            console.log(key_arr[limit[limit_id].replace(/(^\s*)|(\s*$)/g, "")]);
+                        if (key_arr[limit[limit_id]]) {
+                            console.log(key_arr[limit[limit_id]]);
                         } else {
                             mui.alert("必填写项不能为空");
                             return;
@@ -444,7 +442,7 @@
                     var formdata = getFormData();
 
                     for (limit_id in limit) {
-                        if (limit[limit_id] == 4) {
+                        if (limit[limit_id] == 8) {
                             if (file_list.length==0){
                                 mui.alert("请上传任务完成截图");
                                 return;
@@ -457,14 +455,14 @@
                     }
                     formdata.append('project', project_id);
                     formdata.append('invest_mobile', telnum);
-                    formdata.append('zhifubao_name', key_arr[0]);
+                    formdata.append('invest_name', key_arr[0]);
                     formdata.append('invest_amount', key_arr[1]);
                     formdata.append('invest_term', key_arr[2]);
                     formdata.append('invest_date', key_arr[3]);
-                    formdata.append('qq_number', key_arr[5]);
-                    formdata.append('zhifubao', key_arr[6]);
-                    formdata.append('return_amount', key_arr[70]);
-                    formdata.append('invest_name', key_arr[8]);
+                    formdata.append('zhifubao', key_arr[4]);
+                    formdata.append('zhifubao_name', key_arr[5]);
+                    formdata.append('return_amount', key_arr[6]);
+                    formdata.append('qq_number', key_arr[7]);
                     formdata.append('remark', remark);
                     
                     var submit_url = "{% url 'submitOrder' %}";
