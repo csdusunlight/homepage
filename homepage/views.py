@@ -90,10 +90,11 @@ def submitOrder(request):
     investlog=InvestLog.objects.create(user=request.user,project_id=project_id, invest_mobile=invest_mobile, invest_date=invest_date,
                              invest_name=invest_name, remark=remark, qq_number=qq_number, expect_amount=expect_amount,
                              zhifubao=zhifubao, invest_amount=invest_amount,
-                              invest_term=invest_term, is_official=project.is_official)
+                              invest_term=invest_term, is_official=project.is_official,
+                              is_selfsub=True, audit_state='1')
     imgurl_list = []
     if len(request.FILES)>6:
-        result = {'code':-2, 'msg':u"上传图片数量不能超过3张"}
+        result = {'code':-2, 'msg':u"上传图片数量不能超过6张"}
         return JsonResponse(result)
     for key in request.FILES:
         block = request.FILES[key]
