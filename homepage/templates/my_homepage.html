@@ -19,6 +19,103 @@
 	    pointer-events: none;
 	    background-color: #e4e4e4 !important;
 	}
+	.limit-input {
+	    display: none;
+	}
+	
+	.img-up {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .img-up>input {
+        display: none;
+    }
+    
+    canvas {
+        width: 100%;
+        border: 1px solid #000000;
+    }
+    
+    .img-btn {
+        margin: 10px auto;
+        width: 300px;
+    }
+    
+    .img-btn a {
+        display: inline-block;
+        width: 40%;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .img-btn a:first-child {
+        margin-right: 20px;
+    }
+    
+    .touch {
+        background-color: #ddd;
+    }
+    
+    .img-list {
+        /*width: 350px;*/
+        margin: 20px auto 10px;
+        /*border: 1px solid #e4e4e4;*/
+        border-radius: 6px;
+    }
+    
+    .img-list li {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        margin: 5px 5px 20px 5px;
+        border: 1px solid rgb(100, 149, 198);
+        background: #fff no-repeat center;
+        background-size: cover;
+    }
+    
+    .progress {
+        position: absolute;
+        width: 100%;
+        height: 20px;
+        line-height: 20px;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(100, 149, 198, .5);
+    }
+    
+    .progress span {
+        display: block;
+        width: 0;
+        height: 100%;
+        background-color: rgb(100, 149, 198);
+        text-align: center;
+        color: #FFF;
+        font-size: 13px;
+    }
+    
+    .size {
+        position: absolute;
+        width: 100%;
+        height: 15px;
+        line-height: 15px;
+        bottom: -18px;
+        text-align: center;
+        font-size: 13px;
+        color: #666;
+    }
+    
+    .img-tips {
+        display: block;
+        text-align: center;
+        font-size: 13px;
+        margin: 10px;
+        color: #999;
+    }
 </style>
 <script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
 <script type="text/javascript">
@@ -130,7 +227,7 @@
         </div>
     </div>
     <div class="popup m-submit-proj">
-        <div class="popup__content" style="width: 600px;">
+        <div class="popup__content" style="width: 600px; max-height: 800px; overflow-y: scroll;">
             <div class="popup__top">
                 <h2 class="popup__title">项目交单</h2><button type="button" class="popup__close popup__close-btn" onclick="canclePopup(this)">×</button>
             </div>
@@ -139,25 +236,49 @@
                     <span class="popup__itemname">提交手机号：</span>
                     <input type="text" class="telnum" placeholder="填写提交手机号" />
                 </div>
-                <div class="popup__item">
+                <div class="popup__item limit-input"  data-limit="0">
+                    <span class="popup__itemname">投资用户名：</span>
+                    <input type="text" class="invest_account" placeholder="填写投资用户名" />
+                </div>
+                <div class="popup__item limit-input"  data-limit="1">
+                    <span class="popup__itemname">投资金额：</span>
+                    <input type="text" class="amount" placeholder="填写投资金额，数字" />
+                </div>
+                <div class="popup__item limit-input"  data-limit="2">
                     <span class="popup__itemname">投资标期：</span>
                     <input type="text" class="term" placeholder="填写投资标期，数字" />
                 </div>
-                <div class="popup__item">
-                    <span class="popup__itemname">投资金额：</span>
-                    <input type="text" class="money" placeholder="填写投资金额，数字" />
-                </div>
-                <div class="popup__item">
+                <div class="popup__item limit-input"  data-limit="3">
                     <span class="popup__itemname">投资日期：</span>
                     <input type="text" class="date date_picker" placeholder="选择投资日期" />
                 </div>
-                <div class="popup__item">
-                    <span class="popup__itemname">支付宝账号：</span>
-                    <input type="text" class="zhifubao" placeholder="填写支付宝账号" />
+                <div class="popup__item limit-input"  data-limit="5">
+                    <span class="popup__itemname">qq：</span>
+                    <input type="text" class="qq" placeholder="填写qq信息" />
                 </div>
-                <div class="popup__item">
-                    <span class="popup__itemname">支付宝姓名：</span>
-                    <input type="text" class="zfbname" placeholder="填写支付宝姓名" />
+                <div class="popup__item limit-input"  data-limit="6">
+                    <span class="popup__itemname">支付宝信息：</span>
+                    <input type="text" class="zfb" placeholder="填写支付宝信息" />
+                </div>
+                <div class="popup__item limit-input"  data-limit="7">
+                    <span class="popup__itemname">预期返现金额：</span>
+                    <input type="text" class="return_amount" placeholder="填写用户预期返现金额" />
+                </div>
+                <div class="popup__item limit-input"  data-limit="8">
+                    <span class="popup__itemname">投资姓名：</span>
+                    <input type="text" class="invest_name" placeholder="填写投资姓名" />
+                </div>
+                <div class="popup__item limit-input"  data-limit="4">
+                    <span class="popup__itemname">相关截图：</span>
+                    <div class="img-up">
+                        <input type="file" name="picfile" id="choose" accept="image/jpeg,image/png" multiple>
+                        <ul class="img-list"></ul>
+                        <div class="img-btn">
+                                <a id="clear_img" onclick="clearBtn()">清除截图</a>
+                                <a id="upload">上传截图</a>
+                        </div>
+                        <span class="img-tips">图片格式限jpg和png，最多可上传6张</span>
+                    </div>
                 </div>
                 <div class="popup__item">
                     <span class="popup__itemname">备注：</span>
@@ -176,6 +297,12 @@
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript">
+    var limit_str;
+    var limit;
+    var limit_id;
+    var key_arr = [];
+    
+    
     var data='[results]<li class="project__itembox"><h2 class="project__name">{project_title}<span data-intro="{project_introduction}" class="project__name-small oneline">{introduction}</span></h2>'+
       '<div class="project__detail">'+
 //    '<img class="project__img" src="" alt="" />'+
@@ -372,82 +499,388 @@
     function submit (id) {
         project_id = id;
         
-        $(".telnum").val('');
-        $(".term").val('');
-        $(".money").val('');
-        $(".date").val('');
-        $(".zhifubao").val('');
-        $(".zfbname").val('');
-        $(".remark").val('');
+        $('.limit-input').hide();
+        $('.telnum').val(''); 
+        $('.remark').val('');
+        $('.invest_account').val('');
+        $('.amount').val('');
+        $('.term').val('');
+        $('.date').val('');
+        $('.qq').val('');
+        $('.zfb').val('');
+        $('.return_amount').val('');
+        $('.invest_name').val('');
         
-        $('.popup.m-submit-proj').addClass('in');
-    }
-    
-    $(".popup.m-submit-proj").on("focus", ".date_picker", function() {
-        $(this).date_input();
-    })
-    $("#confirm").click(function() {
-        var telnum = $(".telnum").val(),
-            term = $(".term").val(),
-            money = $(".money").val(),
-            date = $(".date").val(),
-            zhifubao = $(".zhifubao").val();
-            zfbname = $(".zfbname").val();
-            remark = $(".remark").val();
-        console.log(project_id+","+date+","+telnum+","+term+","+money+","+remark+",");
-        if( !date || !telnum || !term || !money || !zhifubao || !zfbname ) {
-            alert("必填写项不能为空");
-            return;
-        }
-//      if(date.match(/^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/)) { 
-//          console.log('日期格式正确');
-//      } else { 
-//          alert('日期格式不符合规范'); 
-//          return;
-//      }
-        var re_date = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/, //验证日期
-            re_phone = /^1[1,2,3,4,6,5,7,8,9]\d{9}$/, //验证手机号
-            re_amount = /^\d+(\.\d+)?$/; //验证数字格式
-        if(!re_date.test(date)) {
-            alert('日期格式不正确，请重新选择');
-            return;
-        }
-        if(!re_phone.test(telnum)) {
-            alert('手机号格式不正确');
-            return;
-        }
-        if(!re_amount.test(term)) {
-            alert('标期必须为纯数字格式');
-            return;
-        }
-        if(!re_amount.test(money)) {
-            alert('金额必须为纯数字格式');
-            return;
-        }
-
         $.ajax({
-            url: '/restapi/investlogs/',
+            url: '/restapi/projects/' + project_id + '/',
             dataType: "json",
-            type: 'post',
-            data: {
-                'project': project_id,
-                'invest_mobile': telnum,
-                'invest_term': term,
-                'invest_amount': money,
-                'invest_date': date,
-                'zhifubao': zhifubao,
-                'zhifubao_name': zfbname,
-                'remark': remark
-            },
+            type: 'get',
             success: function(ret) {
-                alert('提交成功');
-                $('.popup.m-submit-proj').removeClass('in');
+                limit_str = ret.necessary_fields;
+                limit = limit_str.split(',');
+                console.log(limit);
+                $('.limit-input').each(function(){
+                    var that = this;
+                    var limit_flag = that.getAttribute('data-limit');
+                    for (limit_id in limit) {
+                        if (limit_flag == limit[limit_id].replace(/(^\s*)|(\s*$)/g, "")) {
+                            console.log(limit[limit_id]);
+                            console.log(that);
+                            that.style.display = 'block';
+                        }
+                    }
+                })
+                $('.popup.m-submit-proj').addClass('in');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR.responseText);
                 alert("数据错误");
             }
         });
+        
+    }
+    
+    $(".popup.m-submit-proj").on("focus", ".date_picker", function() {
+        $(this).date_input();
+    })
+//  上传截图部分
+    var file_list = [];
+    var filechooser = document.getElementById("choose");
+    //    用于压缩图片的canvas
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext('2d');
+    //    瓦片canvas
+    var tCanvas = document.createElement("canvas");
+    var tctx = tCanvas.getContext("2d");
+    var maxsize = 80 * 1024;
+    $("#upload").on("click", function() {
+        if (file_list.length>=6){
+            alert("最多只可上传6张图片");
+            return;
+        }
+        filechooser.click();
+    })
+    filechooser.onchange = function() {
+        if(!this.files.length) return;
+        var files = Array.prototype.slice.call(this.files);
+        if(files.length + file_list.length > 6) {
+            alert("最多只可上传6张图片");
+            return;
+        }
+        files.forEach(function(file, i) {
+            if(!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
+            var reader = new FileReader();
+            var li = document.createElement("li");
+            //          获取图片大小
+            var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
+            $(".img-list").append($(li));
+            reader.onload = function() {
+                var result = this.result;
+                var img = new Image();
+                img.src = result;
+                $(li).css("background-image", "url(" + result + ")");
+                //如果图片大小小于100kb，则直接上传
+                if(result.length <= maxsize) {
+                    img = null;
+                    process(result, file.name, file.type);
+                    return;
+                }
+                //      图片加载完毕之后进行压缩，然后上传
+                if(img.complete) {
+                    callback();
+                } else {
+                    img.onload = callback;
+                }
+
+                function callback() {
+                    var data = compress(img);
+                    process(data, file.name, file.type);
+                    img = null;
+                }
+            };
+            reader.readAsDataURL(file);
+        })
+    };
+    //    使用canvas对大图片进行压缩
+    function compress(img) {
+        var initSize = img.src.length;
+        var width = img.width;
+        var height = img.height;
+        //如果图片大于四百万像素，计算压缩比并将大小压至40万以下
+        var ratio;
+        if((ratio = width * height / 400000) > 1) {
+            ratio = Math.sqrt(ratio);
+            width /= ratio;
+            height /= ratio;
+        } else {
+            ratio = 1;
+        }
+        console.log("ratio:" + ratio);
+        canvas.width = width;
+        canvas.height = height;
+        //        铺底色
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        //如果图片像素大于100万则使用瓦片绘制
+        var count;
+        if((count = width * height / 1000000) > 1) {
+            count = ~~(Math.sqrt(count) + 1); //计算要分成多少块瓦片
+            //            计算每块瓦片的宽和高
+            var nw = ~~(width / count);
+            var nh = ~~(height / count);
+            tCanvas.width = nw;
+            tCanvas.height = nh;
+            for(var i = 0; i < count; i++) {
+                for(var j = 0; j < count; j++) {
+                    tctx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh);
+                    ctx.drawImage(tCanvas, i * nw, j * nh, nw, nh);
+                }
+            }
+        } else {
+            ctx.drawImage(img, 0, 0, width, height);
+        }
+        //进行最小压缩
+        var ndata = canvas.toDataURL('image/jpeg', 0.5);
+        console.log('压缩前：' + initSize);
+        console.log('压缩后：' + ndata.length);
+        console.log('压缩率：' + ~~(100 * (initSize - ndata.length) / initSize) + "%");
+        tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
+        return ndata;
+    }
+    //    图片上传，将base64的图片转成二进制对象，塞进formdata上传
+    function process(basestr, name, type, $li) {
+        var text = window.atob(basestr.split(",")[1]);
+        var buffer = new Uint8Array(text.length);
+        for(var i = 0; i < text.length; i++) {
+            buffer[i] = text.charCodeAt(i);
+        }
+        var blob = getBlob([buffer], type);
+        file_list.push({
+            name:name,
+            blob:blob
+        });
+    }
+
+    function submit_confirm(){
+        var xhr = new XMLHttpRequest();
+        var formdata = getFormData();
+//      var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        var telnum = $('.telnum').val(); 
+        var remark = $('.remark').val();
+        key_arr[0] = $('.invest_account').val();
+        key_arr[1] = $('.amount').val();
+        key_arr[2] = $('.term').val();
+        key_arr[3] = $('.date').val();
+        key_arr[5] = $('.qq').val();
+        key_arr[6] = $('.zfb').val();
+        key_arr[7] = $('.return_amount').val();
+        key_arr[8] = $('.invest_name').val();
+        
+        for (limit_id in limit) {
+            if (key_arr[limit[limit_id]] || !key_arr[4]) {
+                console.log(key_arr[limit[limit_id]]);
+            } else {
+                alert("必填写项不能为空");
+                return;
+            }
+        }
+        var re=/^1[1,2,3,4,6,5,7,8,9]\d{9}$/;
+        var re_amount=/^\d+(\.\d+)?$/;
+        if(!re.test(telnum)){
+            alert("手机号格式不正确！");
+            return;
+        }
+        if (key_arr[2]) {
+            if(!re_amount.test(key_arr[2])){
+                alert("投资标期不能为空且必须为纯数字格式！")
+                return;
+            }
+        }
+        if (key_arr[1]) {
+            if(!re_amount.test(key_arr[1])){
+                alert("投资金额不能为空且必须为纯数字格式！")
+                return;
+            }
+        }
+        console.log(project_id+', ' + telnum+', ' + key_arr[0]+', ' + key_arr[1]+', ' + key_arr[2]+', ' + key_arr[3]+', ' + key_arr[5]+', ' + key_arr[6]+', ' + key_arr[7]+', ' + key_arr[8]+', ' + remark+', ');
+        for (limit_id in limit) {
+            if (limit[limit_id] == 4) {
+                if (file_list.length==0){
+                    alert("请上传任务完成截图");
+                    return;
+                }
+            }
+        }
+        for (i in file_list){
+            formdata.append("invest_image", file_list[i].name, file_list[i].blob);
+        }
+        formdata.append('project', project_id);
+        formdata.append('invest_mobile', telnum);
+        formdata.append('qq_name', key_arr[0]);
+        formdata.append('invest_amount', key_arr[1]);
+        formdata.append('invest_term', key_arr[2]);
+        formdata.append('invest_date', key_arr[3]);
+        formdata.append('qq_number', key_arr[5]);
+        formdata.append('zhifubao', key_arr[6]);
+        formdata.append('return_amount', key_arr[70]);
+        formdata.append('invest_name', key_arr[8]);
+        formdata.append('remark', remark);
+//      formdata.append('csrfmiddlewaretoken', csrfmiddlewaretoken);
+        xhr.open('post', '/restapi/investlogs/');
+        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+//      maskIn();
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200) {
+                var ret = JSON.parse(xhr.responseText);
+                if(ret.code == 0) {
+                    alert("提交成功")
+                    return;
+                }else{
+                    alert(ret.msg)
+                }
+            }
+        };
+
+        xhr.send(formdata);
+    }
+    /**
+     * 获取blob对象的兼容性写法
+     * @param buffer
+     * @param format
+     * @returns {*}
+     */
+    function getBlob(buffer, format) {
+        try {
+            return new Blob(buffer, {
+                type: format
+            });
+        } catch(e) {
+            var bb = new(window.BlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder);
+            buffer.forEach(function(buf) {
+                bb.append(buf);
+            });
+            return bb.getBlob(format);
+        }
+    }
+    /**
+     * 获取formdata
+     */
+    function getFormData() {
+        var isNeedShim = ~navigator.userAgent.indexOf('Android') &&
+            ~navigator.vendor.indexOf('Google') &&
+            !~navigator.userAgent.indexOf('Chrome') &&
+            navigator.userAgent.match(/AppleWebKit\/(\d+)/).pop() <= 534;
+        return isNeedShim ? new FormDataShim() : new FormData()
+    }
+    /**
+     * formdata 补丁, 给不支持formdata上传blob的android机打补丁
+     * @constructor
+     */
+    function FormDataShim() {
+        console.warn('using formdata shim');
+        var o = this,
+            parts = [],
+            boundary = Array(21).join('-') + (+new Date() * (1e16 * Math.random())).toString(36),
+            oldSend = XMLHttpRequest.prototype.send;
+        this.append = function(name, value, filename) {
+            parts.push('--' + boundary + '\r\nContent-Disposition: form-data; name="' + name + '"');
+            if(value instanceof Blob) {
+                parts.push('; filename="' + (filename || 'blob') + '"\r\nContent-Type: ' + value.type + '\r\n\r\n');
+                parts.push(value);
+            } else {
+                parts.push('\r\n\r\n' + value);
+            }
+            parts.push('\r\n');
+        };
+        // Override XHR send()
+        XMLHttpRequest.prototype.send = function(val) {
+            var fr,
+                data,
+                oXHR = this;
+            if(val === o) {
+                // Append the final boundary string
+                parts.push('--' + boundary + '--\r\n');
+                // Create the blob
+                data = getBlob(parts);
+                // Set up and read the blob into an array to be sent
+                fr = new FileReader();
+                fr.onload = function() {
+                    oldSend.call(oXHR, fr.result);
+                };
+                fr.onerror = function(err) {
+                    throw err;
+                };
+                fr.readAsArrayBuffer(data);
+                // Set the multipart content type and boudary
+                this.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
+                XMLHttpRequest.prototype.send = oldSend;
+            } else {
+                oldSend.call(this, val);
+            }
+        };
+    }
+    function clearBtn () {
+        $(".img-list").html('');
+        file_list = [];
+        document.getElementById("upload").value = "";
+    }
+    $("#confirm").click(function() {
+        submit_confirm();
+//      var telnum = $(".telnum").val(),
+//          term = $(".term").val(),
+//          money = $(".money").val(),
+//          date = $(".date").val(),
+//          zhifubao = $(".zhifubao").val();
+//          zfbname = $(".zfbname").val();
+//          remark = $(".remark").val();
+//      console.log(project_id+","+date+","+telnum+","+term+","+money+","+remark+",");
+//      if( !date || !telnum || !term || !money || !zhifubao || !zfbname ) {
+//          alert("必填写项不能为空");
+//          return;
+//      }
+//      var re_date = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/, //验证日期
+//          re_phone = /^1[1,2,3,4,6,5,7,8,9]\d{9}$/, //验证手机号
+//          re_amount = /^\d+(\.\d+)?$/; //验证数字格式
+//      if(!re_date.test(date)) {
+//          alert('日期格式不正确，请重新选择');
+//          return;
+//      }
+//      if(!re_phone.test(telnum)) {
+//          alert('手机号格式不正确');
+//          return;
+//      }
+//      if(!re_amount.test(term)) {
+//          alert('标期必须为纯数字格式');
+//          return;
+//      }
+//      if(!re_amount.test(money)) {
+//          alert('金额必须为纯数字格式');
+//          return;
+//      }
+//
+//      $.ajax({
+//          url: '/restapi/investlogs/',
+//          dataType: "json",
+//          type: 'post',
+//          data: {
+//              'project': project_id,
+//              'invest_mobile': telnum,
+//              'invest_term': term,
+//              'invest_amount': money,
+//              'invest_date': date,
+//              'zhifubao': zhifubao,
+//              'zhifubao_name': zfbname,
+//              'remark': remark
+//          },
+//          success: function(ret) {
+//              alert('提交成功');
+//              $('.popup.m-submit-proj').removeClass('in');
+//          },
+//          error: function(jqXHR, textStatus, errorThrown) {
+//              console.log(jqXHR.responseText);
+//              alert("数据错误");
+//          }
+//      });
     });
     
 //  横向滚动部分
