@@ -64,6 +64,7 @@ def expsubmit_project(request, id):
 @csrf_exempt
 @login_required_ajax
 def submit_investlog(request):
+    result = {}
     project_id = request.POST.get('invest_amount', None)
     invest_amount = request.POST.get('invest_amount', None)
     invest_term = request.POST.get('invest_term', '')
@@ -76,15 +77,14 @@ def submit_investlog(request):
     invest_mobile = request.POST.get('invest_mobile', None)
     remark = request.POST.get('remark', '')
     if not invest_mobile or not project_id:
-        raise Http404
-    investlog=InvestLog.objects.create(project_id=project_id, invest_mobile=invest_mobile, invest_date=invest_date,
+        result['code'] = 0
+        result['msg'] = u""
+        return JsonResponse(result)
+    investlog=InvestLog.objects.create(user=request.user,project_id=project_id, invest_mobile=invest_mobile, invest_date=invest_date,
                              invest_name=invest_name, remark=remark, qq_number=qq_number, expect_amount=expect_amount,
                              zhifubao=zhifubao, zhifubao_name=zhifubao_name, invest_amount=invest_amount,
                               invest_term=invest_term)
     imgurl_list = []
-    result = {}
-    id = request.POST.get('id')
-    investlog = InvestLog.objects.get(id=id)
     if len(request.FILES)>6:
         result = {'code':-2, 'msg':u"上传图片数量不能超过3张"}
         return JsonResponse(result)
