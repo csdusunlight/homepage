@@ -25,7 +25,7 @@ urlpatterns = [
 #     url(r'^ueditor/',  include('DjangoUeditor.urls' )),
 #     url(r'^captcha/', include('captcha.urls')),
 # # #     url(r'^statistic/', include('statistics.urls', namespace='statistic'),),
-#     url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
 #     url(r'^project/', include('project_admin.urls')),
 # #     url(r'^test/$', 'wafuli.views.index', name='captcha-refresh'),
     url(r'^', include('homepage.urls')),  
