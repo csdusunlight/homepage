@@ -111,8 +111,8 @@
                     <input id="telnum" type="text" maxlength=11 placeholder="请输入手机号">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="0">
-                    <label>投资用户名&nbsp;&nbsp;</label>
-                    <input id="invest_account" type="text" maxlength=11 placeholder="请输入投资用户名">
+                    <label>用户名/姓名</label>
+                    <input id="invest_account" type="text" maxlength=11 placeholder="请输入投资用户名/姓名">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="1">
                   <label>投资金额（元）</label>
@@ -131,7 +131,7 @@
                   <input type="text" placeholder="请输入支付宝信息" id="zfb">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="6">
-                  <label>预期返现&nbsp;&nbsp;</label>
+                  <label>返现金额&nbsp;&nbsp;</label>
                   <input type="text" placeholder="请输入用户预期返现金额" id="return_amount">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="7">
@@ -473,9 +473,10 @@
                     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                     xhr.onreadystatechange = function() {
                         if(xhr.readyState == 4 && xhr.status == 200) {
-                            mui.alert('提交成功', function(){
-                                mui.back();
-                            });
+//                          mui.alert('提交成功', function(){
+//                              mui.back();
+//                          });
+                            mui.alert('提交成功');
                         }else {
 //                          var ret = JSON.parse(xhr.responseText);
                             console.log(ret.detail)
