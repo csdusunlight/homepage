@@ -174,7 +174,7 @@ class InvestLog(models.Model):
     return_amount = models.DecimalField(u'返现金额', max_digits=10, decimal_places=2, default=0)
     remark = models.CharField(u"备注", max_length=100, blank=True)
     def __unicode__(self):
-        return u"来自渠道用户：%s 的投资数据提交：%s" % (self.user, self.invest_amount)
+        return u"来自渠道用户：%s 的投资数据提交：%s" % (self.invest_mobile, self.invest_amount)
     class Meta:
         ordering = ["submit_time",]
 

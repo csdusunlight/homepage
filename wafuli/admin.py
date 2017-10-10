@@ -18,3 +18,4 @@ class ProjectAdmin(admin.ModelAdmin):
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Company)
 admin.site.register(SubscribeShip)
+admin.site.register(InvestLog)

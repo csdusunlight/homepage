@@ -178,17 +178,18 @@
                     success:function(ret){
                         limit_str = ret.necessary_fields;
                         limit = limit_str.split(',');
-                        console.log(limit);
                         key_arr = [];
                         mui('.limit-input').each(function(){
                             var that = this;
                             var limit_flag = that.getAttribute('data-limit');
         //                  console.log(limit_flag);
                             for (limit_id in limit) {
-                                if (limit_flag == limit[limit_id].replace(/(^\s*)|(\s*$)/g, "")) {
+                                limit[limit_id] = limit[limit_id].replace(/(^\s*)|(\s*$)/g, "");
+                                if (limit_flag == limit[limit_id]) {
                                     that.style.display = 'block';
                                 }
                             }
+                            console.log(limit);
                         })
                     },
                     error:function(xhr,type,errorThrown){
@@ -454,7 +455,7 @@
                     }
                     var project_id = '{{id}}';
                     for (i in file_list){
-                        formdata.append("invest_image", file_list[i].name, file_list[i].blob);
+                        formdata.append(file_list[i].name, file_list[i].blob);
                     }
                     formdata.append('project', project_id);
                     formdata.append('invest_mobile', key_arr[5]);
@@ -472,7 +473,9 @@
                     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                     xhr.onreadystatechange = function() {
                         if(xhr.readyState == 4 && xhr.status == 200) {
-                            mui.alert("提交成功");
+                            mui.alert('提交成功', function(){
+                                mui.back();
+                            });
                         }else {
 //                          var ret = JSON.parse(xhr.responseText);
                             console.log(ret.detail)

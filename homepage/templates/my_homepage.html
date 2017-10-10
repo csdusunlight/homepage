@@ -514,18 +514,19 @@
             success: function(ret) {
                 limit_str = ret.necessary_fields;
                 limit = limit_str.split(',');
-                console.log(limit);
                 $('.limit-input').each(function(){
                     var that = this;
                     var limit_flag = that.getAttribute('data-limit');
                     for (limit_id in limit) {
-                        if (limit_flag == limit[limit_id].replace(/(^\s*)|(\s*$)/g, "")) {
+                        limit[limit_id] = limit[limit_id].replace(/(^\s*)|(\s*$)/g, "");
+                        if (limit_flag == limit[limit_id]) {
                             console.log(limit[limit_id]);
                             console.log(that);
                             that.style.display = 'block';
                         }
                     }
                 })
+                console.log(limit);
                 $('.popup.m-submit-proj').addClass('in');
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -715,10 +716,10 @@
             }
         }
         for (i in file_list){
-            formdata.append("invest_image", file_list[i].name, file_list[i].blob);
+            formdata.append(file_list[i].name, file_list[i].blob);
         }
         formdata.append('project', project_id);
-        formdata.append('invest_mobile', key_arr[0]);
+        formdata.append('invest_mobile', key_arr[5]);
         formdata.append('invest_name', key_arr[0]);
         formdata.append('invest_amount', key_arr[1]);
         formdata.append('invest_term', key_arr[2]);
@@ -736,7 +737,8 @@
             if(xhr.readyState == 4 && xhr.status == 200) {
                 var ret = JSON.parse(xhr.responseText);
                 if(ret.code == 0) {
-                    alert("提交成功")
+                    alert("提交成功");
+                    $('.popup.m-submit-proj').removeClass('in');
                     return;
                 }else{
                     alert(ret.msg)
