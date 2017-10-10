@@ -1,3 +1,4 @@
+#coding:utf-8
 from django.shortcuts import render
 from wafuli.models import SubscribeShip, Notice, Project, InvestLog
 from django.contrib.auth.decorators import login_required
@@ -65,9 +66,9 @@ def expsubmit_project(request, id):
 @login_required_ajax
 def submitOrder(request):
     result = {}
-    project_id = request.POST.get('invest_amount', None)
+    project_id = request.POST.get('project', None)
     invest_amount = request.POST.get('invest_amount', None)
-    invest_term = request.POST.get('invest_term', '')
+    invest_term = request.POST.get('invest_term', None)
     invest_date = request.POST.get('invest_date', datetime.date.today())
     zhifubao = request.POST.get('zhifubao', '')
     zhifubao_name = request.POST.get('zhifubao_name', '')
@@ -76,22 +77,27 @@ def submitOrder(request):
     invest_name = request.POST.get('invest_name', '')
     invest_mobile = request.POST.get('invest_mobile', None)
     remark = request.POST.get('remark', '')
+    invest_amount = None if invest_amount=='' else invest_amount
+    expect_amount = None if expect_amount=='' else expect_amount
+    invest_term = None if invest_term=='' else invest_term
+    invest_date = datetime.date.today() if invest_date=='' else invest_date
     if not invest_mobile or not project_id:
         result['code'] = 0
         result['msg'] = u""
         return JsonResponse(result)
+    project = Project.objects.get(id=project_id)
     investlog=InvestLog.objects.create(user=request.user,project_id=project_id, invest_mobile=invest_mobile, invest_date=invest_date,
                              invest_name=invest_name, remark=remark, qq_number=qq_number, expect_amount=expect_amount,
                              zhifubao=zhifubao, zhifubao_name=zhifubao_name, invest_amount=invest_amount,
-                              invest_term=invest_term)
+                              invest_term=invest_term, is_official=project.is_official)
     imgurl_list = []
     if len(request.FILES)>6:
-        result = {'code':-2, 'msg':u"ÉÏ´«Í¼Æ¬ÊıÁ¿²»ÄÜ³¬¹ı3ÕÅ"}
+        result = {'code':-2, 'msg':u"ä¸Šä¼ å›¾ç‰‡æ•°é‡ä¸èƒ½è¶…è¿‡3å¼ "}
         return JsonResponse(result)
     for key in request.FILES:
         block = request.FILES[key]
         if block.size > 100*1024:
-            result = {'code':-1, 'msg':u"Ã¿ÕÅÍ¼Æ¬´óĞ¡²»ÄÜ³¬¹ı100k£¬ÇëÖØĞÂÉÏ´«"}
+            result = {'code':-1, 'msg':u"æ¯å¼ å›¾ç‰‡å¤§å°ä¸èƒ½è¶…è¿‡100kï¼Œè¯·é‡æ–°ä¸Šä¼ "}
             return JsonResponse(result)
     for key in request.FILES:
         block = request.FILES[key]

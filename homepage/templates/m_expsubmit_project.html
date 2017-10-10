@@ -457,7 +457,7 @@
                     }
                     formdata.append('project', project_id);
                     formdata.append('invest_mobile', telnum);
-                    formdata.append('qq_name', key_arr[0]);
+                    formdata.append('zhifubao_name', key_arr[0]);
                     formdata.append('invest_amount', key_arr[1]);
                     formdata.append('invest_term', key_arr[2]);
                     formdata.append('invest_date', key_arr[3]);
@@ -466,13 +466,15 @@
                     formdata.append('return_amount', key_arr[70]);
                     formdata.append('invest_name', key_arr[8]);
                     formdata.append('remark', remark);
-                    xhr.open('post', '/restapi/investlogs/');
+                    
+                    var submit_url = "{% url 'submitOrder' %}";
+                    xhr.open("post", submit_url);
                     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                     xhr.onreadystatechange = function() {
                         if(xhr.readyState == 4 && xhr.status == 200) {
                             mui.alert("提交成功");
                         }else {
-                            var ret = JSON.parse(xhr.responseText);
+//                          var ret = JSON.parse(xhr.responseText);
                             console.log(ret.detail)
                         }
                     };
