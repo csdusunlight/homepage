@@ -63,7 +63,7 @@ def expsubmit_project(request, id):
 
 @csrf_exempt
 @login_required_ajax
-def submit_investlog(request):
+def submitOrder(request):
     result = {}
     project_id = request.POST.get('invest_amount', None)
     invest_amount = request.POST.get('invest_amount', None)
