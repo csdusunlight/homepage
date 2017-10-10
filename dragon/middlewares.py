@@ -10,6 +10,8 @@ class SubdomainMiddleware(object):
         domain_parts = request.get_host().split('.')
         if len(domain_parts) == 3:
             qq_number = domain_parts[0]
+            if qq_number == "test":
+                qq_number = '690501772'
             try:
                 request.user = MyUser.objects.get(qq_number=qq_number)
             except:
