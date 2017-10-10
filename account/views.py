@@ -821,3 +821,4 @@ def submit_screenshot(request):
     investlog.save(update_fields=['invest_image',])
     result['code'] = 0
     return JsonResponse(result)
+
