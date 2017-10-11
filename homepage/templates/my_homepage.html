@@ -497,7 +497,6 @@
     
     function submit (id) {
         project_id = id;
-        clearBtn();
 //      $('.limit-input').hide();
 //      $('.telnum').val(''); 
 //      $('.remark').val('');
@@ -728,7 +727,7 @@
         formdata.append('invest_term', key_arr[2]);
         formdata.append('invest_date', key_arr[3]);
         formdata.append('zhifubao', key_arr[4]);
-        formdata.append('return_amount', key_arr[6]);
+        formdata.append('expect_amount', key_arr[6]);
         formdata.append('qq_number', key_arr[7]);
         formdata.append('remark', remark);
 //      formdata.append('csrfmiddlewaretoken', csrfmiddlewaretoken);
@@ -742,7 +741,9 @@
                 if(ret.code == 0) {
                     alert("提交成功");
                     $('.popup.m-submit-proj').removeClass('in');
-                    return;
+                    clearBtn();
+                    $('.telnum').val('');
+                    $('.invest_account').val(''); 
                 }else{
                     alert(ret.msg);
                 }

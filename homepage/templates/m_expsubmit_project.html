@@ -464,7 +464,7 @@
                     formdata.append('invest_term', key_arr[2]);
                     formdata.append('invest_date', key_arr[3]);
                     formdata.append('zhifubao', key_arr[4]);
-                    formdata.append('return_amount', key_arr[6]);
+                    formdata.append('expect_amount', key_arr[6]);
                     formdata.append('qq_number', key_arr[7]);
                     formdata.append('remark', remark);
                     
@@ -476,7 +476,11 @@
                             var ret = JSON.parse(xhr.responseText);
                             if(ret.code == 0) {
                                 mui.alert("提交成功");
-                                return;
+                                document.getElementById('invest_account').value = '';
+                                document.getElementById('telnum').value = '';
+                                document.getElementById("img-list").innerHTML = "";
+                                file_list = [];
+                                document.getElementById("upload").value = "";
                             }else{
                                 mui.alert(ret.msg);
                             }
