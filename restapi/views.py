@@ -93,10 +93,14 @@ class InvestlogDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = InvestLogSerializer
     def perform_update(self, serializer):
         project = serializer.validated_data['project']
-        id = serializer.validated_data['id'] 
+        id = serializer.validated_data['id']
         invest_mobile = serializer.validated_data['invest_mobile']
         if not project.is_multisub_allowed:
-            if InvestLog.objects.filter(invest_mobile=invest_mobile, project__company_id=project.company_id).exclude(id=id).exclude(audit_state='2').exists():
+            if project.company is None:
+                queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project=project)
+            else:
+                queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project__company_id=project.company_id)
+            if queryset.exclude(audit_state='2').exclude(id=id).exists():    
                 raise ValidationError({'detail':u"投资手机号重复"})
         serializer.save()
     

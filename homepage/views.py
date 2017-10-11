@@ -87,6 +87,15 @@ def submitOrder(request):
         return JsonResponse(result)
     if invest_date:
         invest_date = datetime.datetime.strptime(invest_date, "%Y-%m-%d")
+    if not project.is_multisub_allowed:
+        if project.company is None:
+            queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project=project)
+        else:
+            queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project__company_id=project.company_id)
+        if queryset.exclude(audit_state='2').exists():
+            result['code'] = 1
+            result['msg'] = u"投资手机号重复"
+            return JsonResponse(result)
     investlog=InvestLog.objects.create(user=request.user,project_id=project_id, invest_mobile=invest_mobile, invest_date=invest_date,
                              invest_name=invest_name, remark=remark, qq_number=qq_number, expect_amount=expect_amount,
                              zhifubao=zhifubao, invest_amount=invest_amount,
