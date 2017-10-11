@@ -476,7 +476,7 @@
                         for (var i=0; i<ret.results.length; i++) {
                             var phone = ret.results[i].invest_mobile;
                             var phone2 = phone.substr(0, 3) + '****' + phone.substr(7, 11);
-                            detail_html += '<li class="logs-item"><a class="proj-rank__txt oneline">' + ret.results[i].invest_date + '' + phone2 +
+                            detail_html += '<li class="logs-item"><a class="proj-rank__txt oneline">' + ret.results[i].invest_date + ' ' + phone2 +
                             ' 投资了<span class="proj-rank__money"> ' + ret.results[i].invest_amount + ' 元</span></a></li>';
                         }
                     }
