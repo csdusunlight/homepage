@@ -227,7 +227,7 @@
         </div>
     </div>
     <div class="popup m-submit-proj">
-        <div class="popup__content" style="width: 600px; max-height: 800px; overflow-y: scroll;">
+        <div class="popup__content m-submit" style="width: 600px; max-height: 600px; overflow-y: scroll;">
             <div class="popup__top">
                 <h2 class="popup__title">项目交单</h2><button type="button" class="popup__close popup__close-btn" onclick="canclePopup(this)">×</button>
             </div>
@@ -237,7 +237,7 @@
                     <input type="text" class="telnum" placeholder="填写提交手机号" />
                 </div>
                 <div class="popup__item limit-input"  data-limit="0">
-                    <span class="popup__itemname">用户名/姓名：</span>
+                    <span class="popup__itemname">投资姓名：</span>
                     <input type="text" class="invest_account" placeholder="填写投资用户名/姓名" />
                 </div>
                 <div class="popup__item limit-input"  data-limit="1">
@@ -278,7 +278,7 @@
                 </div>
                 <div class="popup__item">
                     <span class="popup__itemname">备注：</span>
-                    <input type="text" class="remark" placeholder="填写备注" />
+                    <input type="text" class="remark" placeholder="填写备注(可不填)" />
                 </div>
             </div>
             <div class="popup__btnbox">
@@ -443,6 +443,11 @@
 
     $(function(){
         $('.state20').text('已结束');
+        var popup_height = parseInt(document.documentElement.clientHeight*2/3)
+        console.log(popup_height);
+        $('.popup__content.m-submit').css("max-height", popup_height);
+//      $('.popup__content.m-submit').height(popup_height-60);
+        
         
         $("#pagedata1").ajaxPage({
           url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true",
