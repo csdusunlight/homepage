@@ -443,10 +443,8 @@
 
     $(function(){
         $('.state20').text('已结束');
-        var popup_height = parseInt(document.documentElement.clientHeight*2/3)
-        console.log(popup_height);
+        var popup_height = parseInt(document.documentElement.clientHeight*2/3);
         $('.popup__content.m-submit').css("max-height", popup_height);
-//      $('.popup__content.m-submit').height(popup_height-60);
         
         
         $("#pagedata1").ajaxPage({
