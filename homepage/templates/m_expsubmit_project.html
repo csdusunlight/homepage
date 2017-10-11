@@ -112,7 +112,7 @@
                 </div>
                 <div class="mui-input-row limit-input" data-limit="0">
                     <label>投资姓名</label>
-                    <input id="invest_account" type="text" maxlength=11 placeholder="请输入投资用户名/姓名">
+                    <input id="invest_account" type="text" placeholder="请输入投资用户名/姓名">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="1">
                   <label>投资金额（元）</label>
@@ -477,8 +477,9 @@
 //                              mui.back();
 //                          });
                             mui.alert('提交成功');
-                        }else {
-//                          var ret = JSON.parse(xhr.responseText);
+                            return;
+                        } else {
+                            var ret = JSON.parse(xhr.responseText);
                             console.log(ret.detail)
                         }
                     };
