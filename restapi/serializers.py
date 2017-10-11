@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = MyUser
         fields = ('id', 'mobile', 'username', 'qq_number', 'qq_name', 'date_joined', 'with_total','accu_income',
                   'level', 'picture', 'profile', 'balance', 'is_active', 'color', 'real_name', 'bank', 'card_number')
-        read_only_fields = ('id', 'mobile', 'username', 'balance', 'is_active', 'level', 'type')
+        read_only_fields = ('id', 'mobile', 'balance', 'is_active', 'level',)
         
 class ProjectSerializer(serializers.ModelSerializer):
 #     subscribers = UserSerializer(many=True)
@@ -34,6 +34,8 @@ class InvestLogSerializer(serializers.ModelSerializer):
     user_level = serializers.CharField(source='user.level', read_only=True)
     user_mobile = serializers.CharField(source='user.mobile', read_only=True)
     audit_state_des = serializers.CharField(source='get_audit_state_display', read_only=True)
+    admin_user = serializers.CharField(source='admin_user.username', read_only=True)
+    other_remark = serializers.CharField(source='get_other_and_remark', read_only=True)
     class Meta:
         model = InvestLog
         fields = '__all__'
@@ -41,6 +43,7 @@ class InvestLogSerializer(serializers.ModelSerializer):
                              'user_mobile', 'settle_amount','return_amount', "admin_user", "is_official")
 class TransListSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(source='user.mobile', read_only=True)
+    user_balance = serializers.CharField(source='balance', read_only=True)
     username = serializers.CharField(source='user.qq_number', read_only=True)
     class Meta:
         model = TransList
@@ -53,6 +56,7 @@ class NoticeSerializer(serializers.ModelSerializer):
         read_only_fields = ('user', 'time')
 
 class ApplyLogSerializer(serializers.ModelSerializer):
+    admin_mobile = serializers.CharField(source='admin_user.mobile')
     class Meta:
         model = ApplyLog
 #         fields = '__all__'
@@ -78,6 +82,7 @@ class SubscribeShipSerializer(serializers.ModelSerializer):
     submit_num = serializers.IntegerField(source='get_sub_invest_num', read_only=True)
     necessary_fields = serializers.CharField(source='project.necessary_fields', read_only=True)
     optional_fields = serializers.CharField(source='project.optional_fields', read_only=True)
+    
     class Meta:
         model = SubscribeShip
         fields = '__all__'
@@ -97,9 +102,10 @@ class WithdrawLogSerializer(serializers.ModelSerializer):
     real_name = serializers.CharField(source="user.user_bankcard.first.real_name")
     bank = serializers.CharField(source="user.user_bankcard.first.get_bank_display")
     card_number = serializers.CharField(source="user.user_bankcard.first.card_number")
-#     username = serializers.CharField(source='user.username', read_only=True)
+    username = serializers.CharField(source='user.username', read_only=True)
     mobile = serializers.CharField(source='user.mobile', read_only=True)
     admin_mobile = serializers.CharField(source='admin_user.mobile', read_only=True)
+    qq_number = serializers.CharField(source='user.qq_number', read_only=True)
 #     balance = serializers.CharField(source='user.banlance', read_only=True)
 #     username = serializers.CharField(source='user.username', read_only=True)
 #     username = serializers.CharField(source='user.username', read_only=True)
@@ -108,3 +114,4 @@ class WithdrawLogSerializer(serializers.ModelSerializer):
         fields = '__all__'
 #         read_only_fields = ('audit_time','submit_time','user','audit_state',
 #                              'settle_amount','return_amount', "admin_user", "is_official"), 'time', 'content_type', 'object_id', 'user', 'username', 'project')
+
