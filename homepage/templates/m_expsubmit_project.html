@@ -108,35 +108,35 @@
                 {% csrf_token %}
                 <div class="mui-input-row limit-input" data-limit="5">
                     <label>提交手机号&nbsp;&nbsp;</label>
-                    <input id="telnum" type="text" maxlength=11 placeholder="请输入手机号">
+                    <input id="telnum" type="text" maxlength=11 placeholder="平台注册手机号">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="0">
                     <label>投资姓名</label>
-                    <input id="invest_account" type="text" placeholder="请输入投资用户名/姓名">
+                    <input id="invest_account" type="text" placeholder="平台注册用户名/姓名">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="1">
                   <label>投资金额（元）</label>
-                  <input type="text" placeholder="请输入投资金额（仅限数字）" id="amount">
+                  <input type="text" placeholder="请填写纯数字 如1000" id="amount">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="2">
                   <label>投资标期（天）</label>
-                  <input type="text" placeholder="请输入投资标期（仅限数字）" id="term">
+                  <input type="text" placeholder="请填写纯数字 如30" id="term">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="3">
                   <label>投资日期&nbsp;&nbsp;</label>
                   <input type="date" placeholder="请选择投资日期" id="date">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="4">
-                  <label>支付宝信息&nbsp;&nbsp;</label>
-                  <input type="text" placeholder="请输入支付宝信息" id="zfb">
+                  <label>收款信息&nbsp;&nbsp;</label>
+                  <input type="text" placeholder="收款帐号 如支付宝、qq等" id="zfb">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="6">
                   <label>返现金额&nbsp;&nbsp;</label>
-                  <input type="text" placeholder="请输入用户预期返现金额" id="return_amount">
+                  <input type="text" placeholder="用户预期返现金额" id="return_amount">
                 </div>
                 <div class="mui-input-row limit-input" data-limit="7">
                   <label>QQ&nbsp;&nbsp;</label>
-                  <input type="text" placeholder="请输入qq账号" id="qq">
+                  <input type="text" placeholder="qq号码，以便于及时联系" id="qq">
                 </div>
                 <div class="img-up limit-input"  data-limit="8">
                     <input type="file" name="picfile" id="choose" accept="image/png, image/jpeg" multiple=true>
@@ -155,7 +155,7 @@
             </form>
             <div class="mui-input-row beizhu" style="margin: 10px 5px;">
                 <p>备注:</p>
-                <textarea id="remark" rows="3" placeholder="请输入备注信息（可不填）"></textarea>
+                <textarea id="remark" rows="3" placeholder="可不填"></textarea>
             </div>
             <button id="submit_btn" type="button" class="mui-btn mui-btn-blue">确认提交</button>
         </div>
@@ -472,15 +472,14 @@
                     xhr.open("post", submit_url);
                     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                     xhr.onreadystatechange = function() {
-                        if(xhr.readyState == 4 && xhr.status == 200) {
-//                          mui.alert('提交成功', function(){
-//                              mui.back();
-//                          });
-                            mui.alert('提交成功');
-                            return;
-                        } else {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
                             var ret = JSON.parse(xhr.responseText);
-                            console.log(ret.detail)
+                            if(ret.code == 0) {
+                                mui.alert("提交成功");
+                                return;
+                            }else{
+                                mui.alert(ret.msg);
+                            }
                         }
                     };
     

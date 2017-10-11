@@ -234,35 +234,35 @@
             <div class="popup__detail">
                 <div class="popup__item limit-input"  data-limit="5">
                     <span class="popup__itemname">提交手机号：</span>
-                    <input type="text" class="telnum" maxlength=11 placeholder="填写提交手机号" />
+                    <input type="text" class="telnum" maxlength=11 placeholder="平台注册手机号" />
                 </div>
                 <div class="popup__item limit-input"  data-limit="0">
                     <span class="popup__itemname">投资姓名：</span>
-                    <input type="text" class="invest_account" placeholder="填写投资用户名/姓名" />
+                    <input type="text" class="invest_account" placeholder="平台注册用户名/姓名" />
                 </div>
                 <div class="popup__item limit-input"  data-limit="1">
                     <span class="popup__itemname">投资金额：</span>
-                    <input type="text" class="amount" placeholder="填写投资金额，数字" />
+                    <input type="text" class="amount" placeholder="请填写纯数字 如1000" />
                 </div>
                 <div class="popup__item limit-input"  data-limit="2">
                     <span class="popup__itemname">投资标期：</span>
-                    <input type="text" class="term" placeholder="填写投资标期，数字" />
+                    <input type="text" class="term" placeholder="请填写纯数字 如30" />
                 </div>
                 <div class="popup__item limit-input"  data-limit="3">
                     <span class="popup__itemname">投资日期：</span>
                     <input type="text" class="date date_picker" placeholder="选择投资日期" />
                 </div>
                 <div class="popup__item limit-input"  data-limit="4">
-                    <span class="popup__itemname">支付宝信息：</span>
-                    <input type="text" class="zfb" placeholder="填写支付宝信息" />
+                    <span class="popup__itemname">收款信息：</span>
+                    <input type="text" class="zfb" placeholder="收款帐号 如支付宝、qq等" />
                 </div>
                 <div class="popup__item limit-input"  data-limit="6">
                     <span class="popup__itemname">返现金额：</span>
-                    <input type="text" class="return_amount" placeholder="填写用户预期返现金额" />
+                    <input type="text" class="return_amount" placeholder="用户预期返现金额" />
                 </div>
                 <div class="popup__item limit-input"  data-limit="7">
                     <span class="popup__itemname">qq：</span>
-                    <input type="text" class="qq" placeholder="填写qq信息" />
+                    <input type="text" class="qq" placeholder="qq号码，以便于及时联系" />
                 </div>
                 <div class="popup__item limit-input"  data-limit="8">
                     <span class="popup__itemname">相关截图：</span>
@@ -278,7 +278,7 @@
                 </div>
                 <div class="popup__item">
                     <span class="popup__itemname">备注：</span>
-                    <input type="text" class="remark" placeholder="填写备注(可不填)" />
+                    <input type="text" class="remark" placeholder="可不填" />
                 </div>
             </div>
             <div class="popup__btnbox">
@@ -744,7 +744,7 @@
                     $('.popup.m-submit-proj').removeClass('in');
                     return;
                 }else{
-                    alert(ret.msg)
+                    alert(ret.msg);
                 }
             }
         };
