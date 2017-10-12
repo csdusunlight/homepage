@@ -46,7 +46,7 @@ class ProjectList(BaseViewMixin, generics.ListAPIView):
 class ProjectDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = (IsOwnerOrStaff,)
+#     permission_classes = (IsOwnerOrStaff,)
     
 class UserList(BaseViewMixin, generics.ListAPIView):
     queryset = MyUser.objects.all()
