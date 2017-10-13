@@ -28,6 +28,8 @@ def index(request):
             'investrange': p.investrange,
             'strategy': p.strategy,
             'state':p.state,
+            'is_multisub_allowed':p.is_multisub_allowed,
+            'necessary_fields':p.necessary_fields,
         }
         recom_list.append(data)
     notice_list = Notice.objects.filter(user=request.user)
