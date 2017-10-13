@@ -118,6 +118,8 @@ class NoticeList(BaseViewMixin, generics.ListAPIView):
         return Notice.objects.filter(user=user)
     serializer_class = NoticeSerializer
     pagination_class = MyPageNumberPagination
+    filter_backends = (django_filters.rest_framework.DjangoFilterBackend, OrderingFilter)
+    ordering_fields = ('state', 'priority')
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
     
@@ -145,6 +147,8 @@ class AnnouncementList(BaseViewMixin, generics.ListAPIView):
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
     pagination_class = MyPageNumberPagination
+    filter_backends = (django_filters.rest_framework.DjangoFilterBackend, OrderingFilter)
+    ordering_fields = ('state', 'priority')
     
 class AnnouncementDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Announcement.objects.all()
