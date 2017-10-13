@@ -294,9 +294,9 @@
     color: #91C11D;
 }
 .notice__box {
-    height: 290px;
+    /*height: 290px;*/
     padding-left: 10px;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 .notice__txt {
     display: block;

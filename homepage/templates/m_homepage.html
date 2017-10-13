@@ -31,9 +31,9 @@
         </div>
         <div id="noticeBox" class="notice__box">
             <ul id="con1">
-                {%for notice in notice_list%}
+                <!--{%for notice in notice_list%}
                     <li class="notice__item one-line">{{forloop.counter}}、{{notice.content}}</li>
-                {%endfor%}
+                {%endfor%}-->
             </ul>
             <ul id="con2">
             </ul>
@@ -188,7 +188,33 @@
         var time;
         var delay= 2500;
         area.scrollTop = 0;
-        con2.innerHTML = con1.innerHTML;
+        var notice_txt = '';
+        mui.ajax('/restapi/notice/?ordering=state',{
+            dataType:'json',//服务器返回json格式数据
+            type:'get',//HTTP请求类型
+            timeout:10000,//超时时间设置为10秒；
+            success:function(data){
+                if (data.results.length != 0){
+                    var notice_num = 1;
+                    for (var i in data.results) {
+                        notice_txt += '<li class="notice__item">';
+                        if (data.results[i].state == 0) {
+                            notice_txt += '<span style="color:#f95a5a">【置顶】</span>'
+                        } else{
+                            notice_txt += '<span>'+ notice_num++ +'</span>、'
+                        }
+                        notice_txt += data.results[i].content +'</li>';
+                    }
+                }
+                console.log(notice_txt);
+                con1.innerHTML = notice_txt;
+                con2.innerHTML = con1.innerHTML;
+
+            },
+            error:function(xhr,type,errorThrown){
+                console.log(xhr.responseText);
+            }
+        });
         function startScroll(){
             time=setInterval("scrollUp()",speed);
             area.scrollTop++;

@@ -207,12 +207,12 @@
                 <h3 class="notice__title">最新公告</h3>
                 <div id="noticeBox" class="notice__box">
                     <ul id="con1">
-                    {%for notice in notice_list%}
+                    <!--{%for notice in notice_list%}
                     	<li><a class="notice__txt line-2s">{{forloop.counter}}、{{notice.content}}</a></li>
-                    {%endfor%}
+                    {%endfor%}-->
                     </ul>
-                    <ul id="con2">
-                    </ul>
+                    <!--<ul id="con2">
+                    </ul>-->
                 </div>
             </div>
             <div class="rank">
@@ -937,31 +937,56 @@
     }); 
 //  横向滚动部分---end
 //  滚动部分
-    var area = document.getElementById('noticeBox');
+
     var con1 = document.getElementById('con1');
-    var con2 = document.getElementById('con2');
-    var speed = 50;
-    area.scrollTop = 0;
-    console.log(area.scrollTop);
-    console.log(con1.scrollTop);
-    if (area.clientHeight > con1.clientHeight) {
-    } else {    
-        con2.innerHTML = con1.innerHTML;
-        function scrollUp(){
-            if(area.scrollTop >= con1.scrollHeight) {
-                area.scrollTop = 0;
-                }else{
-                   area.scrollTop ++;
+    var notice_txt = '';
+    $.ajax({
+        url: '/restapi/notice/?ordering=state',
+        dataType: "json",
+        type: 'get',
+        success: function(ret) {
+            if (ret.results.length != 0){
+                var notice_num = 1;
+                for (var i in ret.results) {
+                    notice_txt += '<li class="notice__item">';
+                    if (ret.results[i].state == 0) {
+                    	notice_txt += '<span style="color:#f95a5a">【置顶】</span>'
+                    } else{
+                    	notice_txt += '<span>'+ notice_num++ +'</span>、'
+                    }
+                    notice_txt += ret.results[i].content +'</li>';
                 }
+            }
+            con1.innerHTML = notice_txt;
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText);
+            alert("数据错误");
         }
-        var myScroll = setInterval("scrollUp()",speed);
-        area.onmouseover = function(){
-            clearInterval(myScroll);
-        }
-        area.onmouseout = function(){
-            myScroll = setInterval("scrollUp()",speed);
-        }
-    }
+    });
+//  var con2 = document.getElementById('con2');
+//  var speed = 50;
+//  area.scrollTop = 0;
+//  console.log(area.scrollTop);
+//  console.log(con1.scrollTop);
+//  if (area.clientHeight > con1.clientHeight) {
+//  } else {    
+//      con2.innerHTML = con1.innerHTML;
+//      function scrollUp(){
+//          if(area.scrollTop >= con1.scrollHeight) {
+//              area.scrollTop = 0;
+//              }else{
+//                 area.scrollTop ++;
+//              }
+//      }
+//      var myScroll = setInterval("scrollUp()",speed);
+//      area.onmouseover = function(){
+//          clearInterval(myScroll);
+//      }
+//      area.onmouseout = function(){
+//          myScroll = setInterval("scrollUp()",speed);
+//      }
+//  }
     
 </script>
 <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"slide":{"type":"slide","bdImg":"0","bdPos":"left","bdTop":"106.5"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
