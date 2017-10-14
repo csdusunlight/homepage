@@ -64,6 +64,12 @@ def expsubmit_project(request, id):
     project_title = Project.objects.get(id=id).title
     return render(request, 'm_expsubmit_project.html',{'id':id, 'project_title':project_title})
 
+@login_required
+def detail_project(request, id):
+    project = Project.objects.get(id=id)
+    print project.title
+    return render(request, 'detail_project.html',{'id':id, 'project':project})
+
 @csrf_exempt
 @login_required_ajax
 def submitOrder(request):

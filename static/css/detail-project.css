@@ -1,0 +1,116 @@
+.header {
+    width: 100%;
+    background-color: #91c11d;
+}
+.header__box {
+    width: 1250px;
+    height: 66px;
+    line-height: 1;
+    margin: 0 auto;
+}
+.header__img {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.header__username {
+    display: inline-block;
+    font-size: 18px;
+    color: #fff;
+}
+.header__intro {
+    display: inline-block;
+    font-size: 14px;
+    color: #fff;
+    vertical-align: middle;
+}
+.header__right {
+    line-height: 66px;
+    color: #fff;
+}
+.container {
+    margin: 40px auto 0;
+    width: 820px;
+    
+}
+.navitem {
+    display: inline-block;
+    width: 110px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    z-index: 10px;
+}
+.navitem.on {
+    background-color: #fff;
+}
+.conitem {
+    position: relative;
+    width: 100%;
+    height: 800px;
+    background-color: #fff;
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+}
+.conitem.m-submit {
+    overflow-y: scroll;
+}
+.conitem.m-gonglue {
+    overflow-y: hidden;
+}
+.iframe-box {
+    position: relative;
+}
+.iframe-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 820px;
+    height: 90px;
+    background-color: #fff;
+    border-bottom: 1px dashed #e4e4e4;
+}
+.iframe-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 820px;
+    height: 80px;
+    background-color: #fff;
+}
+.iframe {
+    width: 100%;
+    height: 800px;
+    border: none;
+}
+
+.popup .date_selector {
+    box-sizing: content-box;
+    margin-left: 90px;
+}
+.choose_item {
+    opacity: 0;
+    position: absolute;
+}
+.choose_item-icon {
+    display: inline-block;
+    margin: 10px 10px 10px 38px;
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    border: 1px solid #e4e4e4;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.choose_item:checked + .choose_item-icon {
+    background: url(../images/bg-checked-choose.png) center center no-repeat;
+}
+.popup__title {
+    margin-top: 40px;
+}
+.popup__btnbox {
+    margin-bottom: 20px;
+} 
+.popup__item {
+    padding-left: 200px;
+}
