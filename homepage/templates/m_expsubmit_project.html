@@ -95,6 +95,10 @@
         .img-btnbox {
             text-align: center;
         }
+        .mui-radio {
+            display: inline-block;
+            width: 48%;
+        }
     </style>
 </head>
 
@@ -138,6 +142,16 @@
                   <label>QQ&nbsp;&nbsp;</label>
                   <input type="text" placeholder="qq号码，以便于及时联系" id="qq">
                 </div>
+                <div class="mui-input-row isfutou-item">
+                    <div class="mui-input-row mui-radio">
+                        <label>首投</label>
+                        <input name="is_futou" type="radio" value="1">
+                    </div>
+                    <div class="mui-input-row mui-radio">
+                        <label>复投</label>
+                        <input name="is_futou" type="radio" value="2">
+                    </div>
+                </div>
                 <div class="img-up limit-input"  data-limit="8">
                     <input type="file" name="picfile" id="choose" accept="image/png, image/jpeg" multiple=true>
                     <ul id="img-list" class="img-list"></ul>
@@ -171,11 +185,20 @@
                 var limit;
                 var key_arr = [];
                 var limit_id;
+                var is_futou;
+                mui('input[value="1"]')[0].setAttribute("checked","checked");
                 mui.ajax('/restapi/projects/' + project_id + '/',{
                     dataType:'json',//服务器返回json格式数据
                     type:'get',//HTTP请求类型
                     timeout:10000,//超时时间设置为10秒；
                     success:function(ret){
+                        is_futou = ret.is_multisub_allowed;
+                        console.log(typeof(is_futou));
+                        if (is_futou) {
+                        	mui('.isfutou-item')[0].style.display = 'block';
+                        } else{
+                        	mui('.isfutou-item')[0].style.display = 'none';
+                        }
                         limit_str = ret.necessary_fields;
                         limit = limit_str.split(',');
                         key_arr = [];
@@ -395,7 +418,6 @@
                 }
                 document.getElementById("submit_btn").addEventListener('tap', function() {
                     key_arr[5] = document.getElementById('telnum').value; 
-                    var remark = document.getElementById('remark').value;
                     key_arr[0] = document.getElementById('invest_account').value;
                     key_arr[1] = document.getElementById('amount').value;
                     key_arr[2] = document.getElementById('term').value;
@@ -403,7 +425,9 @@
                     key_arr[4] = document.getElementById('zfb').value;
                     key_arr[6] = document.getElementById('return_amount').value;
                     key_arr[7] = document.getElementById('qq').value;
-                    console.log(key_arr);
+                    var is_futou = mui('input[name="is_futou"]:checked')[0].value;
+                    var remark = document.getElementById('remark').value;
+                    console.log(is_futou);
                     // amount = parseFloat(amount);
                     console.log(limit);
                     console.log(key_arr);
@@ -466,6 +490,7 @@
                     formdata.append('zhifubao', key_arr[4]);
                     formdata.append('expect_amount', key_arr[6]);
                     formdata.append('qq_number', key_arr[7]);
+                    formdata.append('submit_type', is_futou);
                     formdata.append('remark', remark);
                     
                     var submit_url = "{% url 'submitOrder' %}";

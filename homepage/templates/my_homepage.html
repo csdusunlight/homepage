@@ -153,7 +153,7 @@
                                 <p class="hot__term hot__info">标期：{{recom.term}}</p>
                                 <div class="btn-box">
                                     <a href="{{recom.strategy}}" class="btn m-green m-hot state{{recom.state}}">查看攻略</a>
-                                    <a class="btn m-green m-hot" projectid="{{recom.id}}" onclick="submit({{recom.id}})">交&nbsp;&nbsp;单</a>
+                                    <a class="btn m-green m-hot" projectid="{{recom.id}}" onclick="submit({{recom.id}},[{{recom.necessary_fields}}],'{{recom.is_multisub_allowed}}')">交&nbsp;&nbsp;单</a>
                                 </div>
                             </li>
                           {%endfor%}
@@ -264,6 +264,11 @@
                     <span class="popup__itemname">qq：</span>
                     <input type="text" class="qq" placeholder="qq号码，以便于及时联系" />
                 </div>
+                <div class="popup__item isfutou-item">
+                    <span class="popup__itemname"></span>
+                    <label><input class="choose_item" type="radio" value="1" checked="checked" name="is_futou" /><i class="choose_item-icon m-left"></i>首投</label>
+                    <label><input class="choose_item" type="radio" value="2" name="is_futou" /><i class="choose_item-icon"></i>复投</label>
+                </div>
                 <div class="popup__item limit-input"  data-limit="8">
                     <span class="popup__itemname">相关截图：</span>
                     <div class="img-up">
@@ -308,7 +313,7 @@
       '<p class="project__money project__info">投资区间<br /><span class="investrange">{project_investrange}</span></p>'+
       '<p class="project__term project__info">标期<br />{project_term}</p>'+
       '<div class="project-btn-box"><a href="{project_strategy}" target="_blank" class="btn m-green m-project state{project_state}">查看攻略</a>'+
-      '<a class="btn m-green m-project" onclick="submit({project})">交&nbsp;&nbsp;单</a></div></div>'+
+      '<a class="btn m-green m-project" onclick="submit({project},[{necessary_fields}],\'{project_is_multisub_allowed}\')">交&nbsp;&nbsp;单</a></div></div>'+
       '<span class="person-total">已有{submit_num}人参与投资</span>'+
       '<div class="detail-box"><a class="look-detail" onclick="show({project},this)">点击查看用户投资详情</a></div>'+
       '<div class="detail-box2" style="display:none"><h4 class="detail-logs-title">投资用户名单</h4><ul class="detail-logs"></ul><span class="hide-detail" onclick="hide(this)"></span></div></li>[/results]';
@@ -495,8 +500,17 @@
         $(obj).parent().parent().find('.detail-box').show();
     }
     
-    function submit (id) {
+    function submit (id,limit_arr,is_futou) {
         project_id = id;
+        console.log(limit_arr);
+        console.log(is_futou);
+        
+        $('.choose_item[value="1"]').prop("checked",true);
+        if (is_futou == 'True') {
+        	$('.isfutou-item').show();
+        } else {
+        	$('.isfutou-item').hide();
+        }
         $('.limit-input').hide();
 //      $('.limit-input').hide();
 //      $('.telnum').val(''); 
@@ -509,34 +523,47 @@
 //      $('.zfb').val('');
 //      $('.return_amount').val('');
 //      $('.invest_name').val('');
-        
-        $.ajax({
-            url: '/restapi/projects/' + project_id + '/',
-            dataType: "json",
-            type: 'get',
-            success: function(ret) {
-                limit_str = ret.necessary_fields;
-                limit = limit_str.split(',');
-                $('.limit-input').each(function(){
-                    var that = this;
-                    var limit_flag = that.getAttribute('data-limit');
-                    for (limit_id in limit) {
-                        limit[limit_id] = limit[limit_id].replace(/(^\s*)|(\s*$)/g, "");
-                        if (limit_flag == limit[limit_id]) {
-                            console.log(limit[limit_id]);
-                            console.log(that);
-                            that.style.display = 'block';
-                        }
-                    }
-                })
-                console.log(limit);
-                $('.popup.m-submit-proj').addClass('in');
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR.responseText);
-                alert("数据错误");
+        limit = limit_arr;
+        console.log(limit[0]);
+        $('.limit-input').each(function(){
+            var that = this;
+            var limit_flag = that.getAttribute('data-limit');
+            for (limit_id in limit) {
+                limit[limit_id] = (limit[limit_id]+'').replace(/(^\s*)|(\s*$)/g, "");
+                if (limit_flag == limit[limit_id]) {
+                    that.style.display = 'block';
+                }
             }
-        });
+        })
+        console.log(limit);
+        $('.popup.m-submit-proj').addClass('in');
+//      $.ajax({
+//          url: '/restapi/projects/' + project_id + '/',
+//          dataType: "json",
+//          type: 'get',
+//          success: function(ret) {
+//              limit_str = ret.necessary_fields;
+//              limit = limit_str.split(',');
+//              $('.limit-input').each(function(){
+//                  var that = this;
+//                  var limit_flag = that.getAttribute('data-limit');
+//                  for (limit_id in limit) {
+//                      limit[limit_id] = limit[limit_id].replace(/(^\s*)|(\s*$)/g, "");
+//                      if (limit_flag == limit[limit_id]) {
+//                          console.log(limit[limit_id]);
+//                          console.log(that);
+//                          that.style.display = 'block';
+//                      }
+//                  }
+//              })
+//              console.log(limit);
+//              $('.popup.m-submit-proj').addClass('in');
+//          },
+//          error: function(jqXHR, textStatus, errorThrown) {
+//              console.log(jqXHR.responseText);
+//              alert("数据错误");
+//          }
+//      });
         
     }
     
@@ -666,7 +693,6 @@
         var formdata = getFormData();
 //      var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         key_arr[5] = $('.telnum').val(); 
-        var remark = $('.remark').val();
         key_arr[0] = $('.invest_account').val();
         key_arr[1] = $('.amount').val();
         key_arr[2] = $('.term').val();
@@ -674,6 +700,8 @@
         key_arr[4] = $('.zfb').val();
         key_arr[6] = $('.return_amount').val();
         key_arr[7] = $('.qq').val();
+        var is_futou = $('input[name="is_futou"]:checked').val();
+        var remark = $('.remark').val();
         
         for (limit_id in limit) {
             if (key_arr[limit[limit_id]] || !key_arr[8]) {
@@ -709,7 +737,7 @@
                 return;
             }
         }
-        console.log(project_id+', ' + key_arr[5]+', ' + key_arr[0]+', ' + key_arr[1]+', ' + key_arr[2]+', ' + key_arr[3]+', '+ key_arr[4]+', ' + key_arr[5]+', ' + key_arr[6]+', ' + key_arr[7]+', ' + remark+', ');
+        console.log(project_id+', ' + key_arr[5]+', ' + key_arr[0]+', ' + key_arr[1]+', ' + key_arr[2]+', ' + key_arr[3]+', '+ key_arr[4]+', ' + key_arr[5]+', ' + key_arr[6]+', ' + key_arr[7]+', ' + remark+', ' + is_futou+', ');
         for (limit_id in limit) {
             if (limit[limit_id] == 8) {
                 if (file_list.length==0){
@@ -730,6 +758,7 @@
         formdata.append('zhifubao', key_arr[4]);
         formdata.append('expect_amount', key_arr[6]);
         formdata.append('qq_number', key_arr[7]);
+        formdata.append('submit_type', is_futou);
         formdata.append('remark', remark);
 //      formdata.append('csrfmiddlewaretoken', csrfmiddlewaretoken);
         var submit_url = "{% url 'submitOrder' %}";
