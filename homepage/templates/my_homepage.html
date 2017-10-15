@@ -378,7 +378,7 @@
             }
     }
     $.ajax({
-    	url:"/restapi/investlogs/?page=1&size=8",
+    	url:"/restapi/investlogs/?ordering=-submit_time&page=1&size=8",
     	type: 'get',
     	dataType: "json",
     	success: function(ret) {
