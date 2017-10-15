@@ -70,7 +70,7 @@ class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
         else:
             return InvestLog.objects.filter(user=user)
     serializer_class = InvestLogSerializer
-    filter_backends = (django_filters.rest_framework.DjangoFilterBackend, OrderingFilter))
+    filter_backends = (django_filters.rest_framework.DjangoFilterBackend, OrderingFilter)
     ordering_fields = ('submit_time',)
     filter_class = InvestLogFilter
     pagination_class = MyPageNumberPagination
