@@ -464,7 +464,7 @@
         	$(obj).parent().parent().find('.detail-box2').show();
         } else{
             $.ajax({
-                url: '/restapi/investlogs/?page=1&pageSize=20&project=' + project_id ,
+                url: '/restapi/investlogs/?ordering=-submit_time&page=1&pageSize=20&project=' + project_id ,
                 dataType: "json",
                 type: 'get',
                 success: function(ret) {
