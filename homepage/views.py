@@ -62,13 +62,19 @@ def m_index(request):
 @login_required
 def expsubmit_project(request, id):
     project_title = Project.objects.get(id=id).title
-    return render(request, 'm_expsubmit_project.html',{'id':id, 'project_title':project_title})
+    project = Project.objects.get(id=id,user=request.user)
+    sub = SubscribeShip.objects.get(project=id,user=request.user)
+    intrest = sub.intrest if sub.intrest else project.intrest
+    price = sub.price if sub.price else project.cprice
+    return render(request, 'm_expsubmit_project.html',{'id':id, 'project_title':project_title, 'intrest':intrest, 'price':price})
 
 @login_required
 def detail_project(request, id):
-    project = Project.objects.get(id=id)
-    print project.title
-    return render(request, 'detail_project.html',{'id':id, 'project':project})
+    project = Project.objects.get(id=id,user=request.user)
+    sub = SubscribeShip.objects.get(project=id,user=request.user)
+    intrest = sub.intrest if sub.intrest else project.intrest
+    price = sub.price if sub.price else project.cprice
+    return render(request, 'detail_project.html',{'id':id, 'project':project, 'intrest':intrest, 'price':price})
 
 @csrf_exempt
 @login_required_ajax

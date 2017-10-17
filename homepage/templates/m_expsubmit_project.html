@@ -108,70 +108,96 @@
             <h1 class="mui-title">{{project_title}}</h1>
         </header>
         <div class="mui-content">
-            <form class="mui-input-group">
-                {% csrf_token %}
-                <div class="mui-input-row limit-input" data-limit="5">
-                    <label>提交手机号&nbsp;&nbsp;</label>
-                    <input id="telnum" type="text" maxlength=11 placeholder="平台注册手机号">
+            <div id="" class="mui-slider mui-fullscreen">
+                <div class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+                    <a class="mui-control-item" href="#item1">攻略</a>
+                    <a id="tab_submit" class="mui-control-item" href="#item2">交单</a>
                 </div>
-                <div class="mui-input-row limit-input" data-limit="0">
-                    <label>投资姓名</label>
-                    <input id="invest_account" type="text" placeholder="平台注册用户名/姓名">
-                </div>
-                <div class="mui-input-row limit-input" data-limit="1">
-                  <label>投资金额（元）</label>
-                  <input type="text" placeholder="请填写纯数字 如1000" id="amount">
-                </div>
-                <div class="mui-input-row limit-input" data-limit="2">
-                  <label>投资标期（天）</label>
-                  <input type="text" placeholder="请填写纯数字 如30" id="term">
-                </div>
-                <div class="mui-input-row limit-input" data-limit="3">
-                  <label>投资日期&nbsp;&nbsp;</label>
-                  <input type="date" placeholder="请选择投资日期" id="date">
-                </div>
-                <div class="mui-input-row limit-input" data-limit="4">
-                  <label>收款信息&nbsp;&nbsp;</label>
-                  <input type="text" placeholder="收款帐号 如支付宝、qq等" id="zfb">
-                </div>
-                <div class="mui-input-row limit-input" data-limit="6">
-                  <label>返现金额&nbsp;&nbsp;</label>
-                  <input type="text" placeholder="用户预期返现金额" id="return_amount">
-                </div>
-                <div class="mui-input-row limit-input" data-limit="7">
-                  <label>QQ&nbsp;&nbsp;</label>
-                  <input type="text" placeholder="qq号码，以便于及时联系" id="qq">
-                </div>
-                <div class="mui-input-row isfutou-item">
-                    <div class="mui-input-row mui-radio">
-                        <label>首投</label>
-                        <input name="is_futou" type="radio" value="1">
-                    </div>
-                    <div class="mui-input-row mui-radio">
-                        <label>复投</label>
-                        <input name="is_futou" type="radio" value="2">
-                    </div>
-                </div>
-                <div class="img-up limit-input"  data-limit="8">
-                    <input type="file" name="picfile" id="choose" accept="image/png, image/jpeg" multiple=true>
-                    <ul id="img-list" class="img-list"></ul>
-                    <div class="mui-row img-btn">
-                        <div class="img-btnbox left-btn mui-col-sm-6 mui-col-xs-6">
-                            <span id="clear_img" class="mui-btn mui-btn-blue mui-btn-outlined">清除图片</span>
-                        </div>
-                        <div class="img-btnbox mui-col-sm-6 mui-col-xs-6">
-                            <span id="upload" class="mui-btn mui-btn-blue mui-btn-outlined">上传图片</span>
+                <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+                <div class="mui-slider-group">
+                    <div id="item1" class="mui-slider-item mui-control-content mui-active" value="1">
+                        <div class="iframe-box">
+                            <div class="iframe-top">
+                                <p class="iframe__price">返现价格：<span class="price-num">{{price}}</span></p>
+                                <p class="iframe__invest">预计最高年化：<span class="invest-num">{{intrest}}</span></p>
+                            </div>
+                            <iframe class="iframe" src="https://shimo.im/doc/lKNikcUX0h0bVY8Y?r=Q0OJEJ/">
+                              <p>您的浏览器不支持  iframe 标签。</p>
+                            </iframe>
+                            <!--<div class="iframe-bottom">
+                                <span class="btn m-green m-bottom">点击交单</span>
+                            </div>-->
                         </div>
                     </div>
-                    <span class="tips">限jpg和png格式，最多6张</span>
+                    <div id="item2" style="overflow-y: scroll;" class="mui-slider-item mui-control-content" value="2">
+                        <form class="mui-input-group">
+                            {% csrf_token %}
+                            <div class="mui-input-row limit-input" data-limit="5">
+                                <label>提交手机号&nbsp;&nbsp;</label>
+                                <input id="telnum" type="text" maxlength=11 placeholder="平台注册手机号">
+                            </div>
+                            <div class="mui-input-row limit-input" data-limit="0">
+                                <label>投资姓名</label>
+                                <input id="invest_account" type="text" placeholder="平台注册用户名/姓名">
+                            </div>
+                            <div class="mui-input-row limit-input" data-limit="1">
+                              <label>投资金额（元）</label>
+                              <input type="text" placeholder="请填写纯数字 如1000" id="amount">
+                            </div>
+                            <div class="mui-input-row limit-input" data-limit="2">
+                              <label>投资标期（天）</label>
+                              <input type="text" placeholder="请填写纯数字 如30" id="term">
+                            </div>
+                            <div class="mui-input-row limit-input" data-limit="3">
+                              <label>投资日期&nbsp;&nbsp;</label>
+                              <input type="date" placeholder="请选择投资日期" id="date">
+                            </div>
+                            <div class="mui-input-row limit-input" data-limit="4">
+                              <label>收款信息&nbsp;&nbsp;</label>
+                              <input type="text" placeholder="收款帐号 如支付宝、qq等" id="zfb">
+                            </div>
+                            <div class="mui-input-row limit-input" data-limit="6">
+                              <label>返现金额&nbsp;&nbsp;</label>
+                              <input type="text" placeholder="用户预期返现金额" id="return_amount">
+                            </div>
+                            <div class="mui-input-row limit-input" data-limit="7">
+                              <label>QQ&nbsp;&nbsp;</label>
+                              <input type="text" placeholder="qq号码，以便于及时联系" id="qq">
+                            </div>
+                            <div class="mui-input-row isfutou-item">
+                                <div class="mui-input-row mui-radio">
+                                    <label>首投</label>
+                                    <input name="is_futou" type="radio" value="1">
+                                </div>
+                                <div class="mui-input-row mui-radio">
+                                    <label>复投</label>
+                                    <input name="is_futou" type="radio" value="2">
+                                </div>
+                            </div>
+                            <div class="img-up limit-input"  data-limit="8">
+                                <input type="file" name="picfile" id="choose" accept="image/png, image/jpeg" multiple=true>
+                                <ul id="img-list" class="img-list"></ul>
+                                <div class="mui-row img-btn">
+                                    <div class="img-btnbox left-btn mui-col-sm-6 mui-col-xs-6">
+                                        <span id="clear_img" class="mui-btn mui-btn-blue mui-btn-outlined">清除图片</span>
+                                    </div>
+                                    <div class="img-btnbox mui-col-sm-6 mui-col-xs-6">
+                                        <span id="upload" class="mui-btn mui-btn-blue mui-btn-outlined">上传图片</span>
+                                    </div>
+                                </div>
+                                <span class="tips">限jpg和png格式，最多6张</span>
+                            </div>
+            
+                        </form>
+                        <div class="mui-input-row beizhu" style="margin: 10px 5px;">
+                            <p>备注:</p>
+                            <textarea id="remark" rows="3" placeholder="可不填"></textarea>
+                        </div>
+                        <button id="submit_btn" type="button" class="mui-btn mui-btn-blue">确认提交</button>
+                    </div>       
+        
                 </div>
-
-            </form>
-            <div class="mui-input-row beizhu" style="margin: 10px 5px;">
-                <p>备注:</p>
-                <textarea id="remark" rows="3" placeholder="可不填"></textarea>
             </div>
-            <button id="submit_btn" type="button" class="mui-btn mui-btn-blue">确认提交</button>
         </div>
         <script src="{%static 'js/mui.min.js'%}"></script>
         <!--弹窗部分-->
@@ -179,6 +205,21 @@
                 mui.init({
                     swipeBack:true //启用右滑关闭功能
                 });
+//              var deceleration = mui.os.ios?0.003:0.0009;
+//              mui('#item2').scroll({
+//                  bounce: false,
+//                  indicators: true, //是否显示滚动条
+//                  deceleration:deceleration
+//              });
+                var page_url = window.location.href;
+                console.log(page_url.substr(page_url.length-1,1));
+                
+                if (page_url.substr(page_url.length-1,1) == 2) {
+                    var btn = document.getElementById("tab_submit");
+                    mui.trigger(btn,'touchstart');
+                    mui.trigger(btn,'tap');
+                    
+                }
                 
                 var project_id = '{{id}}';
                 var limit_str;

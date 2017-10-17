@@ -74,6 +74,50 @@ form {
 	width: 100%;
 	margin-left: 0;
 }
+
+.iframe-box {
+    position: relative;
+    height: 100%;
+}
+.iframe-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 10px 10px 30px;
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
+    font-size: 0;
+}
+.iframe__price {
+    line-height: 20px;
+    font-size: 10px;
+}
+.iframe__invest {
+    line-height: 20px;
+    font-size: 10px;
+}
+.invest-num,
+.price-num {
+    font-size: 14px;
+    color: #91C11D;
+}
+
+/*.iframe-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 180px;
+    background-color: #fff;
+}*/
+.iframe {
+    width: 100%;
+    height: 100%;
+    margin-top: 1px;
+    border: none;
+}
+
 /*样式覆盖*/
 form.mui-input-group .mui-input-row:after {
 	left: 15px;

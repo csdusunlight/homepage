@@ -114,6 +114,10 @@
         margin: 10px;
         color: #999;
     }
+    .date_selector {
+        box-sizing: content-box;
+        margin-left: 90px;
+    }
 </style>
 <script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
 </head>
@@ -137,21 +141,21 @@
             <div class="conitem-box">
                 <div class="conitem m-gonglue" style="display: block;">
                     <div class="iframe-box">
-                        <div class="iframe-top">
-                            <h4>简理财</h4>
-                            <p>41%<br />预计最高年化</p>
-                            <p>年化投资金额*1.4%<br />返现价格</p>
+                        <div class="iframe-top clearfix">
+                            <h4 class="iframe__title l">{{project.title}}</h4>
+                            <p class="iframe__invest l"><span class="invest-num">{{intrest}}</span><br />预计最高年化</p>
+                            <p class="iframe__price l"><span class="price-num">{{price}}</span><br />返现价格</p>
                         </div>
-                        <iframe class="iframe" src="https://shimo.im/doc/nUpddxEMUbA0c3OD?r=Q0OJEJ/">
+                        <iframe class="iframe" src="{{project.strategy}}">
                           <p>您的浏览器不支持  iframe 标签。</p>
                         </iframe>
                         <div class="iframe-bottom">
-                            <span class="btn m-green">点击交单</span>
+                            <span class="btn m-green m-bottom">点击交单</span>
                         </div>
                     </div>
                 </div>
                 <div class="conitem m-submit" style="display: none;">
-                    <div class=" m-submit" style="width: 100%;">
+                    <div class="submit-box m-submit" style="width: 100%;">
                         <div class="popup__top">
                             <h2 class="popup__title">项目交单</h2>
                         </div>
@@ -211,15 +215,26 @@
                             </div>
                         </div>
                         <div class="popup__btnbox">
-                            <a id="cancel" class="cancel btn m-green m-right" onclick="canclePopup(this)">取消</a>
+                            <!--<a id="cancel" class="cancel btn m-green m-right" onclick="canclePopup(this)">取消</a>-->
                             <a id="confirm" class="btn m-green m-popup popup-confirm popup__close-btn">确认</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="logs-box">
+            <h4 class="detail-logs-title">最近投资记录</h4>
+            <ul class="detail-logs">
+                <!--<li class="logs-item">
+                    <a class="proj-rank__txt oneline">2017-09-30 185****1509 投资了<span class="proj-rank__money"> 322.00 元</span></a>
+                </li>
+                <li class="logs-item">
+                    <a class="proj-rank__txt oneline">2017-09-30 152****5044 投资了<span class="proj-rank__money"> 23.00 元</span></a>
+                </li>-->
+            </ul>
+        </div>
     </div>
-    
+    <a class="link-qq" href="http://wpa.qq.com/msgrd?v=3&uin={{user.qq_number}}&site=qq&menu=yes" target="_blank">联系客服</a>
     <!--<div class="popup m-submit-proj">-->
         
     <!--</div>-->
@@ -230,37 +245,41 @@
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript">
-    var limit_str;
-    var limit = "{{project.necessary_fields}}";
+    var limit_str = "{{project.necessary_fields}}";
+    var limit = limit_str.split(',');
     var invest_type = "{{project.is_multisub_allowed}}";
     console.log(limit);
     console.log(invest_type);
     var limit_id;
     var key_arr = [];
+    var project_id = {{id}};
     $(function(){
         $('.detail-box').tab({
             tabActiveClass: 'on',
             tabType: 'click '
         });
-//      var popup_height = parseInt(document.documentElement.clientHeight*2/3);
-//      $('.popup__content.m-submit').css("max-height", popup_height);
         
-    })
-    var project_id;
-    
-    function submit (id,limit_arr,is_futou) {
-        project_id = id;
-        console.log(limit_arr);
-        console.log(typeof(is_futou));
+        var page_url = window.location.href;
+        console.log(page_url.substr(page_url.length-1,1));
+        if (page_url.substr(page_url.length-1,1) == 2) {
+            $('.navitem').eq(1).click();
+        }
+        
+        $(".submit-box").on("focus", ".date_picker", function() {
+            $(this).date_input();
+        })
+        $('.btn.m-bottom').click(function(){
+            $('.navitem').eq(1).click();
+        })
         
         $('.choose_item[value="1"]').prop("checked",true);
-        if (is_futou == true || is_futou == 'True') {
-        	$('.isfutou-item').show();
+        if (invest_type == 'True') {
+            $('.isfutou-item').show();
         } else {
-        	$('.isfutou-item').hide();
+            $('.isfutou-item').hide();
         }
+    
         $('.limit-input').hide();
-        limit = limit_arr;
         console.log(limit[0]);
         $('.limit-input').each(function(){
             var that = this;
@@ -272,10 +291,64 @@
                 }
             }
         })
-        console.log(limit);
-        $('.popup.m-submit-proj').addClass('in');
         
-    }
+        $.ajax({
+                url: '/restapi/investlogs/?page=1&pageSize=20&project=' + project_id ,
+                dataType: "json",
+                type: 'get',
+                success: function(ret) {
+                    var detail_html = '';
+                    console.log(ret);
+                    if (ret.results.length == 0) {
+                        detail_html = '<li class="logs-item">暂无投资记录</li>';
+                    } else{
+                        for (var i=0; i<ret.results.length; i++) {
+                            var phone = ret.results[i].invest_mobile;
+                            var phone2 = phone.substr(0, 3) + '****' + phone.substr(7, 11);
+                            detail_html += '<li class="logs-item"><a class="proj-rank__txt oneline">' + ret.results[i].invest_date + ' ' + phone2 +
+                            ' 投资了<span class="proj-rank__money"> ' + ret.results[i].invest_amount + ' 元</span></a></li>';
+                        }
+                    }
+                    $('.detail-logs').html(detail_html);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                    alert("数据错误");
+                }
+            });
+//      var popup_height = parseInt(document.documentElement.clientHeight*2/3);
+//      $('.popup__content.m-submit').css("max-height", popup_height);
+        
+    })
+    
+    
+//  function submit (id,limit_arr,is_futou) {
+//      console.log(limit_arr);
+//      console.log(typeof(is_futou));
+//      
+//      $('.choose_item[value="1"]').prop("checked",true);
+//      if (is_futou == true || is_futou == 'True') {
+//      	$('.isfutou-item').show();
+//      } else {
+//      	$('.isfutou-item').hide();
+//      }
+//      $('.limit-input').hide();
+//      limit = limit_arr;
+//      console.log(limit[0]);
+//      $('.limit-input').each(function(){
+//          var that = this;
+//          var limit_flag = that.getAttribute('data-limit');
+//          for (limit_id in limit) {
+//              limit[limit_id] = (limit[limit_id]+'').replace(/(^\s*)|(\s*$)/g, "");
+//              if (limit_flag == limit[limit_id]) {
+//                  that.style.display = 'block';
+//              }
+//          }
+//      })
+//      console.log(limit);
+//      $('.popup.m-submit-proj').addClass('in');
+//      
+//  }
     
     $(".popup.m-submit-proj").on("focus", ".date_picker", function() {
         $(this).date_input();
