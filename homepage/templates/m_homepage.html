@@ -63,6 +63,9 @@
     </div>
 </div>
 <div class="tabcon" style="position: absolute; width: 100%; height: 100%; display: none;">
+    <!--<div class="up-test">
+    	<a id="again_up" style="position: fixed; top: 0; right: 0; z-index: 100;" class="again-up">重置上拉加载</a>
+    </div>-->
     <div id="pullrefresh" class="mui-scroll-wrapper">
         <div class="mui-content">
             <ul class="mui-table-view project-all-box">
@@ -86,6 +89,18 @@
 
     <script src="{% static 'js/mui.min.js' %}"></script>
     <script type="text/javascript" charset="utf-8">
+        var btn = document.getElementById('again_up');
+        console.log(btn);
+        btn.addEventListener('tap',function(){
+            console.log('again');
+            var table = document.body.querySelector('.project-all-box');
+            console.log(table);
+            table.innerHTML = '';
+            mui('#pullrefresh').pullRefresh().refresh(true);
+            count = 1;
+            get_proj_url = "/restapi/sub/?is_on=false";
+            pullupRefresh();
+        })
       	mui.init({
 				pullRefresh: {
 					container: '#pullrefresh',
