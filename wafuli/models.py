@@ -26,7 +26,7 @@ class Company(models.Model):
     trusteeship = models.CharField(u"托管情况",max_length=100,blank=True)
     background = models.CharField(u"平台背景",max_length=100,blank=True)
     information = models.CharField(u"公司信息",max_length=200,blank=True)
-    logo = models.FileField(u"网站logo（210*100）", upload_to='logo/%Y/%m/%d',default='')
+    logo = models.ImageField(u"网站logo（120*50）", upload_to='logo/%Y/%m/%d')
     view_count = models.IntegerField(u"热门度（点击总量，系统自动更新）", default=0)
     priority = models.IntegerField(u"优先级", default=0)
     class Meta:
@@ -50,17 +50,6 @@ class Base(models.Model):
         abstract = True
     def __unicode__(self):
         return self.title
-
-
-class Mark(models.Model):
-    name = models.CharField(max_length=10, verbose_name=u"标签名", unique=True)
-    inviter = models.ForeignKey('self', related_name = 'child_marks', verbose_name=u"父标签",
-                                blank=True, null=True, on_delete=models.SET_NULL)
-    def __unicode__(self):
-        return self.name
-    class Meta:
-        verbose_name = u"标签"
-        verbose_name_plural = u"标签"
 
 Project_STATE = (
     ('00', u'即将开始'),
@@ -93,10 +82,9 @@ class Project(models.Model):
     cprice = models.CharField(u"客户指导价",max_length=20)
     term = models.CharField(u"标期长度", max_length=20)
     investrange = models.CharField(u"投资额度区间", max_length=20)
-    intrest = models.CharField(u"预期年化", max_length=10)
+    intrest = models.CharField(u"预期年化", max_length=20)
     necessary_fields = models.CharField(u"必填字段", max_length=50,help_text=u"投资用户名(0)，投资金额(1)，投资标期(2)，投资日期(3)，\
                 支付宝信息(4)，投资手机号(5)，预期返现金额(6)，QQ号(7)，投资截图(8)，字段以英文逗号隔开，如0,1,2,3,4,5", default = '0,1,2,3,4,5')
-#     marks = models.ManyToManyField(Mark, verbose_name=u'标签',  blank=True)
     subscribers = models.ManyToManyField(MyUser, through='SubscribeShip')
     def clean(self):
         if not self.pic:
@@ -126,7 +114,9 @@ class Project(models.Model):
         :returns: str -- the image url
         
         """
-        if self.pic and hasattr(self.pic, 'url'):
+        if self.company and self.company.logo:
+            return self.company.logo.url
+        elif self.pic and hasattr(self.pic, 'url'):
             return self.pic.url
         else:
             return ''
@@ -140,10 +130,10 @@ class SubscribeShip(models.Model):
     project = models.ForeignKey(Project)
     introduction = models.CharField(u"项目简介",max_length=100)
     myprice = models.CharField(u"保留字段",max_length=20)
-    price = models.CharField(u"客户价",max_length=50)
+    price = models.CharField(u"客户价",max_length=20)
     is_on = models.BooleanField(u"是否在主页显示",default=True)
     is_recommend = models.BooleanField(u"是否放到推荐位置",default=False)
-    intrest = models.CharField(u"预期年化", max_length=10)
+    intrest = models.CharField(u"预期年化", max_length=20)
     def __unicode__(self):
         return self.user.mobile + self.project.title
     class Meta:
@@ -151,7 +141,16 @@ class SubscribeShip(models.Model):
         ordering = ['project__state', "-project__priority", "-project__pub_date",]
     def get_sub_invest_num(self):
         return InvestLog.objects.filter(project=self.project).count()
-
+class Mark(models.Model):
+    user = models.ForeignKey(MyUser, null=True, related_name="created_marks")
+    name = models.CharField(max_length=4, verbose_name=u"标签名",)
+    subids = models.ManyToManyField(SubscribeShip, related_name="marks", verbose_name=u"sub ids", blank=True)
+    def __unicode__(self):
+        return self.name
+    class Meta:
+        verbose_name = u"标签"
+        verbose_name_plural = u"标签"
+        unique_together = (('user', 'name'),)
 SUB_TYPE = (
     ('1', u'首投'),
     ('2', u'复投'),
@@ -193,6 +192,8 @@ class InvestLog(models.Model):
         if self.remark:
             ret.append(u"备注：" + self.remark)
         return '|'.join(ret)
+    def get_audit_date(self):
+        return self.audit_time.strftime("%Y-%m-%d") if self.audit_time else ''
 
 STATE = (
     ('0', u'置顶'),
@@ -264,7 +265,7 @@ class WithdrawLog(models.Model):
     audit_reason = models.CharField(u"审核原因", max_length=30)
     audit_state = models.CharField(max_length=10, choices=AUDIT_STATE, verbose_name=u"审核状态")
     class Meta:
-        ordering = ["submit_time",]
+        ordering = ["submit_time","-amount"]
     def __unicode__(self):
         return u"%s申请提现：%s" % (self.user, self.amount)
 # class Press(Base):
