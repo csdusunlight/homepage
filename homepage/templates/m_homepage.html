@@ -275,7 +275,7 @@
         mui('.tabcon').on('tap', '.proj__btn-submit', function(){
             var project_id = this.getAttribute('data-projectid');
             console.log(project_id);
-            var exp_url = "/expsubmit/project/" + project_id + '/';
+            var exp_url = "/detail/project/" + project_id + '/';
             mui.openWindow({
                 url: exp_url,
                 styles: {
@@ -294,7 +294,7 @@
         mui('.tabcon').on('tap', '.proj__btn-submit2', function(){
             var project_id = this.getAttribute('data-projectid');
             console.log(project_id);
-            var exp_url = "/expsubmit/project/" + project_id + '/?tab=2';
+            var exp_url = "/detail/project/" + project_id + '/?tab=2';
             mui.openWindow({
                 url: exp_url,
                 styles: {
