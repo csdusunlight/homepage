@@ -37,7 +37,7 @@
 .navitem {
     display: inline-block;
     width: 110px;
-    height: 42px;
+    /*height: 42px;*/
     font-size: 18px;
     line-height: 42px;
     text-align: center;

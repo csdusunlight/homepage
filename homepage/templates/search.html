@@ -12,71 +12,41 @@
     <link href="{% static 'css/m_common.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/m_homepage.css' %}" rel="stylesheet"/>
     <link id="skin" href="/static/css/m-skin1.css" rel="stylesheet" />
-    <script type="text/javascript">
-    	var skin_id = "{{user.color}}";
-    	console.log(skin_id);
-        document.getElementById('skin').setAttribute('href', '/static/css/m-skin' + skin_id + '.css');
-    </script>
+    <style type="text/css">
+        .mui-search {
+            margin-top: -3px;
+        }
+    	.mui-search .mui-placeholder {
+    	    top: 8px;
+    	}
+    	.mui-search.mui-active:before {
+    	    top: 12px;
+    	}
+    	.mui-bar .mui-input-row .mui-input-clear~.mui-icon-clear {
+    	    top: 14px;
+    	    right: 0;
+    	}
+    </style>
 </head>
 <body>
-<!--<div id="pullrefresh" class="mui-scroll-wrapper">-->
-<div class="tabcon">
-    <div class="header">
-        <div class="user">
-            <img class="user__img l" src="{{user.picture_url}}"/>
-            <div class="user__detail clearfix">
-                <h2 class="user__title">{{user.username}}</h2>
-                <p class="user__intro">{{user.profile}}</p>
-            </div>
-        </div>
-        <div id="noticeBox" class="notice__box">
-            <ul id="con1">
-                <!--{%for notice in notice_list%}
-                    <li class="notice__item one-line">{{forloop.counter}}、{{notice.content}}</li>
-                {%endfor%}-->
-            </ul>
-            <ul id="con2">
-            </ul>
+    
+<header id="header" class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    <!--<h1 class="mui-title">搜索页</h1>-->
+    <div class="mui-title">
+        <div class="mui-input-row mui-search">
+            <input id="search" type="search" class="mui-input-clear" placeholder="">
         </div>
     </div>
-    <div class="mui-content">
-        <ul class="mui-table-view" style="margin-bottom: 70px;">
-            {% for recom in recom_list %}
-                <li class="mui-table-view-cell proj">
-                    <h2 class="proj__title">{{recom.title}}</h2>
-                    <div class="proj__info">
-                        <div data-pic="{{recom.pic}}" data-imgtxt="{{recom.title}}" class="proj__img"></div>
-                        <p class="proj__intrest"><span class="proj__intrest-num">{{recom.intrest}}</span><br />预计最高年化</p>
-                        <div class="proj__detail">
-                            <p class="proj__detail-item"><span class="proj__detail-name">返现价格：</span><span class="proj__detail-val">{{recom.price}}</span></p>
-                            <p class="proj__detail-item m-mt"><span class="proj__detail-name">投标区间：</span><span class="proj__detail-val">{{recom.investrange}}</span></p>
-                            <p class="proj__detail-item m-mt"><span class="proj__detail-name">投资标期：</span><span class="proj__detail-val">{{recom.term}}</span></p>
-                        </div>
-                    </div>
-                    <div class="proj__btnbox">
-                        <a data-projectid="{{recom.id}}" class="proj__btn state{{recom.state}} proj__btn-submit">查看攻略</a>
-                        <a data-projectid="{{recom.id}}" class="proj__btn proj__btn-submit2">交单</a>
-                    </div>
-                </li>
-            {%endfor%}
-        </ul>
-    </div>
-</div>
-<div class="tabcon" style="position: absolute; width: 100%; height: 100%; display: none;">
-    <!--<div class="up-test">
-    	<a id="again_up" style="position: fixed; top: 0; right: 0; z-index: 100;" class="again-up">重置上拉加载</a>
-    </div>-->
-    <div id="pullrefresh" class="mui-scroll-wrapper">
+</header>
+    <div id="pullrefresh" class="mui-scroll-wrapper tabcon" style="margin-top: 44px;">
         <div class="mui-content">
-            <div class="mui-input-row mui-search">
-                <input id="search" type="search" class="mui-input-clear" placeholder="">
-            </div>
+            
             <ul class="mui-table-view project-all-box">
                 
             </ul>
         </div>
     </div>
-</div>
 <span id="qq_ask" class="qq-ask mui-icon mui-icon-qq"></span>
     <!--测试-->
 <!--</div>-->
@@ -84,14 +54,24 @@
 <!--<a id="scrollToTop" class="backTop hide"><i class="icon iconfont">&#xe623;</i></a>-->
 <!--底部导航-->
 
-<ul class="footer clearfix tc">
+<!--<ul class="footer clearfix tc">
 	<li class="tabnav footer__item on">热门推荐</li>
 	<li class="tabnav footer__item">项目列表</li>
-</ul>
+</ul>-->
 
 
     <script src="{% static 'js/mui.min.js' %}"></script>
     <script type="text/javascript" charset="utf-8">
+        document.getElementById('search').addEventListener('input', function () {
+            console.log(this.value);
+            var table = document.body.querySelector('.project-all-box');
+            console.log(table);
+            table.innerHTML = '';
+//          mui('#pullrefresh').pullRefresh().refresh(true);
+            count = 1;
+            get_proj_url = "/restapi/sub/?is_on=true&project_title_contains=" + this.value;
+            pullupRefresh();
+        })
 //      var btn = document.getElementById('again_up');
 //      console.log(btn);
 //      btn.addEventListener('tap',function(){
@@ -105,15 +85,15 @@
 //          pullupRefresh();
 //      })
       	mui.init({
-				pullRefresh: {
-					container: '#pullrefresh',
-					up: {
-						auto:true,
-						contentrefresh: '正在加载...',
-						contentnomore:'—— 我可是有底线的 ——',//可选，请求完毕若没有更多数据时显示的提醒内容；
-						callback: pullupRefresh
-					}
-				}
+//				pullRefresh: {
+//					container: '#pullrefresh',
+//					up: {
+//						auto:false,
+//						contentrefresh: '正在加载...',
+//						contentnomore:'—— 我可是有底线的 ——',//可选，请求完毕若没有更多数据时显示的提醒内容；
+//						callback: pullupRefresh
+//					}
+//				}
 		});
 		/**
 		 * 上拉加载具体业务实现
@@ -202,73 +182,8 @@
 //              scrollToTopBox.classList.add('hide');
 //      });
         
-        //  滚动部分
-        var area = document.getElementById('noticeBox');
-        var con1 = document.getElementById('con1');
-        var con2 = document.getElementById('con2');
-        var iliHeight = 20;//单行滚动的高度
-        var speed = 50;//滚动的速度
-        var time;
-        var delay= 2500;
-        area.scrollTop = 0;
-        var notice_txt = '';
-        mui.ajax('/restapi/notice/?ordering=state',{
-            dataType:'json',//服务器返回json格式数据
-            type:'get',//HTTP请求类型
-            timeout:10000,//超时时间设置为10秒；
-            success:function(data){
-                if (data.results.length != 0){
-                    var notice_num = 1;
-                    for (var i in data.results) {
-                        notice_txt += '<li class="notice__item">';
-                        if (data.results[i].state == 0) {
-                            notice_txt += '<span style="color:#f95a5a">【置顶】</span>'
-                        } else{
-                            notice_txt += '<span>'+ notice_num++ +'</span>、'
-                        }
-                        notice_txt += data.results[i].content +'</li>';
-                    }
-                }
-                console.log(notice_txt);
-                con1.innerHTML = notice_txt;
-                con2.innerHTML = con1.innerHTML;
-
-            },
-            error:function(xhr,type,errorThrown){
-                console.log(xhr.responseText);
-            }
-        });
-        function startScroll(){
-            time=setInterval("scrollUp()",speed);
-            area.scrollTop++;
-        }
-        function scrollUp(){
-            if(area.scrollTop % iliHeight==0){
-                    clearInterval(time);
-                    setTimeout(startScroll,delay);
-                }else{
-                    area.scrollTop++;
-                    if(area.scrollTop >= area.scrollHeight/2){
-                        area.scrollTop =0;
-                    }
-                }
-        }
-        setTimeout(startScroll,delay);
         
-//      tab切换
-        var nav = mui('.tabnav');  
-        var con = mui('.tabcon');
-        for(i=0;i<nav.length;i++){
-            nav[i].index = i;
-            nav[i].addEventListener("tap",function () {
-                for(var n = 0; n < con.length; n++) {
-                    con[n].style.display = "none";
-                    nav[n].className = "footer__item";
-                }
-                con[this.index].style.display = "block"
-                nav[this.index].className = "on footer__item";
-            });
-        }
+
         
         var colors = ['#8cd9f1','#a0a2cf','#a6d7b9','#f7bbd1','#feb8a6','#99badf','#d0aea1','#a0d6d6','#ff9a8c'];
         mui('.proj__img').each(function(){
@@ -338,12 +253,6 @@
             console.log('s');
             mui.openWindow({
                 url: "http://wpa.qq.com/msgrd?v=3&uin={{user.qq_number}}&site=qq&menu=yes",
-            });
-        })
-        document.getElementById('search').addEventListener('focus', function () {
-            console.log('search');
-            mui.openWindow({
-                url: "/search/",
             });
         })
         

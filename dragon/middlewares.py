@@ -16,5 +16,5 @@ class SubdomainMiddleware(object):
                 request.user = MyUser.objects.get(qq_number=qq_number)
             except:
                 raise Http404
-        request.prehost= 'm'
+        request.prehost= 'www'
         return None
