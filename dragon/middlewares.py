@@ -11,6 +11,7 @@ from account.models import MyUser
 class SubdomainMiddleware(object):
     def process_request(self, request):
         logger.info( request.META.keys())
+        logger.info( request.META.get('HTTP_HOST'))
         domain_parts = request.get_host().split('.')
         if len(domain_parts) == 3:
             qq_number = domain_parts[0]
