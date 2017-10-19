@@ -29,4 +29,5 @@ urlpatterns = [
 #     url(r'^applylog/$', views.ApplyLogList.as_view()),
 
 #     url(r'^withdrawlog/$', views.WithdrawLogList.as_view()),
+    url(r'^marks/$', views.MarkList.as_view()),
 ]

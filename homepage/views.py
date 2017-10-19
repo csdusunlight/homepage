@@ -11,6 +11,7 @@ import datetime
 # Create your views here.
 @login_required
 def index(request):
+    prehost = request.prehost
     recoms = list(SubscribeShip.objects.filter(user=request.user, is_recommend=True, is_on=True)[0:10])
     if len(recoms)==0:
         recoms = list(SubscribeShip.objects.filter(user=request.user, is_on=True)[0:4])
@@ -33,48 +34,20 @@ def index(request):
         }
         recom_list.append(data)
     notice_list = Notice.objects.filter(user=request.user)
-    return render(request, 'my_homepage.html',{'recom_list':recom_list, 'notice_list':notice_list})
+    template = 'm_homepage.html' if prehost=='m' else 'homepage.html' 
+    return render(request, template,{'recom_list':recom_list, 'notice_list':notice_list})
 
-@login_required
-def m_index(request):
-    recoms = list(SubscribeShip.objects.filter(user=request.user, is_recommend=True, is_on=True)[0:10])
-    if len(recoms)==0:
-        recoms = list(SubscribeShip.objects.filter(user=request.user, is_on=True)[0:4])
-    recom_list = []
-    for r in recoms:
-        p = r.project
-        data = {
-            'id':p.id,
-            'title' : p.title,
-            'intrest': r.intrest if r.intrest else p.intrest,
-            'price': r.price if r.price else p.cprice,
-            'term': p.term,
-            'range': p.investrange,
-            'pic': p.picture_url(),
-            'investrange': p.investrange,
-            'strategy': p.strategy,
-            'state':p.state,
-        }
-        recom_list.append(data)
-    notice_list = Notice.objects.filter(user=request.user)
-    return render(request, 'm_homepage.html',{'recom_list':recom_list, 'notice_list':notice_list})
 
-@login_required
-def expsubmit_project(request, id):
-    project_title = Project.objects.get(id=id).title
-    project = Project.objects.get(id=id,user=request.user)
-    sub = SubscribeShip.objects.get(project=id,user=request.user)
-    intrest = sub.intrest if sub.intrest else project.intrest
-    price = sub.price if sub.price else project.cprice
-    return render(request, 'm_expsubmit_project.html',{'id':id, 'project_title':project_title, 'intrest':intrest, 'price':price})
 
 @login_required
 def detail_project(request, id):
-    project = Project.objects.get(id=id,user=request.user)
+    prehost = request.prehost
+    project = Project.objects.get(id=id)
     sub = SubscribeShip.objects.get(project=id,user=request.user)
     intrest = sub.intrest if sub.intrest else project.intrest
     price = sub.price if sub.price else project.cprice
-    return render(request, 'detail_project.html',{'id':id, 'project':project, 'intrest':intrest, 'price':price})
+    template = 'm_detail_project.html' if prehost=='m' else 'detail_project.html' 
+    return render(request, template ,{'id':id, 'project':project, 'intrest':intrest, 'price':price})
 
 @csrf_exempt
 @login_required_ajax

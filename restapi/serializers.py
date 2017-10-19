@@ -6,9 +6,10 @@ Created on 2017年8月10日
 '''
 from rest_framework import serializers
 from wafuli.models import Project, InvestLog, TransList, Notice, SubscribeShip,\
-    Announcement, WithdrawLog
+    Announcement, WithdrawLog, Mark
 from account.models import MyUser, ApplyLog
 from wafuli_admin.models import DayStatis
+from wafuli.models import Company
 
 class UserSerializer(serializers.ModelSerializer):
     real_name = serializers.CharField(source="user_bankcard.first.real_name")
@@ -34,8 +35,11 @@ class InvestLogSerializer(serializers.ModelSerializer):
     user_level = serializers.CharField(source='user.level', read_only=True)
     user_mobile = serializers.CharField(source='user.mobile', read_only=True)
     audit_state_des = serializers.CharField(source='get_audit_state_display', read_only=True)
+    admin_user = serializers.CharField(source='admin_user.username', read_only=True) 
     admin_user = serializers.CharField(source='admin_user.username', read_only=True)
     other_remark = serializers.CharField(source='get_other_and_remark', read_only=True)
+    audit_date = serializers.CharField(source='get_audit_date', read_only=True)
+    submit_type_des = serializers.CharField(source='get_submit_type_display', read_only=True)
     class Meta:
         model = InvestLog
         fields = '__all__'
@@ -63,7 +67,7 @@ class ApplyLogSerializer(serializers.ModelSerializer):
         exclude = ('password',)
 # SubscribeShip
 class SubscribeShipSerializer(serializers.ModelSerializer):
-    project_source = serializers.CharField(source='project.is_official')
+    project_source = serializers.CharField(source='project.is_official', read_only=True)
     project_title = serializers.CharField(source='project.title', read_only=True)
     project_intro = serializers.CharField(source='project.introduction', read_only=True)
     project_price01 = serializers.CharField(source='project.price01', read_only=True)
@@ -73,17 +77,17 @@ class SubscribeShipSerializer(serializers.ModelSerializer):
     project_investrange = serializers.CharField(source='project.investrange', read_only=True)
     project_intrest = serializers.CharField(source='project.intrest', read_only=True)
     project_term = serializers.CharField(source='project.term', read_only=True)
-    project_state = serializers.CharField(source='project.state')
+    project_state = serializers.CharField(source='project.state', read_only=True)
     project_strategy = serializers.CharField(source='project.strategy', read_only=True)
     project_introduction = serializers.CharField(source='project.introduction', read_only=True)
     project_picture = serializers.CharField(source='project.picture_url', read_only=True)
-#     project_marks = serializers.CharField(source='project.marks_list', read_only=True)
+    project_marks = serializers.CharField(source='project.marks_list', read_only=True)
     project_is_official = serializers.CharField(source='project.is_official', read_only=True)
-    project_is_multisub_allowed = serializers.BooleanField(source='project.is_multisub_allowed', read_only=True)
     submit_num = serializers.IntegerField(source='get_sub_invest_num', read_only=True)
     necessary_fields = serializers.CharField(source='project.necessary_fields', read_only=True)
     optional_fields = serializers.CharField(source='project.optional_fields', read_only=True)
-    
+    project_is_multisub_allowed = serializers.BooleanField(source='project.is_multisub_allowed', read_only=True)
+    marks = serializers.StringRelatedField(many=True, read_only=True)
     class Meta:
         model = SubscribeShip
         fields = '__all__'
@@ -116,3 +120,12 @@ class WithdrawLogSerializer(serializers.ModelSerializer):
 #         read_only_fields = ('audit_time','submit_time','user','audit_state',
 #                              'settle_amount','return_amount', "admin_user", "is_official"), 'time', 'content_type', 'object_id', 'user', 'username', 'project')
 
+class MarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mark
+        fields = '__all__'
+        
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = '__all__'
