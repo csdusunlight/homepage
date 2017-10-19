@@ -167,6 +167,9 @@
             
             <div class="project">
                 <h2 class="project__title">项目列表</h2>
+                <div class="mark-container">
+                	<ul class="mark-box"></ul>
+                </div>
                 <div class="search__box clearfix">
                     <div class="search__left l">
                         <input class="search-input" name="key" type="text">
@@ -175,9 +178,6 @@
                     <!--<div class="search__right r">
                         <a class="search__right-item">预计最高年化</a><a class="search__right-item">返现价格</a>
                     </div>-->
-                </div>
-                <div class="mark-container">
-                	<ul class="mark-box"></ul>
                 </div>
                 <ul id="pagedata1" class="item-container clearfix">
                     
@@ -492,6 +492,7 @@
         $('.mark-box').on('click', '.mark', function(){        //选择标签
             $(this).toggleClass('on').siblings().removeClass('on');
             var mark_key = $('.mark.on').data('id');
+            mark_key = mark_key ? mark_key : '';
             $("#pagedata1").ajaxPage({
               url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true&mark=" + mark_key,
               pageId:$("#page1"),

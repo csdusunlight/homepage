@@ -144,7 +144,8 @@
 }
 .search__left {
     position: relative;
-    margin-bottom: 4px;
+    margin-top: 4px;
+    margin-bottom: 20px;
 }
 .search__left .search-input {
     width: 600px;
