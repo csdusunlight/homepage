@@ -109,3 +109,8 @@ def submitOrder(request):
         investlog.save(update_fields=['invest_image',])
     result['code'] = 0
     return JsonResponse(result)
+
+@login_required
+def search(request):
+    template = 'search.html'
+    return render(request, template, {})

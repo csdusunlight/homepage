@@ -144,7 +144,7 @@
 }
 .search__left {
     position: relative;
-    margin-bottom: 34px;
+    margin-bottom: 4px;
 }
 .search__left .search-input {
     width: 600px;
@@ -170,6 +170,26 @@
     margin-right: 30px;
     display: inline-block;
 }
+
+.mark {
+    position: relative;
+    display: inline-block;
+    margin: 4px 8px;
+    padding: 5px 6px;
+    font-size: 12px;
+    line-height: 1;
+    border-radius: 4px;
+    border: 1px solid #ffbe00;
+    background-color: #fff;
+    color: #ffbe00;
+    cursor: pointer;
+}
+.mark-box .mark.on {
+    background-color: #ffbe00;
+    color: #fff;
+}
+
+
 .project__itembox {
     position: relative;
     padding: 20px;

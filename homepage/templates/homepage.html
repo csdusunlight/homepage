@@ -176,6 +176,9 @@
                         <a class="search__right-item">预计最高年化</a><a class="search__right-item">返现价格</a>
                     </div>-->
                 </div>
+                <div class="mark-container">
+                	<ul class="mark-box"></ul>
+                </div>
                 <ul id="pagedata1" class="item-container clearfix">
                     
                     <!--<li class="project__itembox">
@@ -306,7 +309,8 @@
     var key_arr = [];
     
     
-    var data='[results]<li class="project__itembox"><h2 class="project__name">{project_title}<span data-intro="{project_introduction}" class="project__name-small oneline">{introduction}</span></h2>'+
+    var data='[results]<li class="project__itembox"><h2 class="project__name">{project_title}<a class="marks" data-mark="{marks}"></a>'+
+      '<span data-intro="{project_introduction}" class="project__name-small oneline">{introduction}</span></h2>'+
       '<div class="project__detail">'+
 //    '<img class="project__img" src="" alt="" />'+
       '<div data-pic="{project_picture}" data-imgtxt="{project_title}" class="project__img"></div>'+
@@ -324,6 +328,18 @@
       
     var colors = ['#8cd9f1','#a0a2cf','#a6d7b9','#f7bbd1','#feb8a6','#99badf','#d0aea1','#a0d6d6','#ff9a8c'];
     function pagecallback (){
+        $('.marks').each(function(){
+            var mark_arr = '';
+            mark_arr = $(this).data('mark').split(',');
+            console.log(mark_arr[0]);
+            var mark_html = '';
+            for (var i=0; i < mark_arr.length; i++) {
+                mark_html += '<span class="mark">'+　mark_arr[i]　+'</span>';
+            }
+            $(this).html(mark_html);
+            console.log(mark_html);
+        })
+        
         $('.project__img').each(function(){
             var imgurl = $(this).data('pic');
 //          console.log(imgurl);
@@ -455,6 +471,35 @@
         var popup_height = parseInt(document.documentElement.clientHeight*2/3);
         $('.popup__content.m-submit').css("max-height", popup_height);
         
+        $.ajax({        //获取标签数据
+            url: "/restapi/marks/",
+            dataType: "json",
+            type: 'get',
+            success: function(ret) {
+                console.log(ret.results);
+                var mark_detail = '';
+                for (var i=0; i<ret.results.length; i++) {
+                    mark_detail += '<li data-id="'+ ret.results[i].id +'" class="mark">'+ ret.results[i].name +'</li>'
+                }
+                $('.mark-box').html(mark_detail);
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+                alert("数据错误");
+            }
+        });
+        $('.mark-box').on('click', '.mark', function(){        //选择标签
+            $(this).toggleClass('on').siblings().removeClass('on');
+            var mark_key = $('.mark.on').data('id');
+            $("#pagedata1").ajaxPage({
+              url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true&mark=" + mark_key,
+              pageId:$("#page1"),
+              run:true,
+              content:data,
+              complete:pagecallback,
+            });
+        })
         
         $("#pagedata1").ajaxPage({
           url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true",
