@@ -1,4 +1,4 @@
-body {
+﻿body {
 	background: #fff;
 }
 .mui-content {
@@ -78,6 +78,9 @@ form {
 .iframe-box {
     position: relative;
     height: 100%;
+    -webkit-overflow-scrolling: touch;  
+    overflow-y: scroll;
+    width: 100%;
 }
 .iframe-top {
     position: absolute;
