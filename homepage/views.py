@@ -22,6 +22,7 @@ def index(request):
             'title' : p.title,
             'intrest': r.intrest if r.intrest else p.intrest,
             'price': r.price if r.price else p.cprice,
+            'shortprice': r.shortprice if r.shortprice else p.shortprice,
             'term': p.term,
             'range': p.investrange,
             'pic': p.picture_url(),
