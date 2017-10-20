@@ -74,6 +74,7 @@ class SubscribeShipSerializer(serializers.ModelSerializer):
     project_price02 = serializers.CharField(source='project.price02', read_only=True)
     project_price03 = serializers.CharField(source='project.price03', read_only=True)
     project_cprice = serializers.CharField(source='project.cprice', read_only=True)
+    project_shortprice = serializers.CharField(source='project.shortprice', read_only=True)
     project_investrange = serializers.CharField(source='project.investrange', read_only=True)
     project_intrest = serializers.CharField(source='project.intrest', read_only=True)
     project_term = serializers.CharField(source='project.term', read_only=True)

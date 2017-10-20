@@ -22,6 +22,7 @@ def index(request):
             'title' : p.title,
             'intrest': r.intrest if r.intrest else p.intrest,
             'price': r.price if r.price else p.cprice,
+            'shortprice': r.shortprice if r.shortprice else p.shortprice,
             'term': p.term,
             'range': p.investrange,
             'pic': p.picture_url(),
@@ -30,6 +31,7 @@ def index(request):
             'state':p.state,
             'is_multisub_allowed':p.is_multisub_allowed,
             'necessary_fields':p.necessary_fields,
+            'marks':','.join([ x.name for x in r.marks.all()])
         }
         recom_list.append(data)
     notice_list = Notice.objects.filter(user=request.user)
