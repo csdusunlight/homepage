@@ -138,7 +138,7 @@
 								str_block += '<div style="background-color: '+ colors[num] +';" class="proj__img">'+ item.project_title.substr(0, 1) +'</div>';
 							}
                             str_block += '<p class="proj__intrest"><span class="proj__intrest-num">'+ (item.intrest ? item.intrest : item.project_intrest) +'</span><br />预计最高年化</p>'+
-                            '<div class="proj__detail"><p class="proj__detail-item"><span class="proj__detail-name">返现价格：</span><span class="proj__detail-val">'+ (item.price?item.price:item.project_cprice) +'</span></p>'+
+                            '<div class="proj__detail"><p class="proj__detail-item"><span class="proj__detail-name">返现价格：</span><span class="proj__detail-val">'+ (item.shortprice?item.shortprice:item.project_shortprice) +'</span></p>'+
                             '<p class="proj__detail-item m-mt"><span class="proj__detail-name">投标区间：</span><span class="proj__detail-val">'+ item.project_investrange +'</span></p>'+
                             '<p class="proj__detail-item m-mt"><span class="proj__detail-name">投资标期：</span><span class="proj__detail-val">'+ item.project_term +'</span></p>'+
                             '</div></div>'+

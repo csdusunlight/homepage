@@ -136,11 +136,19 @@
 .btn.m-hot:first-child {
     margin-right: 20px;
 }
+.project {
+    position: relative;
+}
 .project__title {
     padding-left: 42px;
     font-size: 24px;
     line-height: 84px;
     background: url(../images/bg-icon-list.png) left center no-repeat;
+}
+.search__box {
+    position: absolute;
+    top: 20px;
+    right: 0;
 }
 .search__left {
     position: relative;
@@ -171,7 +179,9 @@
     margin-right: 30px;
     display: inline-block;
 }
-
+.mark-container {
+    text-align: right;
+}
 .mark {
     position: relative;
     display: inline-block;
