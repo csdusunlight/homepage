@@ -156,10 +156,9 @@
 .search__left {
     position: relative;
     margin-top: 4px;
-    margin-bottom: 20px;
 }
 .search__left .search-input {
-    width: 600px;
+    width: 350px;
     height: 46px;
     border-radius: 6px;
     border: 2px solid #91C11D;
@@ -168,7 +167,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 95px;
+    width: 70px;
     height: 46px;
     border: none;
     border-radius: 0 6px 6px 0;
@@ -184,13 +183,12 @@
 }
 .mark-container {
     margin: -8px 0 20px 0;
-    text-align: right;
 }
 .mark {
     position: relative;
     display: inline-block;
-    margin: 0px 8px;
-    padding: 5px 6px;
+    margin-right: 10px;
+    padding: 8px 10px;
     font-size: 12px;
     line-height: 1;
     border-radius: 4px;
@@ -202,6 +200,11 @@
 .mark-box .mark.on {
     background-color: #ffbe00;
     color: #fff;
+}
+.marks .mark {
+    padding: 4px 6px;
+    margin-left: 6px;
+    margin-right: 0;
 }
 
 

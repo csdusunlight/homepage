@@ -460,7 +460,7 @@
             type: 'get',
             success: function(ret) {
                 console.log(ret.results);
-                var mark_detail = '';
+                var mark_detail = '<li data-id="" class="mark on">全部</li>';
                 for (var i=0; i<ret.results.length; i++) {
                     mark_detail += '<li data-id="'+ ret.results[i].id +'" class="mark">'+ ret.results[i].name +'</li>'
                 }
@@ -473,7 +473,7 @@
             }
         });
         $('.mark-box').on('click', '.mark', function(){        //选择标签
-            $(this).toggleClass('on').siblings().removeClass('on');
+            $(this).addClass('on').siblings().removeClass('on');
             var mark_key = $('.mark.on').data('id');
             mark_key = mark_key ? mark_key : '';
             $("#pagedata1").ajaxPage({
