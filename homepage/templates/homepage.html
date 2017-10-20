@@ -331,13 +331,16 @@
         $('.marks').each(function(){
             var mark_arr = '';
             mark_arr = $(this).data('mark').split(',');
-            console.log(mark_arr[0]);
+            console.log(mark_arr);
+            console.log(mark_arr.length);
             var mark_html = '';
-            for (var i=0; i < mark_arr.length; i++) {
-                mark_html += '<span class="mark">'+　mark_arr[i]　+'</span>';
+            if(mark_arr.length != 0 && mark_arr[0] != '') {
+                for (var i=0; i < mark_arr.length; i++) {
+                    mark_html += '<span class="mark">'+　mark_arr[i]　+'</span>';
+                }
+                $(this).html(mark_html);
+                console.log(mark_html);
             }
-            $(this).html(mark_html);
-            console.log(mark_html);
         })
         
         $('.project__img').each(function(){
