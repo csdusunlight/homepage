@@ -43,7 +43,7 @@
 }
 .scroll_box {
     position: relative;
-    height: 300px;
+    height: 200px;
 }
 .list_box {
     position: relative;
@@ -59,7 +59,7 @@
 .hot_prev,
 .hot_next {
     position: absolute;
-    top: 115px;
+    top: 60px;
     width: 40px;
     height: 70px;
     background-color: rgba(0,0,0,0.3);
@@ -97,7 +97,7 @@
     background: url(../images/bg-icon-hot.png) left center no-repeat;
 }
 .hot__box {
-    height: 300px;
+    /*height: 300px;*/
     overflow: hidden;
     font-size: 0;
     background-color: #fff;
@@ -105,12 +105,15 @@
 .hot__itembox {
     display: inline-block;
     width: 245px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     vertical-align: top;
     transition: transform 0.4s ease;
+    cursor: pointer;
 }
-/*.hot__itembox:hover {
-    transform: translateY(-80px);
-}*/
+.hot__itembox:hover {
+    color: #91C11D;
+}
 .hot__img {
     margin: 16px auto 10px;
     display: block;
@@ -180,12 +183,13 @@
     display: inline-block;
 }
 .mark-container {
+    margin: -8px 0 20px 0;
     text-align: right;
 }
 .mark {
     position: relative;
     display: inline-block;
-    margin: 4px 8px;
+    margin: 0px 8px;
     padding: 5px 6px;
     font-size: 12px;
     line-height: 1;
@@ -212,8 +216,7 @@
     box-shadow: 1px 1px 10px rgba(0,0,0,0.2);
 }
 .project__name {
-    line-height: 1;
-    margin-bottom: 20px;
+    line-height: 25px;
 }
 .project__name-small {
     display: inline-block;
@@ -266,11 +269,11 @@
     display: block;
 }
 .btn.m-project:first-child {
-    margin-bottom: 28px;
+    margin-top: 28px;
 }
 .person-total {
     position: absolute;
-    top: 180px;
+    bottom: 34px;
     right: 60px;
 }
 .look-detail {
