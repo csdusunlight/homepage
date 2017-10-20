@@ -11,7 +11,6 @@ import datetime
 # Create your views here.
 @login_required
 def index(request):
-    prehost = request.prehost
     recoms = list(SubscribeShip.objects.filter(user=request.user, is_recommend=True, is_on=True)[0:10])
     if len(recoms)==0:
         recoms = list(SubscribeShip.objects.filter(user=request.user, is_on=True)[0:4])
@@ -34,19 +33,18 @@ def index(request):
         }
         recom_list.append(data)
     notice_list = Notice.objects.filter(user=request.user)
-    template = 'm_homepage.html' if prehost=='m' else 'homepage.html' 
+    template = 'm_homepage.html' if request.mobile else 'homepage.html' 
     return render(request, template,{'recom_list':recom_list, 'notice_list':notice_list})
 
 
 
 @login_required
 def detail_project(request, id):
-    prehost = request.prehost
     project = Project.objects.get(id=id)
     sub = SubscribeShip.objects.get(project=id,user=request.user)
     intrest = sub.intrest if sub.intrest else project.intrest
     price = sub.price if sub.price else project.cprice
-    template = 'm_detail_project.html' if prehost=='m' else 'detail_project.html' 
+    template = 'm_detail_project.html' if request.mobile else 'detail_project.html' 
     return render(request, template ,{'id':id, 'project':project, 'intrest':intrest, 'price':price})
 
 @csrf_exempt
