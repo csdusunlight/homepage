@@ -43,7 +43,7 @@
         <ul class="mui-table-view" style="margin-bottom: 70px;">
             {% for recom in recom_list %}
                 <li class="mui-table-view-cell proj">
-                    <h2 class="proj__title">{{recom.title}}<a class="recom-marks"><span class="mark">bq5</span><span class="mark">xx</span></a></h2>
+                    <h2 class="proj__title">{{recom.title}}<a data-marks="{{recom.marks}}" class="recom-marks"></a></h2>
                     <div class="proj__info">
                         <div data-pic="{{recom.pic}}" data-imgtxt="{{recom.title}}" class="proj__img"></div>
                         <p class="proj__intrest"><span class="proj__intrest-num">{{recom.intrest}}</span><br />预计最高年化</p>
@@ -350,6 +350,19 @@
         mui('.state20').each(function(){
             console.log(this);
             this.innerText = '已结束';
+        })
+        
+        mui('.recom-marks').each(function(){
+            var marks_arr = this.getAttribute('data-marks').split(',');
+            var mark_html = '';
+            console.log(marks_arr);
+            console.log(marks_arr.length);
+            if(marks_arr.length != 0 && marks_arr[0] != '') {
+                for (var i=0; i < marks_arr.length; i++) {
+                    mark_html += '<span class="mark">'+　marks_arr[i]　+'</span>';
+                }
+                this.innerHTML = mark_html;
+            }
         })
         
     </script>
