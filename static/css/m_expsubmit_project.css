@@ -80,6 +80,7 @@ form {
     height: 100%;
     -webkit-overflow-scrolling: touch;  
     overflow-y: scroll;
+    overflow-x:hidden;
     width: 100%;
 }
 .iframe-top {
@@ -119,6 +120,7 @@ form {
     height: 100%;
     margin-top: 1px;
     border: none;
+overflow-x:hidden;
 }
 
 /*样式覆盖*/
