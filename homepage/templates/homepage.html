@@ -14,6 +14,7 @@
 <link id="skin" rel="stylesheet" type="text/css" href="{% static 'css/skin0.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/datePicker.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/wfl-page.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery.searchableSelect.css' %}" />
 <style type="text/css">
 	.state20 {
 	    pointer-events: none;
@@ -200,6 +201,20 @@
                     </ul>-->
                 </div>
             </div>
+            <div class="look">
+                <h2>查单</h2>
+                <select class="look__project" name="choose_company">
+                    <option data-logo="" value="0">--</option>
+                    {% for item in companies %}
+                        <option data-logo="{{item.logo.url}}" value="{{item.id}}">{{item.name}}</option>
+                    {%endfor%}
+                </select>
+                <input class="look__phone" type="text" maxlength="11" value="18502581539" placeholder="输入要查询的投资手机号" />
+                <a style="display: block;" class="look__btn">搜索</a>
+                <div class="look__detail">
+                	
+                </div>
+            </div>
             <div class="rank">
                 <h3 class="rank__title">大家都在</h3>
                 <div id="rankBox" class="rank__box">
@@ -282,6 +297,7 @@
 <script type="text/javascript" src="{% static 'js/wfl-popup.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.searchableSelect.js' %}"></script>
 <script type="text/javascript">
     var limit_str;
     var limit;
@@ -492,6 +508,73 @@
           content:data,
           complete:pagecallback,
         });
+        
+        $.ajax({        //获取查询的项目名称
+            url: "/restapi/sub/",
+            dataType: "json",
+            type: 'get',
+            success: function(ret) {
+                console.log(ret.results);
+                var mark_detail = '';
+                for (var i=0; i<ret.results.length; i++) {
+                    mark_detail += '<option value="'+ ret.results[i].project +'">'+ ret.results[i].project_title +'</option>'
+                }
+                $('.look__project').html(mark_detail);
+                $('.look__project').searchableSelect();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+                alert("数据错误");
+            }
+        });
+        $('.look__btn').click(function(){        //点击确定查单
+            var project_id = $('.look__project').val();
+            var phone_num = $('.look__phone').val();
+            console.log(project_id + ', ' + phone_num);
+            $.ajax({        //获取查询的项目名称
+                url: '/restapi/investlogs/?user={{user.id}}&project='+ project_id +'&invest_mobile='+ phone_num,
+                dataType: "json",
+                type: 'get',
+                success: function(ret) {
+                    console.log(ret.results);
+                    var look_detail = '';
+                    console.log(ret.results[0].audit_state);
+                    if (ret.results[0]) {
+                        var submit_time;
+                        var audit_time;
+                        
+                        look_detail += '<p class="look__detail-item">投资金额'+ ret.results[0].invest_amount +'元</p>'+
+                                        '<p class="look__detail-item">投资标期'+ ret.results[0].invest_term +'天</p>';
+                        switch (ret.results[0].audit_state){
+                        	case '1':
+                        	    submit_time = ret.results[0].submit_time.split('T');
+                        	    look_detail += '<p class="look-state-top look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
+                        		break;
+                            case '0':
+                                audit_time = ret.results[0].audit_time.split('T');
+                                submit_time = ret.results[0].submit_time.split('T');
+                                look_detail += '<p class="look-state-top look__detail-item">'+ audit_time[0] + ' ' + audit_time[1].substring(0,5) +' 审核成功</p>'
+                                look_detail += '<p class="look-state-bottom look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
+                                break;
+                            case '2':
+                                audit_time = ret.results[0].audit_time.split('T');
+                                submit_time = ret.results[0].submit_time.split('T');
+                                look_detail += '<p class="look-state-top look__detail-item">'+ audit_time[0] + ' ' + audit_time[1].substring(0,5) +' 审核拒绝</p>'
+                                look_detail += '<p class="look-state-bottom look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
+                                break;
+                        	default:
+                        		break;
+                        }
+                    }
+                    console.log(look_detail);
+                    $('.look__detail').html(look_detail);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText);
+                    alert("数据错误");
+                }
+            });
+        })
     })
     var project_id;
     function show (id, obj) {
