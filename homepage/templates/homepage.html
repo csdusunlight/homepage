@@ -202,15 +202,15 @@
                 </div>
             </div>
             <div class="look">
-                <h3 class="look_title">查单</h3>
+                <h3 class="look_title">交单记录查询</h3>
                 <select class="look__project" name="choose_company">
                     <option data-logo="" value="0">--</option>
                     {% for item in companies %}
                         <option data-logo="{{item.logo.url}}" value="{{item.id}}">{{item.name}}</option>
                     {%endfor%}
                 </select>
-                <input class="look__phone" type="text" maxlength="11" value="18502581539" placeholder="输入要查询的投资手机号" />
-                <a class="look__btn btn m-green">搜索</a>
+                <input class="look__phone" type="text" maxlength="11" value="" placeholder="输入要查询的投资手机号" />
+                <a class="look__btn btn m-green">查询</a>
                 <div class="look__detail">
                 	
                 </div>
@@ -510,7 +510,7 @@
         });
         
         $.ajax({        //获取查询的项目名称
-            url: "/restapi/sub/",
+            url: "/restapi/sub/?pageSize=999",
             dataType: "json",
             type: 'get',
             success: function(ret) {
