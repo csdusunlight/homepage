@@ -203,7 +203,7 @@
             </div>
             <div class="look">
                 <h3 class="look_title">交单记录查询</h3>
-                <select class="look__project" name="choose_company">
+                <select style="width:100%;" class="look__project" name="choose_company">
                     <option data-logo="" value="0">--</option>
                     {% for item in companies %}
                         <option data-logo="{{item.logo.url}}" value="{{item.id}}">{{item.name}}</option>
