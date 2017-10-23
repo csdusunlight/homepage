@@ -29,22 +29,9 @@ class ProjectSerializer(serializers.ModelSerializer):
         read_only_fields = ('user', 'pub_date', 'state', 'is_official')
         
 class InvestLogSerializer(serializers.ModelSerializer):
-    project_title = serializers.CharField(source='project.title', read_only=True)
-    qq_number = serializers.CharField(source='user.qq_number', read_only=True)
-    qq_name = serializers.CharField(source='user.qq_name', read_only=True)
-    user_level = serializers.CharField(source='user.level', read_only=True)
-    user_mobile = serializers.CharField(source='user.mobile', read_only=True)
-    audit_state_des = serializers.CharField(source='get_audit_state_display', read_only=True)
-    admin_user = serializers.CharField(source='admin_user.username', read_only=True) 
-    admin_user = serializers.CharField(source='admin_user.username', read_only=True)
-    other_remark = serializers.CharField(source='get_other_and_remark', read_only=True)
-    audit_date = serializers.CharField(source='get_audit_date', read_only=True)
-    submit_type_des = serializers.CharField(source='get_submit_type_display', read_only=True)
     class Meta:
         model = InvestLog
-        fields = '__all__'
-        read_only_fields = ('audit_time','submit_time','user','audit_state','qq_number','qq_name','user_level',
-                             'user_mobile', 'settle_amount','return_amount', "admin_user", "is_official")
+        fields = ('submit_time', 'invest_mobile', 'invest_amount')
 class TransListSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(source='user.mobile', read_only=True)
     user_balance = serializers.CharField(source='balance', read_only=True)
