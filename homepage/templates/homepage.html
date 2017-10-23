@@ -541,7 +541,8 @@
                     if (ret.results[0]) {
                         var submit_time;
                         var audit_time;
-                        
+                        var audit_time_str;
+//                      console.log(typeof(ret.results[0].audit_time));
                         look_detail += '<p class="look__detail-item">投资金额'+ ret.results[0].invest_amount +'元</p>'+
                                         '<p class="look__detail-item">投资标期'+ ret.results[0].invest_term +'天</p>';
                         switch (ret.results[0].audit_state){
@@ -550,15 +551,25 @@
                         	    look_detail += '<p class="look-submit-new look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
                         		break;
                             case '0':
-                                audit_time = ret.results[0].audit_time.split('T');
+                                if (!ret.results[0].audit_time) {
+                                	audit_time_str = '';
+                                } else{
+                                    audit_time = ret.results[0].audit_time.split('T');
+                                    audit_time_str = audit_time[0] + ' ' + audit_time[1].substring(0,5);
+                                }
                                 submit_time = ret.results[0].submit_time.split('T');
-                                look_detail += '<p class="look-pass-new look__detail-item">'+ audit_time[0] + ' ' + audit_time[1].substring(0,5) +' 审核成功</p>'
+                                look_detail += '<p class="look-pass-new look__detail-item">'+ audit_time_str +' 审核成功</p>'
                                 look_detail += '<p class="look-submit-old look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
                                 break;
                             case '2':
-                                audit_time = ret.results[0].audit_time.split('T');
+                                if (!ret.results[0].audit_time) {
+                                    audit_time_str = '';
+                                } else{
+                                    audit_time = ret.results[0].audit_time.split('T');
+                                    audit_time_str = audit_time[0] + ' ' + audit_time[1].substring(0,5);
+                                }
                                 submit_time = ret.results[0].submit_time.split('T');
-                                look_detail += '<p class="look-refuse-new look__detail-item">'+ audit_time[0] + ' ' + audit_time[1].substring(0,5) +' 审核拒绝</p>'
+                                look_detail += '<p class="look-refuse-new look__detail-item">'+ audit_time_str +' 审核拒绝</p>'
                                 look_detail += '<p class="look-submit-old look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
                                 break;
                         	default:
