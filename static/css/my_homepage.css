@@ -383,3 +383,45 @@
 .choose_item:checked + .choose_item-icon {
     background: url(../images/bg-checked-choose.png) center center no-repeat;
 }
+
+.look {
+    width: 250px;
+    padding: 0 10px 10px 10px;
+    margin-top: 20px;
+    background-color: #fff;
+}
+.look_title {
+    text-align: center;
+    line-height: 40px;
+    color: #91C11D;
+}
+.searchable-select {
+    width: 100%;
+}
+.look .look__phone {
+    width: 100%;
+    margin-top: 10px;
+}
+.look__btn {
+    margin-top: 20px;
+    margin-left: 60px;
+}
+.look__detail {
+    margin-top: 10px;
+}
+.look__detail-item {
+    line-height: 30px;
+}
+.look-submit-old {
+    padding-left: 26px;
+    background: url(../images/look-pass-old.png) left center/17px 17px no-repeat;
+}
+.look-pass-new,
+.look-submit-new {
+    padding-left: 26px;
+    background: url(../images/look-pass-new.png) left center/17px 17px no-repeat;
+}
+.look-refuse-new {
+    padding-left: 26px;
+    background: url(../images/look-refuse-new.png) left center/17px 17px no-repeat;
+}

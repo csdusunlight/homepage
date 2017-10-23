@@ -202,7 +202,7 @@
                 </div>
             </div>
             <div class="look">
-                <h2>查单</h2>
+                <h3 class="look_title">查单</h3>
                 <select class="look__project" name="choose_company">
                     <option data-logo="" value="0">--</option>
                     {% for item in companies %}
@@ -210,7 +210,7 @@
                     {%endfor%}
                 </select>
                 <input class="look__phone" type="text" maxlength="11" value="18502581539" placeholder="输入要查询的投资手机号" />
-                <a style="display: block;" class="look__btn">搜索</a>
+                <a class="look__btn btn m-green">搜索</a>
                 <div class="look__detail">
                 	
                 </div>
@@ -538,7 +538,6 @@
                 success: function(ret) {
                     console.log(ret.results);
                     var look_detail = '';
-                    console.log(ret.results[0].audit_state);
                     if (ret.results[0]) {
                         var submit_time;
                         var audit_time;
@@ -548,23 +547,25 @@
                         switch (ret.results[0].audit_state){
                         	case '1':
                         	    submit_time = ret.results[0].submit_time.split('T');
-                        	    look_detail += '<p class="look-state-top look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
+                        	    look_detail += '<p class="look-submit-new look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
                         		break;
                             case '0':
                                 audit_time = ret.results[0].audit_time.split('T');
                                 submit_time = ret.results[0].submit_time.split('T');
-                                look_detail += '<p class="look-state-top look__detail-item">'+ audit_time[0] + ' ' + audit_time[1].substring(0,5) +' 审核成功</p>'
-                                look_detail += '<p class="look-state-bottom look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
+                                look_detail += '<p class="look-pass-new look__detail-item">'+ audit_time[0] + ' ' + audit_time[1].substring(0,5) +' 审核成功</p>'
+                                look_detail += '<p class="look-submit-old look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
                                 break;
                             case '2':
                                 audit_time = ret.results[0].audit_time.split('T');
                                 submit_time = ret.results[0].submit_time.split('T');
-                                look_detail += '<p class="look-state-top look__detail-item">'+ audit_time[0] + ' ' + audit_time[1].substring(0,5) +' 审核拒绝</p>'
-                                look_detail += '<p class="look-state-bottom look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
+                                look_detail += '<p class="look-refuse-new look__detail-item">'+ audit_time[0] + ' ' + audit_time[1].substring(0,5) +' 审核拒绝</p>'
+                                look_detail += '<p class="look-submit-old look__detail-item">'+ submit_time[0] + ' ' + submit_time[1].substring(0,5) +' 提交成功</p>';
                                 break;
                         	default:
                         		break;
                         }
+                    } else {
+                        look_detail += '抱歉，没有查询到相应的投资记录';
                     }
                     console.log(look_detail);
                     $('.look__detail').html(look_detail);
