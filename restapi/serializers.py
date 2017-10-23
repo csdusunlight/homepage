@@ -33,7 +33,8 @@ class InvestLogSerializer(serializers.ModelSerializer):
     invest_mobile = serializers.CharField(source='get_encrypt_mobile', read_only=True)
     class Meta:
         model = InvestLog
-        fields = ('submit_time', 'invest_mobile', 'invest_amount', 'audit_state', 'project_title', 'audit_time')
+        fields = ('submit_time', 'invest_mobile', 'invest_amount', 'audit_state', 'project_title', 'audit_time', 
+                  'invest_term')
 class TransListSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(source='user.mobile', read_only=True)
     user_balance = serializers.CharField(source='balance', read_only=True)
