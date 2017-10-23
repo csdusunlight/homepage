@@ -144,7 +144,7 @@
                         <div class="iframe-top clearfix">
                             <h4 class="iframe__title l">{{project.title}}</h4>
                             <p class="iframe__invest l"><span class="invest-num">{{intrest}}</span><br />预计最高年化</p>
-                            <p class="iframe__price l"><span class="price-num">{{price}}</span><br />返现价格</p>
+                            <p class="iframe__price l"><span class="price-num">{{price}}</span></p>
                         </div>
                         <iframe class="iframe" src="{{project.strategy}}">
                           <p>您的浏览器不支持  iframe 标签。</p>
@@ -303,9 +303,8 @@
                         detail_html = '<li class="logs-item">暂无投资记录</li>';
                     } else{
                         for (var i=0; i<ret.results.length; i++) {
-                            var phone = ret.results[i].invest_mobile;
-                            var phone2 = phone.substr(0, 3) + '****' + phone.substr(7, 11);
-                            detail_html += '<li class="logs-item"><a class="proj-rank__txt oneline">' + ret.results[i].invest_date + ' ' + phone2 +
+                            var submit_time = ret.results[i].submit_time.split('T');
+                            detail_html += '<li class="logs-item"><a class="proj-rank__txt oneline">' + submit_time[0] + ' ' + ret.results[i].invest_mobile +
                             ' 投资了<span class="proj-rank__money"> ' + ret.results[i].invest_amount + ' 元</span></a></li>';
                         }
                     }
