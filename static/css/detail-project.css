@@ -93,9 +93,9 @@
     color: #91C11D;
 }
 .iframe__price {
-    margin-top: 20px;
     margin-left: 100px;
     text-align: center;
+    line-height: 90px;
 }
 .price-num {
     font-size: 18px;
