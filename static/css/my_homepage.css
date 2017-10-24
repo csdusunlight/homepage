@@ -181,6 +181,23 @@
     margin-right: 30px;
     display: inline-block;
 }
+
+.reorder {
+    position: absolute;
+    top: 24px;
+    left: 200px;
+}
+.reorder__item {
+    display: inline-block;
+    width: 100px;
+    line-height: 30px;
+    text-align: center;
+    background: url(../images/detail-hidden.png) right center no-repeat;
+}
+.reorder__item.down {
+    background: url(../images/detail-show.png) right center no-repeat;
+}
+
 .mark-container {
     margin: -8px 0 20px 0;
 }
