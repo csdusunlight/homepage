@@ -13,7 +13,7 @@ from django.db.models import F
 # Create your views here.
 @login_required
 def index(request):
-    recoms = list(SubscribeShip.objects.filter(user=request.user, is_recommend=True, is_on=True)[0:10])
+    recoms = list(SubscribeShip.objects.filter(user=request.user, is_recommend=True, is_on=True)[0:12])
     if len(recoms)==0:
         recoms = list(SubscribeShip.objects.filter(user=request.user, is_on=True)[0:4])
     recom_list = []
