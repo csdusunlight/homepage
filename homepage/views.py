@@ -7,6 +7,8 @@ from public.tools import login_required_ajax
 from django.http.response import JsonResponse, Http404
 from wafuli.tools import saveImgAndGenerateUrl
 import datetime
+from django.db import transaction
+from django.db.models import F
 
 # Create your views here.
 @login_required
@@ -50,6 +52,7 @@ def detail_project(request, id):
     return render(request, template ,{'id':id, 'project':project, 'intrest':intrest, 'price':price})
 
 @csrf_exempt
+@transaction.atomic
 @login_required_ajax
 def submitOrder(request):
     result = {}
@@ -90,6 +93,8 @@ def submitOrder(request):
                              zhifubao=zhifubao, invest_amount=invest_amount, submit_type=submit_type,
                               invest_term=invest_term, is_official=project.is_official,
                               is_selfsub=False, audit_state='1')
+    project.points = F('points') + 1
+    project.save(update_fields=['points',])
     imgurl_list = []
     if len(request.FILES)>6:
         result = {'code':-2, 'msg':u"上传图片数量不能超过6张"}

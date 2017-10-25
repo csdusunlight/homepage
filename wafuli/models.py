@@ -14,6 +14,7 @@ AUDIT_STATE = (
     ('0', u'审核通过'),
     ('1', u'待审核'),
     ('2', u'审核未通过'),
+    ('3', u'复审'),
 )    
 class Company(models.Model):
     name = models.CharField(u"平台名称(必填)",max_length=100,unique=True)
@@ -87,6 +88,7 @@ class Project(models.Model):
     necessary_fields = models.CharField(u"必填字段", max_length=50,help_text=u"投资用户名(0)，投资金额(1)，投资标期(2)，投资日期(3)，\
                 支付宝信息(4)，投资手机号(5)，预期返现金额(6)，QQ号(7)，投资截图(8)，字段以英文逗号隔开，如0,1,2,3,4,5", default = '0,1,2,3,4,5')
     subscribers = models.ManyToManyField(MyUser, through='SubscribeShip')
+    points = models.IntegerField(u"参与人数", default=0)
     def clean(self):
         if not self.pic:
             raise ValidationError({'pic': u'图片不能为空'})
@@ -141,8 +143,6 @@ class SubscribeShip(models.Model):
     class Meta:
         unique_together = (('user', 'project'),)
         ordering = ['project__state', "-project__priority", "-project__pub_date",]
-    def get_sub_invest_num(self):
-        return InvestLog.objects.filter(project=self.project).count()
 class Mark(models.Model):
     user = models.ForeignKey(MyUser, null=True, related_name="created_marks")
     name = models.CharField(max_length=4, verbose_name=u"标签名",)
@@ -194,12 +194,6 @@ class InvestLog(models.Model):
         if self.remark:
             ret.append(u"备注：" + self.remark)
         return '|'.join(ret)
-    def get_encrypt_mobile(self):
-        mobile = self.invest_mobile
-        if len(mobile)>=7:
-            return mobile[:3] + '****' + mobile[-4:]
-        else:
-            return mobile
 
 STATE = (
     ('0', u'置顶'),
