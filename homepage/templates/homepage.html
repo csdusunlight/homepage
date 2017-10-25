@@ -170,8 +170,9 @@
                 	<ul class="mark-box"></ul>
                 </div>
                 <ul class="reorder">
-                    <li data-type="time" data-reorder="down" class="reorder__item">时间</li>
-                    <li data-type="profit" data-reorder="down" class="reorder__item">年化</li>
+                    <li data-reorder="" class="reorder__item">综合</li>
+                    <li data-reorder="-id" class="reorder__item">最新</li>
+                    <li data-reorder="-project__points" class="reorder__item">最热</li>
                 </ul>
                 <div class="search__box clearfix">
                     <div class="search__left l">
@@ -505,20 +506,14 @@
               complete:pagecallback,
             });
             
-            $('.reorder__item').data('reorder', 'down').removeClass('down');
+            $('.reorder__item').removeClass('on');
         })
         $('.reorder__item').click(function(){
             console.log(mark_key);
-            var reorder_type = $(this).data('type');
             var reorder_state = $(this).data('reorder');
-            console.log(reorder_type + reorder_state);
-            $(this).toggleClass('down');
-            if (reorder_state == 'down') {
-            	$(this).data('reorder', 'up');
-            } else if (reorder_state == 'up') {
-            	$(this).data('reorder', 'down');
-            }
-            var url_filter = '&' +　reorder_type + '=' + reorder_state;
+            console.log(reorder_state);
+            $(this).addClass('on').siblings().removeClass('on');
+            var url_filter = '&ordering=' + reorder_state;
             $("#pagedata1").ajaxPage({
               url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true&mark=" + mark_key + url_filter,
               pageId:$("#page1"),

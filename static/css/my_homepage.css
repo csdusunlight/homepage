@@ -189,13 +189,15 @@
 }
 .reorder__item {
     display: inline-block;
-    width: 100px;
+    width: 60px;
     line-height: 30px;
     text-align: center;
-    background: url(../images/detail-hidden.png) right center no-repeat;
+    cursor: pointer;
+    /*background: url(../images/detail-hidden.png) right center no-repeat;*/
 }
-.reorder__item.down {
-    background: url(../images/detail-show.png) right center no-repeat;
+.reorder__item.on {
+    /*background: url(../images/detail-show.png) right center no-repeat;*/
+   color: #ffbe00;
 }
 
 .mark-container {
