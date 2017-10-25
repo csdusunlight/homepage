@@ -494,26 +494,26 @@
             }
         });
         var mark_key = '';
+        var url_filter = '&ordering=';
         $('.mark-box').on('click', '.mark', function(){        //选择标签
             $(this).addClass('on').siblings().removeClass('on');
             mark_key = $('.mark.on').data('id');
             mark_key = mark_key ? mark_key : '';
             $("#pagedata1").ajaxPage({
-              url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true&mark=" + mark_key,
+              url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true&mark=" + mark_key + url_filter,
               pageId:$("#page1"),
               run:true,
               content:data,
               complete:pagecallback,
             });
             
-            $('.reorder__item').removeClass('on');
         })
         $('.reorder__item').click(function(){
             console.log(mark_key);
             var reorder_state = $(this).data('reorder');
             console.log(reorder_state);
             $(this).addClass('on').siblings().removeClass('on');
-            var url_filter = '&ordering=' + reorder_state;
+            url_filter = '&ordering=' + reorder_state;
             $("#pagedata1").ajaxPage({
               url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true&mark=" + mark_key + url_filter,
               pageId:$("#page1"),
