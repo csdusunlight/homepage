@@ -79,13 +79,14 @@
     border-bottom: 1px dashed #e4e4e4;
 }
 .iframe__title {
-    margin-left: 100px;
+    width: 300px;
     font-size: 18px;
     line-height: 90px;
+    text-align: center;
 }
 .iframe__invest {
+    width: 100px;
     margin-top: 20px;
-    margin-left: 100px;
     text-align: center;
 }
 .invest-num {
@@ -94,12 +95,15 @@
 }
 .iframe__price {
     margin-left: 100px;
-    text-align: center;
-    line-height: 90px;
+    display: table;
+    height: 90px;
 }
 .price-num {
+    display: table-cell;
+    max-width: 300px;
     font-size: 18px;
     color: #91C11D;
+    vertical-align: middle;
 }
 .iframe-bottom {
     position: absolute;
