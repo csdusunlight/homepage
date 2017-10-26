@@ -200,6 +200,10 @@
    color: #ffbe00;
 }
 
+.marks {
+    display: inline-block;
+    vertical-align: bottom;
+}
 .mark-container {
     margin: -8px 0 20px 0;
 }
@@ -222,7 +226,7 @@
 }
 .marks .mark {
     padding: 4px 6px;
-    margin-left: 6px;
+    margin-left: 20px;
     margin-right: 0;
 }
 
