@@ -189,7 +189,7 @@
 }
 .reorder__item {
     display: inline-block;
-    width: 60px;
+    width: 44px;
     line-height: 30px;
     text-align: center;
     cursor: pointer;
@@ -229,8 +229,9 @@
 
 .project__itembox {
     position: relative;
-    padding: 20px;
-    margin-bottom: 20px;
+    /*padding: 20px;*/
+    padding: 10px 30px 10px 30px;
+    margin-bottom: 12px;
     background-color: #fff;
     transition: box-shadow 0.4s ease;
 }
@@ -253,7 +254,8 @@
     display: inline-block;
     width: 120px;
     height: 50px;
-    margin-top: 35px;
+    /*margin-top: 35px;*/
+   margin-top: 5px;
     line-height: 50px;
     vertical-align: top;
     color: #fff;
@@ -261,16 +263,17 @@
     font-size: 60px;
 }
 .project__info {
-    margin-top: 6px;
+    /*margin-top: 6px;*/
     display: inline-block;
     width: 168px;
     text-align: center;
-    line-height: 54px;
+    /*line-height: 54px;*/
+   line-height: 30px;
 }
 .project__profit-num,
 .project__price-num {
     display: inline-block;
-    margin-top: 16px;
+    /*margin-top: 16px;*/
     font-size: 20px;
     color: #ffbe00;
     line-height: 24px;
@@ -278,7 +281,7 @@
 }
 .investrange {
     display: inline-block;
-    margin-top: 16px;
+    /*margin-top: 16px;*/
     line-height: 24px;
     vertical-align: top;
 }
@@ -291,12 +294,13 @@
     display: block;
 }
 .btn.m-project:first-child {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 .person-total {
     position: absolute;
-    bottom: 34px;
-    right: 60px;
+    /*bottom: 34px;*/
+    top: 12px;
+    right: 50px;
 }
 .look-detail {
     margin: 10px auto 0;
@@ -443,4 +447,30 @@
 .look-refuse-new {
     padding-left: 26px;
     background: url(../images/look-refuse-new.png) left center/17px 17px no-repeat;
+}
+
+.back-top {
+    display: block;
+    position: fixed;
+    bottom: 60px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: #91C11D;
+    border-radius: 8px;
+}
+.back-top:hover {
+    /*background-color: rgba(0,0,0,0.3);*/
+}
+.back-top:after {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 10px;
+    width: 18px;
+    height: 18px;
+    border-top: 3px solid #fff;
+    border-right: 3px solid #fff;
+    transform: rotate(-45deg);
+    opacity: 1;
 }

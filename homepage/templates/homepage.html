@@ -170,9 +170,10 @@
                 	<ul class="mark-box"></ul>
                 </div>
                 <ul class="reorder">
-                    <li data-reorder="" class="reorder__item on">综合</li>
-                    <li data-reorder="-id" class="reorder__item">最新</li>
-                    <li data-reorder="-project__points" class="reorder__item">最热</li>
+                    <li class="reorder__item">排序：</li>
+                    <li data-reorder="" class="reorder__item m-btn on">综合</li>
+                    <li data-reorder="-id" class="reorder__item m-btn">最新</li>
+                    <li data-reorder="-project__points" class="reorder__item m-btn">最热</li>
                 </ul>
                 <div class="search__box clearfix">
                     <div class="search__left l">
@@ -186,7 +187,7 @@
                 <ul id="pagedata1" class="item-container clearfix">
                     
                 </ul>
-                <div style="width: 980px; margin: 0 auto;" class="changes-p clearfix">
+                <div style="display: none; width: 980px; margin: 0 auto;" class="changes-p clearfix">
                     <div style="padding: 10px 20px 6px;" class="page r"  id="page1">
                     </div>
                 </div>
@@ -231,6 +232,7 @@
             </div>
         </div>
     </div>
+    <a class="back-top" href="javascript:;" onclick="$('body,html').animate({scrollTop:0},600);"></a>
     <div class="popup m-submit-proj">
         <div class="popup__content m-submit" style="width: 600px; max-height: 600px; overflow-y: scroll;">
             <div class="popup__top">
@@ -326,7 +328,8 @@
       '</div></div><span class="person-total">已有{submit_num}人参与投资</span>'+
       '<div class="detail-box" style="display: none;"><a class="look-detail" onclick="show({project},this)">点击查看用户投资详情</a></div>'+
       '<div class="detail-box2" style="display:none;"><h4 class="detail-logs-title">最近投资用户名单</h4><ul class="detail-logs"></ul><span class="hide-detail" onclick="hide(this)"></span></div></li>[/results]';
-      
+    
+    var url = '/restapi/sub/?page={page}&pageSize=999';
     var colors = ['#8cd9f1','#a0a2cf','#a6d7b9','#f7bbd1','#feb8a6','#99badf','#d0aea1','#a0d6d6','#ff9a8c'];
     function pagecallback (){
         $('.marks').each(function(){
@@ -415,8 +418,8 @@
             var notice_html='';
             for (var i=0; i<ret.results.length; i++) {
                 var phone = ret.results[i].invest_mobile;
-                var phone2 = phone.substr(0, 3) + '****' + phone.substr(7, 11);
-            	notice_html += '<li><a class="rank__txt oneline">' + (i+1) + '、' + phone2 +
+//              var phone2 = phone.substr(0, 3) + '****' + phone.substr(7, 11);
+            	notice_html += '<li><a class="rank__txt oneline">' + (i+1) + '、' + phone +
             	'体验了<span class="rank__project">' + ret.results[i].project_title + '</span></a></li>';
             }
 //          console.log(notice_html);
@@ -439,7 +442,7 @@
             }
         },
         error: function() {
-            alert("请检查网络连接");
+            console.log("请检查网络连接");
         }
     });
     
@@ -448,7 +451,7 @@
         console.log(search_key);
 //      if (search_key) {
             $("#pagedata1").ajaxPage({
-              url: "/restapi/sub/?page={page}&size={pageSize}&is_on=true&project_title_contains="+search_key,
+              url: url + "&is_on=true&project_title_contains="+search_key,
               pageId:$("#page1"),
               run:true,
               content:data,
@@ -461,7 +464,7 @@
             var search_key = $('.search-input').val();
             console.log(search_key);
             $("#pagedata1").ajaxPage({
-              url: "/restapi/sub/?page={page}&size={pageSize}&is_on=true&project_title_contains="+search_key,
+              url: url + "&is_on=true&project_title_contains="+search_key,
               pageId:$("#page1"),
               run:true,
               content:data,
@@ -490,7 +493,7 @@
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR.responseText);
-                alert("数据错误");
+                console.log("数据错误");
             }
         });
         var mark_key = '';
@@ -500,7 +503,7 @@
             mark_key = $('.mark.on').data('id');
             mark_key = mark_key ? mark_key : '';
             $("#pagedata1").ajaxPage({
-              url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true&mark=" + mark_key + url_filter,
+              url: url + "&is_on=true&mark=" + mark_key + url_filter,
               pageId:$("#page1"),
               run:true,
               content:data,
@@ -508,14 +511,14 @@
             });
             
         })
-        $('.reorder__item').click(function(){
+        $('.reorder__item.m-btn').click(function(){
             console.log(mark_key);
             var reorder_state = $(this).data('reorder');
             console.log(reorder_state);
             $(this).addClass('on').siblings().removeClass('on');
             url_filter = '&ordering=' + reorder_state;
             $("#pagedata1").ajaxPage({
-              url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true&mark=" + mark_key + url_filter,
+              url: url +"&is_on=true&mark=" + mark_key + url_filter,
               pageId:$("#page1"),
               run:true,
               content:data,
@@ -525,7 +528,7 @@
         })
         
         $("#pagedata1").ajaxPage({
-          url: "/restapi/sub/?page={page}&pageSize={pageSize}&is_on=true",
+          url: url + "&is_on=true",
           pageId:$("#page1"),
           run:true,
           content:data,
@@ -547,7 +550,7 @@
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR.responseText);
-                alert("数据错误");
+                console.log("数据错误");
             }
         });
         $('.look__btn').click(function(){        //点击确定查单
@@ -606,7 +609,7 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR.responseText);
-                    alert("数据错误");
+                    console.log("数据错误");
                 }
             });
         })
@@ -641,7 +644,7 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR.responseText);
-                    alert("数据错误");
+                    console.log("数据错误");
                 }
             });
         }
@@ -1141,7 +1144,7 @@
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.responseText);
-            alert("数据错误");
+            console.log("数据错误");
         }
     });
 //  var con2 = document.getElementById('con2');
