@@ -442,7 +442,7 @@
             }
         },
         error: function() {
-            alert("请检查网络连接");
+            console.log("请检查网络连接");
         }
     });
     
@@ -493,7 +493,7 @@
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR.responseText);
-                alert("数据错误");
+                console.log("数据错误");
             }
         });
         var mark_key = '';
@@ -550,7 +550,7 @@
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR.responseText);
-                alert("数据错误");
+                console.log("数据错误");
             }
         });
         $('.look__btn').click(function(){        //点击确定查单
@@ -609,7 +609,7 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR.responseText);
-                    alert("数据错误");
+                    console.log("数据错误");
                 }
             });
         })
@@ -644,7 +644,7 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR.responseText);
-                    alert("数据错误");
+                    console.log("数据错误");
                 }
             });
         }
@@ -1144,7 +1144,7 @@
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR.responseText);
-            alert("数据错误");
+            console.log("数据错误");
         }
     });
 //  var con2 = document.getElementById('con2');

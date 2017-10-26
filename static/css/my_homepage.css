@@ -230,8 +230,8 @@
 .project__itembox {
     position: relative;
     /*padding: 20px;*/
-    padding: 10px 10px 0 10px;
-    margin-bottom: 20px;
+    padding: 10px 30px 10px 30px;
+    margin-bottom: 12px;
     background-color: #fff;
     transition: box-shadow 0.4s ease;
 }
@@ -294,13 +294,13 @@
     display: block;
 }
 .btn.m-project:first-child {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 .person-total {
     position: absolute;
     /*bottom: 34px;*/
-   top: 12px;
-    right: 70px;
+    top: 12px;
+    right: 50px;
 }
 .look-detail {
     margin: 10px auto 0;
@@ -456,11 +456,11 @@
     right: 10px;
     width: 40px;
     height: 40px;
-    background-color: rgba(0,0,0,0.1);
+    background-color: #91C11D;
     border-radius: 8px;
 }
 .back-top:hover {
-    background-color: rgba(0,0,0,0.3);
+    /*background-color: rgba(0,0,0,0.3);*/
 }
 .back-top:after {
     content: "";
