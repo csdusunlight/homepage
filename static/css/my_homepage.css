@@ -189,7 +189,7 @@
 }
 .reorder__item {
     display: inline-block;
-    width: 60px;
+    width: 44px;
     line-height: 30px;
     text-align: center;
     cursor: pointer;
@@ -255,7 +255,7 @@
     width: 120px;
     height: 50px;
     /*margin-top: 35px;*/
-   margin-top: 10px;
+   margin-top: 5px;
     line-height: 50px;
     vertical-align: top;
     color: #fff;
@@ -447,4 +447,30 @@
 .look-refuse-new {
     padding-left: 26px;
     background: url(../images/look-refuse-new.png) left center/17px 17px no-repeat;
+}
+
+.back-top {
+    display: block;
+    position: fixed;
+    bottom: 60px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+.back-top:hover {
+    background-color: rgba(0,0,0,0.3);
+}
+.back-top:after {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 10px;
+    width: 18px;
+    height: 18px;
+    border-top: 3px solid #fff;
+    border-right: 3px solid #fff;
+    transform: rotate(-45deg);
+    opacity: 1;
 }
