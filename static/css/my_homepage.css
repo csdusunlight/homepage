@@ -453,23 +453,28 @@
     background: url(../images/look-refuse-new.png) left center/17px 17px no-repeat;
 }
 
-.back-top {
-    display: block;
+.fixed-box {
+    display: none;
     position: fixed;
-    bottom: 60px;
-    right: 10px;
+    bottom: 30px;
+    right: -50px;
+}
+.fixed-item {
+    display: block;
+    margin-bottom: 4px;
     width: 40px;
     height: 40px;
     background-color: #91C11D;
     border-radius: 8px;
+    cursor: pointer;
 }
-.back-top:hover {
+.fixed-item:hover {
     /*background-color: rgba(0,0,0,0.3);*/
 }
-.back-top:after {
+.fixed-item.m-top:after {
     content: "";
     position: absolute;
-    top: 16px;
+    top: 60px;
     left: 10px;
     width: 18px;
     height: 18px;
@@ -477,4 +482,7 @@
     border-right: 3px solid #fff;
     transform: rotate(-45deg);
     opacity: 1;
+}
+.fixed-item.m-qq {
+    background: url(../images/bg-icon-qq.png) center center/26px auto no-repeat #91C11D;
 }
