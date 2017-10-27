@@ -448,15 +448,15 @@
     $('.search-submit').click(function(){
         var search_key = $('.search-input').val();
         console.log(search_key);
-//      if (search_key) {
-            $("#pagedata1").ajaxPage({
-              url: url + "&is_on=true&project_title_contains="+search_key,
-              pageId:$("#page1"),
-              run:true,
-              content:data,
-              complete:pagecallback,
-            });
-//      }
+        $("#pagedata1").ajaxPage({
+          url: url + "&is_on=true&project_title_contains="+search_key,
+          pageId:$("#page1"),
+          run:true,
+          content:data,
+          complete:pagecallback,
+        });
+        $('.reorder__item.m-btn').eq(0).addClass('on').siblings().removeClass('on');
+        $('.mark').eq(0).addClass('on').siblings().removeClass('on');
     })
     $('.search-input').on('keypress',function(e){
         if(e.keyCode == 13) {
@@ -469,6 +469,8 @@
               content:data,
               complete:pagecallback,
             });
+            $('.reorder__item.m-btn').eq(0).addClass('on').siblings().removeClass('on');
+            $('.mark').eq(0).addClass('on').siblings().removeClass('on');
         }
     });
 
