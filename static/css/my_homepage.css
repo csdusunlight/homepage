@@ -456,7 +456,7 @@
 .fixed-box {
     display: none;
     position: fixed;
-    bottom: 30px;
+    bottom: 102px;
     right: -50px;
 }
 .fixed-item {
@@ -485,4 +485,24 @@
 }
 .fixed-item.m-qq {
     background: url(../images/bg-icon-qq.png) center center/26px auto no-repeat #91C11D;
+}
+.footer__box {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #373737;
+}
+.footer {
+    position: relative;
+    padding: 30px 0;
+    width: 1250px;
+    height: auto;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #373737;
+}
+.footer__by {
+    position: absolute;
+    top: 48px;
+    left: 999px;
+    font-size: 18px;
 }
