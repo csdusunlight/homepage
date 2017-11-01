@@ -134,16 +134,16 @@
                         <form class="mui-input-group">
                             {% csrf_token %}
                             <div class="mui-input-row">
-                                <label>手机号&nbsp;&nbsp;</label>
-                                <input id="telnum_yuyue" type="text" maxlength=11 placeholder="平台注册手机号">
-                            </div>
-                            <div class="mui-input-row">
                               <label>QQ&nbsp;&nbsp;</label>
                               <input type="text" placeholder="qq号码，以便于及时联系" id="qq_yuyue">
                             </div>
                             <div class="mui-input-row">
                               <label>预约金额（元）</label>
-                              <input type="text" placeholder="请填写纯数字 如1000" id="amount_yuyue">
+                              <input type="text" placeholder="请填写预约金额" id="amount_yuyue">
+                            </div>
+                            <div class="mui-input-row">
+                              <label>预约时间</label>
+                              <input type="date" placeholder="请选择预约时间" id="date_yuyue">
                             </div>
                         </form>
                         <div class="mui-input-row beizhu" style="margin: 10px 5px;">
@@ -230,9 +230,13 @@
                 });
                 var yuyue_nav = document.getElementById('yuyue_nav');
                 var yuyue_con = document.getElementById('item2');
-                yuyue_nav.parentNode.removeChild(yuyue_nav);
-                yuyue_con.parentNode.removeChild(yuyue_con);
-                document.getElementById('sliderProgressBar').className = 'mui-slider-progress-bar mui-col-xs-6';
+                var is_book = "{{project.is_book}}";
+                console.log(is_book)
+                if (is_book == 'False') {
+                    yuyue_nav.parentNode.removeChild(yuyue_nav);
+                    yuyue_con.parentNode.removeChild(yuyue_con);
+                    document.getElementById('sliderProgressBar').className = 'mui-slider-progress-bar mui-col-xs-6';
+                }
                 
 //              var deceleration = mui.os.ios?0.003:0.0009;
 //              mui('#item2').scroll({
@@ -241,15 +245,15 @@
 //                  deceleration:deceleration
 //              });
 
-//              var page_url = window.location.href;
-//              console.log(page_url.substr(page_url.length-1,1));
-//              
-//              if (page_url.substr(page_url.length-1,1) == 2) {
-//                  var btn = document.getElementById("tab_submit");
-//                  mui.trigger(btn,'touchstart');
-//                  mui.trigger(btn,'tap');
-//                  
-//              }
+                var page_url = window.location.href;
+                console.log(page_url.substr(page_url.length-1,1));
+                
+                if (page_url.substr(page_url.length-1,1) == 2) {
+                    var btn = document.getElementById("tab_submit");
+                    mui.trigger(btn,'touchstart');
+                    mui.trigger(btn,'tap');
+                }
+                
                 
                 var project_id = '{{id}}';
                 var limit_str;
@@ -591,63 +595,49 @@
                     file_list = [];
                     document.getElementById("upload").value = "";
                 });
-                
-//              document.getElementById("submit_btn").addEventListener('tap', function() {
-//                  var telnum = document.getElementById('telnum').value;
-//                  var term = document.getElementById('term').value;
-//                  var amount = document.getElementById('amount').value;
-//                  var date = document.getElementById('date').value;
-//                  var zhifubao = document.getElementById('zhifubao').value;
-//                  var zfbname = document.getElementById('zfbname').value;
-//                  var remark = document.getElementById('remark').value;
-//                  // amount = parseFloat(amount);
-//                  
-//                  if(!telnum || !term || !amount || !date ||  !zhifubao || !zfbname ) {
-//                      mui.alert("必填写项不能为空");
-//                      return;
-//                  }
-//                  var re=/^1[1,2,3,4,6,5,7,8,9]\d{9}$/;
-//                  var re_amount=/^\d+(\.\d+)?$/;
-//                  if(!re.test(telnum)){
-//                  mui.alert("手机号格式不正确！");
-//                      return;
-//                  }
-//                  if(!re_amount.test(term)){
-//                      mui.alert("投资标期不能为空且必须为纯数字格式！")
-//                      return;
-//                  }
-//                  if(!re_amount.test(amount)){
-//                      mui.alert("投资金额不能为空且必须为纯数字格式！")
-//                      return;
-//                  }
-//                  var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-//                  console.log(project_id+","+telnum+","+term+","+amount+","+date+","+zhifubao+","+zfbname+","+remark+",");
-//                  mui.ajax('/restapi/investlogs/',{
-//                      data: {
-//                          'project': project_id,
-//                          'invest_mobile': telnum,
-//                          'invest_term': term,
-//                          'invest_amount': amount,
-//                          'invest_date': date,
-//                          'zhifubao': zhifubao,
-//                          'zhifubao_name': zfbname,
-//                          'remark': remark
-//                      },
-//                      dataType:'json',//服务器返回json格式数据
-//                      type:'post',//HTTP请求类型
-//                      timeout:10000,//超时时间设置为10秒；
-//                      success:function(data){
-//                          mui.alert('提交成功', function(){
-//                              mui.back();
-//                          });
-//      
-//                      },
-//                      error:function(xhr,type,errorThrown){
-//                          mui.alert(xhr.responseText);
-//                          console.log('数据错误');
-//                      }
-//                  });
-//              });
+                if (is_book == 'True') {
+                    document.getElementById("submit_yuyue").addEventListener('tap', function() {
+                        var qq_yuyue = document.getElementById('qq_yuyue').value;
+                        var amount_yuyue = document.getElementById('amount_yuyue').value;
+                        var date_yuyue = document.getElementById('date_yuyue').value;
+                        var remark_yuyue = document.getElementById('remark_yuyue').value;
+                        
+                        if(!qq_yuyue || !amount_yuyue || !date_yuyue ) {
+                            mui.alert("必填写项不能为空");
+                            return;
+                        }
+                        var re_amount=/^\d+(\.\d+)?$/;
+                        if(!re_amount.test(qq_yuyue)){
+                        mui.alert("qq号必须为纯数字！");
+                            return;
+                        }
+                        var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+                        mui.ajax('/restapi/books/',{
+                            data: {
+                                'project': project_id,
+                                'user': {{user.id}},
+                                'qq_number': qq_yuyue,
+                                'book_content': amount_yuyue,
+                                'book_date': date_yuyue,
+                                'remark': remark_yuyue,
+                                'state': '1'
+                            },
+                            dataType:'json',//服务器返回json格式数据
+                            type:'post',//HTTP请求类型
+                            timeout:10000,//超时时间设置为10秒；
+                            success:function(data){
+                                mui.alert('预约成功', function(){
+                                    mui.back();
+                                });
+            
+                            },
+                            error:function(xhr,type,errorThrown){
+                                mui.alert(xhr.responseText);
+                                console.log('数据错误');
+                            }
+                        });
+                    });
+                }
         </script>
     {%if back %}
         <script>
