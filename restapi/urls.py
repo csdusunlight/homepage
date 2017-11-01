@@ -30,4 +30,6 @@ urlpatterns = [
 
 #     url(r'^withdrawlog/$', views.WithdrawLogList.as_view()),
     url(r'^marks/$', views.MarkList.as_view()),
+    
+    url(r'^books/$', views.BookLogList.as_view()),
 ]
