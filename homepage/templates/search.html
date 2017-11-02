@@ -35,7 +35,7 @@
     <!--<h1 class="mui-title">搜索页</h1>-->
     <div class="mui-title">
         <div class="mui-input-row mui-search">
-            <input id="search" type="search" class="mui-input-clear" autofocus="autofocus">
+            <input id="search" type="search" class="mui-input-clear" placeholder="">
         </div>
     </div>
 </header>
@@ -260,9 +260,15 @@
             console.log(this);
             this.innerText = '已结束';
         })
-//      window.onload = function() {
+        window.onload = function() {
 //          document.getElementById("search").focus();
-//      }
+            var btn = document.getElementById("search");
+            btn.addEventListener('click',function(){
+                console.log('click');
+                this.focus();
+            })
+            mui.trigger(btn,'click');
+        }
     </script>
 {% include "footer.html" %}
 </body>
