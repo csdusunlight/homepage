@@ -34,8 +34,8 @@
     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
     <!--<h1 class="mui-title">搜索页</h1>-->
     <div class="mui-title">
-            <input id="search" type="search" class="mui-input-clear" placeholder="">
         <div class="mui-input-row mui-search">
+            <input id="search" type="search" class="mui-input-clear" placeholder="">
         </div>
     </div>
 </header>
@@ -263,12 +263,12 @@
 //      window.onload = function() {
 //          document.getElementById("search").focus();
             var btn = document.getElementById("search");
-//          btn.addEventListener('click',function(){
-////              mui.alert('click');
-//              btn.focus();
-//          })
+            btn.addEventListener('tap',function(){
+//              mui.alert('click');
+                btn.focus();
+            })
 //          window.setTimeout(function(){
-                mui.trigger(btn,'click');
+                mui.trigger(btn,'tap');
 //          },300)
 //      }
     </script>
