@@ -265,7 +265,9 @@
             var btn = document.getElementById("search");
             btn.addEventListener('click',function(){
 //              mui.alert('click');
-                this.focus();
+                window.setTimeout(function(){
+                    this.focus();
+                },100)
             })
             mui.trigger(btn,'click');
         }
