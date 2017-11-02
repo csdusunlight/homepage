@@ -260,17 +260,17 @@
             console.log(this);
             this.innerText = '已结束';
         })
-//      window.onload = function() {
+        window.onload = function() {
 //          document.getElementById("search").focus();
             var btn = document.getElementById("search");
-            btn.addEventListener('tap',function(){
-//              mui.alert('click');
+//          btn.addEventListener('click',function(){
+                mui.alert('click');
                 btn.focus();
-            })
+//          })
 //          window.setTimeout(function(){
-                mui.trigger(btn,'tap');
+//              mui.trigger(btn,'click');
 //          },300)
-//      }
+        }
     </script>
 {% include "footer.html" %}
 </body>
