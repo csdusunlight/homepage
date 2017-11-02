@@ -265,17 +265,19 @@
             var exitTime = now.getTime() + numberMillis;
             while (true) {
                 now = new Date();
-                if (now.getTime() > exitTime)
+                if (now.getTime() > exitTime) {
                     return;
+                } else {
+                    var btn = document.getElementById("search");
+                    mui.toast('click');
+                    btn.focus();
+                }
             }
         }
         window.onload = function() {
 //          document.getElementById("search").focus();
-            var btn = document.getElementById("search");
 //          btn.addEventListener('click',function(){
             sleep(1000);
-                mui.toast('click');
-                btn.focus();
 //          })
 //          window.setTimeout(function(){
 //              mui.trigger(btn,'click');
