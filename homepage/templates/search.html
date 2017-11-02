@@ -260,7 +260,9 @@
             console.log(this);
             this.innerText = '已结束';
         })
-        
+        window.onload = function() {
+            document.getElementById("search").focus();
+        }
     </script>
 {% include "footer.html" %}
 </body>
