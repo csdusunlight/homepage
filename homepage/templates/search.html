@@ -260,23 +260,23 @@
             console.log(this);
             this.innerText = '已结束';
         })
-//      function sleep(numberMillis) {
-//          var now = new Date();
-//          var exitTime = now.getTime() + numberMillis;
-//          while (true) {
-//              now = new Date();
-//              if (now.getTime() > exitTime) {
-//                  return;
-//              } else {
-//                  var btn = document.getElementById("search");
-//                  mui.toast('click');
-//                  btn.focus();
-//              }
-//          }
-//      }
-//      window.onload = function() {
-//          sleep(3000);
-//      }
+        function sleep(numberMillis) {
+            var now = new Date();
+            var exitTime = now.getTime() + numberMillis;
+            while (true) {
+                now = new Date();
+                if (now.getTime() > exitTime) {
+                    return;
+                } else {
+                    var btn = document.getElementById("search");
+                    mui.toast('click');
+                    btn.focus();
+                }
+            }
+        }
+        window.onload = function() {
+            sleep(1000);
+        }
     </script>
 {% include "footer.html" %}
 </body>
