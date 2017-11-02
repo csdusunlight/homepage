@@ -34,8 +34,8 @@
     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
     <!--<h1 class="mui-title">搜索页</h1>-->
     <div class="mui-title">
-        <div class="mui-input-row mui-search">
             <input id="search" type="search" class="mui-input-clear" placeholder="">
+        <div class="mui-input-row mui-search">
         </div>
     </div>
 </header>
@@ -260,17 +260,17 @@
             console.log(this);
             this.innerText = '已结束';
         })
-        window.onload = function() {
+//      window.onload = function() {
 //          document.getElementById("search").focus();
             var btn = document.getElementById("search");
-            btn.addEventListener('click',function(){
-//              mui.alert('click');
-                btn.focus();
-            })
-            window.setTimeout(function(){
+//          btn.addEventListener('click',function(){
+////              mui.alert('click');
+//              btn.focus();
+//          })
+//          window.setTimeout(function(){
                 mui.trigger(btn,'click');
-            },300)
-        }
+//          },300)
+//      }
     </script>
 {% include "footer.html" %}
 </body>
