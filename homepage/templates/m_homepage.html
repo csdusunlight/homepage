@@ -55,7 +55,7 @@
                     </div>
                     <div class="proj__btnbox">
                         <a data-projectid="{{recom.id}}" class="proj__btn state{{recom.state}} proj__btn-submit">查看攻略</a>
-                        <a data-projectid="{{recom.id}}" class="proj__btn proj__btn-submit2">交单</a>
+                        <a data-projectid="{{recom.id}}" class="proj__btn proj__btn-submit2 isbook_{{recom.is_book}}">交单</a>
                     </div>
                 </li>
             {%endfor%}
@@ -163,8 +163,13 @@
                             '<p class="proj__detail-item m-mt"><span class="proj__detail-name">投资标期：</span><span class="proj__detail-val">'+ item.project_term +'</span></p>'+
                             '</div></div>'+
                             '<div class="proj__btnbox"><a data-projectid="'+ item.project +'" class="proj__btn state'+ item.project_state +' proj__btn-submit">'+
-                            (item.project_state == 10 ? '查看攻略' : '已结束') +
-                            '</a><a data-projectid="'+ item.project +'" class="proj__btn proj__btn-submit2">交单</a></div>';
+                            (item.project_state == 10 ? '查看攻略' : '已结束') + '</a>';
+                            console.log(typeof(item.project_is_book));
+                            if (item.project_is_book) {
+                                str_block += '<a data-projectid="'+ item.project +'" class="proj__btn proj__btn-submit3">预约</a></div>';
+                            } else {
+                                str_block += '<a data-projectid="'+ item.project +'" class="proj__btn proj__btn-submit2">交单</a></div>';
+                            }
 
 							li.innerHTML = str_block;
 							table.appendChild(li);
@@ -190,6 +195,10 @@
 
     </script>
     <script type="text/javascript">
+        mui('.isbook_True').each(function(){
+            this.innerText = '预约';
+            this.className = 'proj__btn proj__btn-submit3 isbook_True'
+        })
 //      var scrollToTopBox = document.getElementById('scrollToTop'); //返回按钮tap
 //      scrollToTopBox.addEventListener('tap', function(e) {
 //          e.stopPropagation();
@@ -318,6 +327,25 @@
             var project_id = this.getAttribute('data-projectid');
             console.log(project_id);
             var exp_url = "/detail/project/" + project_id + '/?tab=2';
+            mui.openWindow({
+                url: exp_url,
+                styles: {
+                    top: 0,
+                    bottom: 0
+                },
+                show: {
+                    aniShow: 'slide-in-right',
+                },
+                waiting: {
+                    autoShow: false, //自动显示等待框
+                    title: '正在加载...', //等待对话框上显示的提示内容
+                }
+            });
+        })
+        mui('.tabcon').on('tap', '.proj__btn-submit3', function(){
+            var project_id = this.getAttribute('data-projectid');
+            console.log(project_id);
+            var exp_url = "/detail/project/" + project_id + '/?tab=3';
             mui.openWindow({
                 url: exp_url,
                 styles: {

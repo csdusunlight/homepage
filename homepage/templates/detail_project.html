@@ -136,6 +136,7 @@
         <div class="detail-box">
             <ul class="myproj-nav-box">
                 <li class="navitem on">攻略</li>
+                <li class="navitem m-yuyue">预约</li>
                 <li class="navitem">交单</li>
             </ul>
             <div class="conitem-box">
@@ -151,6 +152,35 @@
                         </iframe>
                         <div class="iframe-bottom">
                             <span class="btn m-green m-bottom">点击交单</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="conitem m-yuyue">
+                    <div class="submit-box m-submit" style="width: 100%;">
+                        <div class="popup__top">
+                            <h2 class="popup__title">项目预约</h2>
+                        </div>
+                        <div class="popup__detail">
+                            <div class="popup__item">
+                                <span class="popup__itemname">QQ号码：</span>
+                                <input type="text" class="qq-yuyue" placeholder="qq号码，以便于及时联系" />
+                            </div>
+                            <div class="popup__item">
+                                <span class="popup__itemname">预约金额：</span>
+                                <input type="text" class="amount-yuyue" placeholder="请填写纯数字 如1000" />
+                            </div>
+                            <div class="popup__item">
+                                <span class="popup__itemname">预约日期：</span>
+                                <input type="text" class="date-yuyue date_picker" placeholder="选择预约日期" />
+                            </div>
+                            <div class="popup__item">
+                                <span class="popup__itemname">备注：</span>
+                                <input type="text" class="remark-yuyue" placeholder="可不填" />
+                            </div>
+                        </div>
+                        <div class="popup__btnbox">
+                            <!--<a id="cancel" class="cancel btn m-green m-right" onclick="canclePopup(this)">取消</a>-->
+                            <a id="confirm_yuyue" class="btn m-green m-popup popup-confirm popup__close-btn">确认预约</a>
                         </div>
                     </div>
                 </div>
@@ -258,7 +288,12 @@
             tabActiveClass: 'on',
             tabType: 'click '
         });
-        
+        var is_book = "{{project.is_book}}";
+        console.log(is_book);
+        if (is_book != 'False' ) {
+            $('.navitem.m-yuyue').hide();
+            $('.conitem.m-yuyue').hide();
+        }
         var page_url = window.location.href;
         console.log(page_url.substr(page_url.length-1,1));
         if (page_url.substr(page_url.length-1,1) == 2) {
@@ -647,6 +682,45 @@
     }
     $("#confirm").click(function() {
         submit_confirm();
+    });
+    $("#confirm_yuyue").click(function() {
+        var qq_yuyue = $('.qq-yuyue').val();
+        var amount_yuyue = $('.amount-yuyue').val();
+        var date_yuyue = $('.date-yuyue').val();
+        var remark_yuyue = $('.remark-yuyue').val();
+        
+        if (!qq_yuyue || !amount_yuyue || !date_yuyue) {
+        	alert('必填项不能为空');
+        }
+        
+        var re_amount=/^\d+(\.\d+)?$/;
+        if(!re_amount.test(qq_yuyue)){
+            alert("qq号必须为纯数字格式！")
+            return;
+        }
+        
+        $.ajax({
+            url: '/restapi/books/',
+            dataType: "json",
+            type: 'post',
+            data: {
+                'project': project_id,
+                'user': {{user.id}},
+                'qq_number': qq_yuyue,
+                'book_content': amount_yuyue,
+                'book_date': date_yuyue,
+                'remark': remark_yuyue,
+                'state': '1',
+                
+            },
+            success: function(ret) {
+                    alert('预约成功');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+                console.log("数据错误");
+            }
+        });
     });
     
 </script>
