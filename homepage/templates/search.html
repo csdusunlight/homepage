@@ -264,8 +264,14 @@
 //          document.getElementById("search").focus();
             var btn = document.getElementById("search");
 //          btn.addEventListener('click',function(){
-                mui.toast('click');
-                btn.focus();
+    var i;
+            for (i=0; i<=10; i++) {
+                if (i==10) {
+                	
+//                  mui.alert('click');
+                    btn.focus();
+                }
+            }
 //          })
 //          window.setTimeout(function(){
 //              mui.trigger(btn,'click');
