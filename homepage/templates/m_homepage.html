@@ -12,6 +12,18 @@
     <link href="{% static 'css/m_common.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/m_homepage.css' %}" rel="stylesheet"/>
     <link id="skin" href="/static/css/m-skin1.css" rel="stylesheet" />
+    <style>
+        #search {
+            padding: 0 10px;
+            margin: 0 10px 10px 10px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            color: #91C11D;
+            background-color: #fff;
+            border-radius: 6px;
+        }
+    </style>
     <script type="text/javascript">
     	var skin_id = "{{user.color}}";
     	console.log(skin_id);
@@ -68,9 +80,10 @@
     </div>-->
     <div id="pullrefresh" class="mui-scroll-wrapper">
         <div class="mui-content">
-            <div class="mui-input-row mui-search">
+            <!--<div class="mui-input-row mui-search">
                 <input id="search" type="search" class="mui-input-clear" placeholder="">
-            </div>
+            </div>-->
+            <div id="search"><span class="search-icon mui-icon mui-icon-search"></span>点此进入搜索</div>
             <ul class="mui-table-view project-all-box">
                 
             </ul>
@@ -368,7 +381,7 @@
                 url: "http://wpa.qq.com/msgrd?v=3&uin={{user.qq_number}}&site=qq&menu=yes",
             });
         })
-        document.getElementById('search').addEventListener('focus', function () {
+        document.getElementById('search').addEventListener('tap', function () {
             console.log('search');
             mui.openWindow({
                 url: "/search/",
