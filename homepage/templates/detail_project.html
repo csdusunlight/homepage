@@ -163,15 +163,15 @@
                         <div class="popup__detail">
                             <div class="popup__item">
                                 <span class="popup__itemname">QQ号码：</span>
-                                <input type="text" class="qq-yuyue" placeholder="qq号码，以便于及时联系" />
+                                <input type="text" class="qq-yuyue" placeholder="qq号码，以便于及时联系，限15字符" maxlength="15" />
                             </div>
                             <div class="popup__item">
                                 <span class="popup__itemname">预约金额：</span>
-                                <input type="text" class="amount-yuyue" placeholder="请填写纯数字 如1000" />
+                                <input type="text" class="amount-yuyue" placeholder="请填写纯数字 如1000，限50字符" maxlength="50" />
                             </div>
                             <div class="popup__item">
                                 <span class="popup__itemname">预约标期：</span>
-                                <input type="text" class="term-yuyue" placeholder="请填写纯数字 如1000" />
+                                <input type="text" class="term-yuyue" placeholder="请填写纯数字 如1000，限10字符" maxlength="10" />
                             </div>
                             <div class="popup__item">
                                 <span class="popup__itemname">预约日期：</span>
@@ -179,7 +179,7 @@
                             </div>
                             <div class="popup__item">
                                 <span class="popup__itemname">备注：</span>
-                                <input type="text" class="remark-yuyue" placeholder="可不填" />
+                                <input type="text" class="remark-yuyue" placeholder="可不填，限100字符" maxlength="100" />
                             </div>
                         </div>
                         <div class="popup__btnbox">
@@ -196,15 +196,15 @@
                         <div class="popup__detail">
                             <div class="popup__item limit-input"  data-limit="5">
                                 <span class="popup__itemname">提交手机号：</span>
-                                <input type="text" class="telnum" maxlength=11 placeholder="平台注册手机号" />
+                                <input type="text" class="telnum" maxlength="11" placeholder="平台注册手机号，限11字符" />
                             </div>
                             <div class="popup__item limit-input"  data-limit="0">
                                 <span class="popup__itemname">投资姓名：</span>
-                                <input type="text" class="invest_account" placeholder="平台注册用户名/姓名" />
+                                <input type="text" class="invest_account" maxlength="11" placeholder="平台注册用户名/姓名，限11字符" />
                             </div>
                             <div class="popup__item limit-input"  data-limit="1">
                                 <span class="popup__itemname">投资金额：</span>
-                                <input type="text" class="amount" placeholder="请填写纯数字 如1000" />
+                                <input type="text" class="amount" maxlength="10" placeholder="请填写纯数字 如1000，限10字符" />
                             </div>
                             <div class="popup__item limit-input"  data-limit="2">
                                 <span class="popup__itemname">投资标期：</span>
@@ -216,15 +216,15 @@
                             </div>
                             <div class="popup__item limit-input"  data-limit="4">
                                 <span class="popup__itemname">收款信息：</span>
-                                <input type="text" class="zfb" placeholder="收款帐号 如支付宝、qq等" />
+                                <input type="text" class="zfb" maxlength="64" placeholder="收款帐号 如支付宝、qq等，限64字符" />
                             </div>
                             <div class="popup__item limit-input"  data-limit="6">
                                 <span class="popup__itemname">返现金额：</span>
-                                <input type="text" class="return_amount" placeholder="用户预期返现金额" />
+                                <input type="text" class="return_amount" maxlength="10" placeholder="用户预期返现金额，限10字符" />
                             </div>
                             <div class="popup__item limit-input"  data-limit="7">
                                 <span class="popup__itemname">qq：</span>
-                                <input type="text" class="qq" placeholder="qq号码，以便于及时联系" />
+                                <input type="text" class="qq" maxlength="20" placeholder="qq号码，以便于及时联系，限20字符" />
                             </div>
                             <div class="popup__item isfutou-item">
                                 <span class="popup__itemname"></span>
@@ -245,7 +245,7 @@
                             </div>
                             <div class="popup__item">
                                 <span class="popup__itemname">备注：</span>
-                                <input type="text" class="remark" placeholder="可不填" />
+                                <input type="text" class="remark" maxlength="100" placeholder="可不填，限100字符" />
                             </div>
                         </div>
                         <div class="popup__btnbox">
@@ -720,13 +720,19 @@
                 
             },
             success: function(ret) {
-                    alert('预约成功');
+                    
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR.responseText);
                 console.log("数据错误");
             }
         });
+        alert('预约成功，请耐心等待管理员与您联系，切勿重复提交');
+        $('.qq-yuyue').val('');
+        $('.amount-yuyue').val('');
+        $('.term-yuyue').val('');
+        $('.date-yuyue').val('');
+        $('.remark-yuyue').val('');
     });
     
 </script>

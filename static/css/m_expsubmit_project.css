@@ -53,12 +53,12 @@
 .beizhu p {
 	font-size: 1.4rem;
 	line-height: 2rem;
-	padding-left: 11px;
+	/*padding-left: 11px;*/
 }
 textarea {
-	width: 94%;
+	width: 90%;
 	margin-top: 1rem;
-	margin-left: 3%;
+	/*margin-left: 3%;*/
 	height: 10rem;
 }
 .mui-content button {
@@ -139,4 +139,39 @@ form.mui-input-group .mui-input-row:after {
 .mui-input-row .choose {
 	width: 55%;
 	background: url(../images/select-icon.png) 90% center/20px auto no-repeat;
+}
+.input-title {
+    position: relative;
+    color: #222;
+    font-size: 16px;
+}
+.input-title:before {
+    content: '*';
+    position: absolute;
+    top: -3px;
+    left: -10px;
+    color: red;
+}
+.beizhu .input-title:before {
+    display: none;
+}
+input {
+    display: block;
+    margin: 10px 0 4px !important;
+    width: 90% !important;
+}
+.input-box {
+    padding-left: 5%;
+    margin-top: 20px;
+}
+.input-tips {
+    display: none;
+    color: red;
+    font-size: 12px;
+}
+.mui-radio input[type=radio] {
+    right: 10px;
+}
+.mui-input-row label {
+    padding: 11px 0;
 }
