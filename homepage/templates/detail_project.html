@@ -170,6 +170,10 @@
                                 <input type="text" class="amount-yuyue" placeholder="请填写纯数字 如1000" />
                             </div>
                             <div class="popup__item">
+                                <span class="popup__itemname">预约标期：</span>
+                                <input type="text" class="term-yuyue" placeholder="请填写纯数字 如1000" />
+                            </div>
+                            <div class="popup__item">
                                 <span class="popup__itemname">预约日期：</span>
                                 <input type="text" class="date-yuyue date_picker" placeholder="选择预约日期" />
                             </div>
@@ -686,10 +690,11 @@
     $("#confirm_yuyue").click(function() {
         var qq_yuyue = $('.qq-yuyue').val();
         var amount_yuyue = $('.amount-yuyue').val();
+        var term_yuyue = $('.term-yuyue').val();
         var date_yuyue = $('.date-yuyue').val();
         var remark_yuyue = $('.remark-yuyue').val();
         
-        if (!qq_yuyue || !amount_yuyue || !date_yuyue) {
+        if (!qq_yuyue || !amount_yuyue || !date_yuyue || !term_yuyue) {
         	alert('必填项不能为空');
         }
         
@@ -708,6 +713,7 @@
                 'user': {{user.id}},
                 'qq_number': qq_yuyue,
                 'book_content': amount_yuyue,
+                'book_term': term_yuyue,
                 'book_date': date_yuyue,
                 'remark': remark_yuyue,
                 'state': '1',
