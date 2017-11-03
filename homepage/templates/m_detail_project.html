@@ -253,6 +253,11 @@
                     mui.trigger(btn,'touchstart');
                     mui.trigger(btn,'tap');
                 }
+                if (page_url.substr(page_url.length-1,1) == 3) {
+                    var btn = document.getElementById("yuyue_nav");
+                    mui.trigger(btn,'touchstart');
+                    mui.trigger(btn,'tap');
+                }
                 
                 
                 var project_id = '{{id}}';
