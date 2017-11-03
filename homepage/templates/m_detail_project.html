@@ -142,6 +142,10 @@
                               <input type="text" placeholder="请填写预约金额" id="amount_yuyue">
                             </div>
                             <div class="mui-input-row">
+                              <label>预约标期（天）</label>
+                              <input type="text" placeholder="请填写预约标期" id="term_yuyue">
+                            </div>
+                            <div class="mui-input-row">
                               <label>预约时间</label>
                               <input type="date" placeholder="请选择预约时间" id="date_yuyue">
                             </div>
@@ -250,6 +254,11 @@
                 
                 if (page_url.substr(page_url.length-1,1) == 2) {
                     var btn = document.getElementById("tab_submit");
+                    mui.trigger(btn,'touchstart');
+                    mui.trigger(btn,'tap');
+                }
+                if (page_url.substr(page_url.length-1,1) == 3) {
+                    var btn = document.getElementById("yuyue_nav");
                     mui.trigger(btn,'touchstart');
                     mui.trigger(btn,'tap');
                 }
@@ -599,10 +608,11 @@
                     document.getElementById("submit_yuyue").addEventListener('tap', function() {
                         var qq_yuyue = document.getElementById('qq_yuyue').value;
                         var amount_yuyue = document.getElementById('amount_yuyue').value;
+                        var term_yuyue = document.getElementById('term_yuyue').value;
                         var date_yuyue = document.getElementById('date_yuyue').value;
                         var remark_yuyue = document.getElementById('remark_yuyue').value;
                         
-                        if(!qq_yuyue || !amount_yuyue || !date_yuyue ) {
+                        if(!qq_yuyue || !amount_yuyue || !date_yuyue || !term_yuyue ) {
                             mui.alert("必填写项不能为空");
                             return;
                         }
@@ -618,6 +628,7 @@
                                 'user': {{user.id}},
                                 'qq_number': qq_yuyue,
                                 'book_content': amount_yuyue,
+                                'book_term': term_yuyue,
                                 'book_date': date_yuyue,
                                 'remark': remark_yuyue,
                                 'state': '1'
