@@ -250,8 +250,9 @@
         <!--弹窗部分-->
         <script type="text/javascript" charset="utf-8">
                 mui.init({
-                    swipeBack:true //启用右滑关闭功能
+                    swipeBack:false //启用右滑关闭功能
                 });
+                
                 
                 //      检验填写格式
         var isInputTrue = true;        //填写格式是否正确
@@ -381,6 +382,9 @@
             yuyue_nav.parentNode.removeChild(yuyue_nav);
             yuyue_con.parentNode.removeChild(yuyue_con);
             document.getElementById('sliderProgressBar').className = 'mui-slider-progress-bar mui-col-xs-6';
+            mui('.mui-slider').slider().setStopped(true);       //设置禁止左右滑动
+        } else {
+            mui('.mui-slider').slider().setStopped(true);       //设置禁止左右滑动
         }
         
 //              var deceleration = mui.os.ios?0.003:0.0009;
@@ -844,7 +848,6 @@
                 history.back();
             }
         };
-        
 
         </script>
     {%endif%}
