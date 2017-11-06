@@ -59,6 +59,21 @@ def send_mail(to_email, id):
     except Exception, e:  
         logger.error(str(e))
         return ''
+def send_book_email(to_email, subject, content):
+    msg = MIMEText(content,_subtype='plain',_charset='utf-8') #创建一个实例，这里设置为html格式邮件
+    msg['Subject'] = subject    #设置主题
+    msg['From'] = u"福利联盟"
+    msg['To'] = to_email 
+    try:  
+        s = smtplib.SMTP()  
+        s.connect(mail_host)  #连接smtp服务器
+        s.login(mail_user,mail_pass)  #登陆服务器
+        res = s.sendmail(mail_user, [to_email,], msg.as_string())  #发送邮件
+        s.close()  
+        return 0
+    except Exception, e:  
+        logger.error(str(e))
+        return 1
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
