@@ -90,6 +90,8 @@ class Project(models.Model):
                 支付宝信息(4)，投资手机号(5)，预期返现金额(6)，QQ号(7)，投资截图(8)，字段以英文逗号隔开，如0,1,2,3,4,5", default = '0,1,2,3,4,5')
     subscribers = models.ManyToManyField(MyUser, through='SubscribeShip')
     points = models.IntegerField(u"参与人数", default=0)
+    channel = models.CharField(u"项目来源（上游渠道）", max_length=20, blank=True)
+    up_price = models.CharField(u"结算价格（收入）", max_length=40, blank=True)
     def clean(self):
         if not self.pic:
             raise ValidationError({'pic': u'图片不能为空'})
@@ -356,6 +358,11 @@ class BookLog(models.Model):
     remark = models.CharField(u"备注", max_length=100, blank=True)
     state = models.CharField(max_length=10, choices=BOOK_STATE, verbose_name=u"预约状态")
     def __unicode__(self):
-        return self.project.title + self.book_content
+        return u"项目：" + self.project.title + '\n' \
+            + u"QQ：" + self.qq_number + '\n' \
+            + u"预约金额：" + self.book_content + '\n' \
+            + u"预约标期：" + self.book_term + '\n' \
+            + u"预约日期：" + str(self.book_date) + '\n' \
+            + u"留言：" + self.remark
     class Meta:
         ordering = ['-submit_time']
