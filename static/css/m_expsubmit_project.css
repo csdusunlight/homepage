@@ -94,7 +94,7 @@ form {
 }
 .iframe__price {
     line-height: 20px;
-    font-size: 10px;
+    font-size: 14px;
 }
 .iframe__invest {
     line-height: 20px;
@@ -102,7 +102,7 @@ form {
 }
 .invest-num,
 .price-num {
-    font-size: 14px;
+    font-size: 16px;
     color: #91C11D;
 }
 
