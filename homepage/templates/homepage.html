@@ -198,7 +198,16 @@
             </div>
         </div>
         <div class="con-right r">
-            <a href="http://wpa.qq.com/msgrd?v=3&uin={{user.qq_number}}&site=qq&menu=yes" target="_blank"><div class="ask">点击咨询我</div></a>
+            <div class="clearfix">
+                <div class="ask-box l">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin={{user.qq_number}}&site=qq&menu=yes" target="_blank">
+                        <div class="ask">咨询</div>
+                    </a>
+                </div>
+                <div class="collect-box r" onclick="addFavorite()">
+                     <p class="collect">一&nbsp;键<br />收&nbsp;藏</p>
+                </div>
+            </div>
             <div class="notice">
                 <h3 class="notice__title">最新公告</h3>
                 <div id="noticeBox" class="notice__box">
@@ -1001,6 +1010,30 @@
 //  $("#confirm").click(function() {
 //      submit_confirm();
 //  });
+    function addFavorite() {        //一键收藏部分
+          var url = window.location;
+          var title = document.title;
+          var ua = navigator.userAgent.toLowerCase();
+          if (ua.indexOf("360se") > -1) {
+              alert("由于360浏览器功能限制，请按 Ctrl+D 手动收藏！");
+          }
+          else if (ua.indexOf("msie 8") > -1) {
+              window.external.AddToFavoritesBar(url, title); //IE8
+          }
+          else if (document.all) {//IE类浏览器
+            try{
+             window.external.addFavorite(url, title);
+            }catch(e){
+             alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
+            }
+          }
+          else if (window.sidebar) {//firfox等浏览器；
+              window.sidebar.addPanel(title, url, "");
+          }
+          else {
+              alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
+          }
+    }    
     
 //  横向滚动部分
     var page= 1; 
