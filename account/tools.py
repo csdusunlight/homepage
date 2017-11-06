@@ -62,8 +62,8 @@ def send_mail(to_email, id):
 def send_book_email(to_email, subject, content):
     msg = MIMEText(content,_subtype='plain',_charset='utf-8') #创建一个实例，这里设置为html格式邮件
     msg['Subject'] = subject    #设置主题
-    msg['From'] = u"福利联盟"
-    msg['To'] = to_email 
+    msg['From'] = u"福利联盟<" + mail_user + ">"
+    msg['To'] = to_email
     try:  
         s = smtplib.SMTP()  
         s.connect(mail_host)  #连接smtp服务器

@@ -208,7 +208,7 @@ class BookLogList(BaseViewMixin, generics.ListCreateAPIView):
                 + u"预约金额：" + instance.book_content + '\n' \
                 + u"预约标期：" + instance.book_term + '\n' \
                 + u"预约日期：" + str(instance.book_date) + '\n' \
-                + u"留言：" + instance.remark
+                + u"留言：" + instance.remark or u"无"
             content = content + '\n' + u"请到个人中心-预约管理中查看并处理。"
             send_book_email(qq_address, subject, content)
 #         send_mail(subject, content, u'hunanjinyezi@126.com', ['690501772@qq.com',], auth_user='lvchunhui7@126.com',
