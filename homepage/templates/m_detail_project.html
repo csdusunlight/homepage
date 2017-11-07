@@ -153,11 +153,15 @@
                               <input type="date"class="form-test2" data-form="required" placeholder="请选择预约时间" id="date_yuyue">
                               <p class="input-tips">提示内容部分</p>
                             </div>
+                            <div class="input-box beizhu">
+                                <label class="input-title">备注：</label>
+                                <input type="text" maxlength="100" placeholder="可不填，限100字符" id="remark_yuyue">
+                            </div>
                         </form>
-                        <div class="input-box beizhu" style="margin: 10px 5px;">
+                        <!--<div class="input-box beizhu" style="margin: 10px 5px;">
                             <p>备注:</p>
                             <textarea id="remark_yuyue" rows="3" placeholder="可不填" maxlength="100"></textarea>
-                        </div>
+                        </div>-->
                         <button id="submit_yuyue" type="button" class="mui-btn mui-btn-blue">确认预约</button>
                     </div>       
                     <div id="item3" style="overflow-y: scroll;" class="mui-slider-item mui-control-content" value="2">
@@ -214,7 +218,7 @@
                                 </div>
                             </div>
                             <div class="img-up limit-input input-box"  data-limit="8">
-                                <p class="input-title">上传截图:</p>
+                                <p class="input-title">上传截图：</p>
                                 <input type="file" name="picfile" id="choose" accept="image/png, image/jpeg" multiple=true>
                                 <ul id="img-list" class="img-list"></ul>
                                 <div class="mui-row img-btn">
@@ -227,12 +231,15 @@
                                 </div>
                                 <span class="tips">限jpg和png格式，最多6张</span>
                             </div>
-            
+                            <div class="input-box beizhu">
+                                <label class="input-title">备注：</label>
+                                <input type="text" maxlength="100" placeholder="可不填，限100字符" id="remark">
+                            </div>
                         </form>
-                        <div class="mui-input-row beizhu input-box">
+                        <!--<div class="mui-input-row beizhu input-box">
                             <p class="input-title">备注:</p>
                             <textarea id="remark" rows="3" maxlength="100" placeholder="可不填，限100字符"></textarea>
-                        </div>
+                        </div>-->
                         <button id="submit_btn" type="button" class="mui-btn mui-btn-blue">确认提交</button>
                     </div>       
         
@@ -243,8 +250,9 @@
         <!--弹窗部分-->
         <script type="text/javascript" charset="utf-8">
                 mui.init({
-                    swipeBack:true //启用右滑关闭功能
+                    swipeBack:false //启用右滑关闭功能
                 });
+                
                 
                 //      检验填写格式
         var isInputTrue = true;        //填写格式是否正确
@@ -374,6 +382,9 @@
             yuyue_nav.parentNode.removeChild(yuyue_nav);
             yuyue_con.parentNode.removeChild(yuyue_con);
             document.getElementById('sliderProgressBar').className = 'mui-slider-progress-bar mui-col-xs-6';
+            mui('.mui-slider').slider().setStopped(true);       //设置禁止左右滑动
+        } else {
+            mui('.mui-slider').slider().setStopped(true);       //设置禁止左右滑动
         }
         
 //              var deceleration = mui.os.ios?0.003:0.0009;
@@ -637,7 +648,7 @@
         document.getElementById("submit_btn").addEventListener('tap', function() {
             isInputTrue = true;
             mui('.form-test').each(function(){
-                if (this.parentNode.style.display = 'block') {
+                if (this.parentNode.style.display == 'block') {
                     var value = this.value;
                     var test_type = this.getAttribute('data-form').split(' ');
                     console.log(value, test_type);
@@ -820,8 +831,9 @@
                         console.log('数据错误');
                     }
                 });
-                mui.alert('预约成功，请耐心等待管理员与您联系，切勿重复提交')
-                mui.back();
+                mui.alert('预约成功，请耐心等待管理员与您联系，切勿重复提交',function(){
+                    mui.back();
+                });
             });
         }
         </script>
@@ -836,7 +848,6 @@
                 history.back();
             }
         };
-        
 
         </script>
     {%endif%}
