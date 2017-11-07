@@ -171,7 +171,7 @@ input {
     font-size: 12px;
 }
 .mui-radio input[type=radio] {
-    right: 10px;
+    left: 40px;
 }
 .mui-input-row label {
     padding: 11px 0;
