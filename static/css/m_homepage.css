@@ -180,7 +180,8 @@
     color: #e4e4e4;
     background-image: url(../images/m-bg-look-02.png);
 }
-.isbook_false {
+.isbook_True,
+.isbook_true {
     background: url(../images/m-bg-submit.png) right 1rem top 0/0.8rem auto no-repeat;
 }
 /*footer*/
