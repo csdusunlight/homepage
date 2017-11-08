@@ -201,6 +201,7 @@
 }
 
 .marks {
+    padding-bottom: 2px;
     display: inline-block;
     vertical-align: bottom;
 }
@@ -296,6 +297,7 @@
 }
 .btn.m-project {
     display: block;
+    font-size: 14px;
 }
 .btn.m-project:first-child {
     /*margin-top: 10px;*/
