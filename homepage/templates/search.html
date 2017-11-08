@@ -146,7 +146,7 @@
 							var item = data.results[i];
 							var li = document.createElement('li');
 							li.className = 'mui-table-view-cell proj';
-							var str_block = '<a data-projectid="'+ item.project +'" class="proj__btn-submit"><h2 class="proj__title">'+ item.project_title +'<span class="marks">';
+							var str_block = '<a data-projectid="'+ item.project +'" class="proj__btn-submit isbook_'+ item.project_is_book +'"><h2 class="proj__title">'+ item.project_title +'<span class="marks">';
 							console.log(item.marks);
 							for (var i=0; i < item.marks.length; i++) {
                                 str_block += '<span class="mark">'+　item.marks[i]　+'</span>';

@@ -109,8 +109,8 @@
     background-size: 100% 100%;
     background-origin: center center;
     background-repeat: no-repeat;
-    border: 1px solid #f5f5f5;
-    border-radius: 4px;
+    /*border: 1px solid #f5f5f5;*/
+    /*border-radius: 4px;*/
 }
 .proj__intrest {
     width: 26%;
@@ -182,7 +182,7 @@
 }
 .isbook_True,
 .isbook_true {
-    background: url(../images/m-bg-submit.png) right 1rem top 0/0.8rem auto no-repeat;
+    background: url(../images/yuyue-bg.png) right 1rem top 0/0.8rem auto no-repeat;
 }
 /*footer*/
 .qq-ask {
