@@ -65,12 +65,13 @@ class UserDetail(BaseViewMixin,generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsSelfOrStaff,)
     
 class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_staff:
-            return InvestLog.objects.all()
-        else:
-            return InvestLog.objects.filter(user=user)
+#     def get_queryset(self):
+#         user = self.request.user
+#         if user.is_staff:
+#             return InvestLog.objects.all()
+#         else:
+#             return InvestLog.objects.filter(user=user)
+    queryset = InvestLog.objects.all()
     serializer_class = InvestLogSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend, OrderingFilter)
     ordering_fields = ('submit_time',)
