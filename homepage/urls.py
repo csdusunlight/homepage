@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^detail/project/(?P<id>[0-9]+)/$', homepage.views.detail_project, name='detail_project'),
     url(r'^submitOrder/$', homepage.views.submitOrder, name='submitOrder'),
     url(r'^search/$', homepage.views.search, name='search'),
+    url(r'^quick-submit/$', homepage.views.quick_sumbit, name='quick_submit'),
 ]

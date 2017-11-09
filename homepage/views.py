@@ -10,6 +10,7 @@ import datetime
 from django.db import transaction
 from django.db.models import F
 from activity.views import on_submit
+from collections import OrderedDict
 
 # Create your views here.
 @login_required
@@ -124,3 +125,26 @@ def submitOrder(request):
 def search(request):
     template = 'search.html'
     return render(request, template, {})
+
+
+@login_required
+def quick_sumbit(request):
+    user = request.user
+    subs = SubscribeShip.objects.filter(user=user).select_related('project')
+    dic = OrderedDict()
+    for sub in subs:
+        project = sub.project
+        id = project.id
+        title = project.title
+        logo = project.picture_url()
+        szm = project.szm
+        pinyin = project.pinyin
+        key = szm[0:1]
+        param = {}
+        param.update(id=id, title=title, logo=logo, szm=szm, pinyin=pinyin)
+        prolist = dic.get(key, [])
+        if not prolist:
+            dic[key] = prolist
+        prolist.append(param)
+    template = 'm_quicksub.html' if request.mobile else 'quicksub.html' 
+    return render(request, template, {'projects':dic})

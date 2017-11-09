@@ -32,9 +32,9 @@
 #
 from django.shortcuts import render
 from wafuli_admin.models import GlobalStatis
-from wafuli.models import MAdvert_PC, Project, Company, InvestLog
+from wafuli.models import MAdvert_PC, Project, Company, InvestLog, SubscribeShip
 import logging
-from django.http.response import Http404
+from django.http.response import Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
 from account.models import ApplyLog
 logger = logging.getLogger('wafuli')
@@ -931,3 +931,5 @@ def display_qualification(request):
         name = url.split('/')[-1]
         img_list.append({'name':name,'url':url})
     return render(request, 'screenshot.html', {'img_list':img_list})
+
+    

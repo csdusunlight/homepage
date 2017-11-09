@@ -1,0 +1,8 @@
+{%load staticfiles%}
+{% for k,v in projects.items%}
+<pre>{{k}}</pre>
+{% for item in v %}
+<br/>
+{{item.szm}},{{item.logo}}
+{% endfor %}
+{%endfor%}
