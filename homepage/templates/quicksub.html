@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/wfl-common.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/quicksub.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/datePicker.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery.searchableSelect.css' %}" />
 <style type="text/css">
     .limit-input {
         display: block;
@@ -22,6 +23,16 @@
 <body>
 
 <div>
+    <div class="select-box">
+        <select class="project-select" name="project">
+            <option value="0">--</option>
+            {% for k,v in projects.items%}
+                {% for item in v %}
+                <option data-need="{{item.necessary_fields}}" data-isfutou="{{item.is_multisub_allowed}}" value="{{item.id}}">{{item.title}}</option>
+                {% endfor %}
+            {%endfor%}
+        </select>
+    </div>
     <form class="">
         <div class="limit-input input-box" data-limit="5">
             <label class="input-title">提交手机号&nbsp;&nbsp;</label>
@@ -98,7 +109,21 @@
 <script type="text/javascript" src="{% static 'js/wfl-common.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/wfl-popup.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.searchableSelect.js' %}"></script>
 <script type="text/javascript">
+    $('.project-select').searchableSelect();
+//  $('.select-box').on('click', '.searchable-select-item', function(){
+//      console.log('sdf');
+//  })
+    var limit_str;
+    var invest_type;
+    $('.searchable-select-item').on('click', function(){
+        if ($(this).attr('data-value') != 0) {
+            limit_str = $(this).data('need');
+            invest_type = $(this).data('isfutou');
+            console.log(limit_str+'/'+invest_type)
+        }
+    })
     //      检验填写格式
         var isInputTrue = true;        //填写格式是否正确
         var validate = (function(){
