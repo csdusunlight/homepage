@@ -1,8 +1,312 @@
-{%load staticfiles%}
-{% for k,v in projects.items%}
-<pre>{{k}}</pre>
-{% for item in v %}
-<br/>
-{{item.szm}},{{item.logo}}
-{% endfor %}
-{%endfor%}
+{% load staticfiles %}
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="P2P理财,P2P网贷,投资理财,网络理财,网络投资,小额投资理财,如何投资理财,个人理财,家庭理财" />
+<meta name="description" content="福利联盟是行业领先的P2P渠道分发机构。" />
+<meta itemprop="name" content="{{user.username}}"/>
+<meta itemprop="image" content="{{user.picture_url}}" />
+<meta name="description" itemprop="description" content="{{user.profile}}" />
+<title>{{user.username}}</title>
+<link href="{% static 'images/favicon.ico'%}" rel="shortcut icon"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/wfl-common.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/quicksub.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/datePicker.css' %}" />
+<style type="text/css">
+    .limit-input {
+        display: block;
+    }
+</style>
+<script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+</head>
+<body>
+
+<div>
+    <form class="">
+        <div class="limit-input input-box" data-limit="5">
+            <label class="input-title">提交手机号&nbsp;&nbsp;</label>
+            <input id="telnum" class="form-test" data-form="required isPhone" type="text" maxlength=11 placeholder="平台注册手机号，限11字符">
+            <p class="input-tips">提示内容部分</p>
+        </div>
+        <div class="limit-input input-box" data-limit="0">
+            <label class="input-title">投资姓名</label>
+            <input id="invest_account" class="form-test" data-form="required" type="text" maxlength="11" placeholder="平台注册用户名/姓名，限11字符">
+            <p class="input-tips">提示内容部分</p>
+        </div>
+        <div class="limit-input input-box" data-limit="1">
+          <label class="input-title">投资金额（元）</label>
+          <input type="text" class="form-test" data-form="required isNum" maxlength="10" placeholder="请填写纯数字 如1000，限10字符" id="amount">
+          <p class="input-tips">提示内容部分</p>
+        </div>
+        <div class="limit-input input-box" data-limit="2">
+          <label class="input-title">投资标期（天）</label>
+          <input type="text" class="form-test" data-form="required isNum" placeholder="请填写纯数字 如30" id="term">
+          <p class="input-tips">提示内容部分</p>
+        </div>
+        <div class="limit-input input-box" data-limit="3">
+          <label class="input-title">投资日期&nbsp;&nbsp;</label>
+          <input type="date" class="form-test" data-form="required" placeholder="请选择投资日期" id="date">
+          <p class="input-tips">提示内容部分</p>
+        </div>
+        <div class="limit-input input-box" data-limit="4">
+          <label class="input-title">收款信息&nbsp;&nbsp;</label>
+          <input type="text" class="form-test" data-form="required" maxlength="64" placeholder="收款帐号 如支付宝、qq等，限64字符" id="zfb">
+          <p class="input-tips">提示内容部分</p>
+        </div>
+        <div class="limit-input input-box" data-limit="6">
+          <label class="input-title">返现金额&nbsp;&nbsp;</label>
+          <input type="text" class="form-test" data-form="required" maxlength="10" placeholder="用户预期返现金额，限10字符" id="return_amount">
+          <p class="input-tips">提示内容部分</p>
+        </div>
+        <div class="limit-input input-box" data-limit="7">
+          <label class="input-title">QQ&nbsp;&nbsp;</label>
+          <input type="text" class="form-test" data-form="required isQQ" maxlength="20" placeholder="qq号码，以便于及时联系，限20字符" id="qq">
+          <p class="input-tips">提示内容部分</p>
+        </div>
+        <div class="mui-input-row isfutou-item input-box">
+            <div class="mui-input-row mui-radio">
+                <label style="display: inline-block;">首投</label>
+                <input name="is_futou" type="radio" value="1">
+            </div>
+            <div class="mui-input-row mui-radio">
+                <label style="display: inline-block;">复投</label>
+                <input name="is_futou" type="radio" value="2">
+            </div>
+        </div>
+        <div class="img-up limit-input input-box"  data-limit="8">
+            <p class="input-title">上传截图：</p>
+            <input type="file" name="picfile" id="choose" accept="image/png, image/jpeg" multiple=true>
+            <ul id="img-list" class="img-list"></ul>
+            <div class="mui-row img-btn">
+                <div class="img-btnbox left-btn mui-col-sm-6 mui-col-xs-6">
+                    <span id="clear_img" class="mui-btn mui-btn-blue mui-btn-outlined">清除图片</span>
+                </div>
+                <div class="img-btnbox mui-col-sm-6 mui-col-xs-6">
+                    <span id="upload" class="mui-btn mui-btn-blue mui-btn-outlined">上传图片</span>
+                </div>
+            </div>
+            <span class="tips">限jpg和png格式，最多6张</span>
+        </div>
+        <div class="input-box beizhu">
+            <label class="input-title">备注：</label>
+            <input type="text" maxlength="100" placeholder="可不填，限100字符" id="remark">
+        </div>
+         <button id="submit_btn" type="button" class="mui-btn mui-btn-blue">确认提交</button>
+    </form>
+</div>
+
+<script type="text/javascript" src="{% static 'js/wfl-common.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/wfl-popup.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
+<script type="text/javascript">
+    //      检验填写格式
+        var isInputTrue = true;        //填写格式是否正确
+        var validate = (function(){
+            var instructions = {
+                required:"不能为空!",
+                isPhone:"手机号不正确!",
+                isNum:"必须为数字格式",
+                isDate:"日期格式不正确",
+                isQQ:"QQ号码不正确"
+            };
+            var types = {
+                required:function(value){
+                    if(value==null||value.length===0){
+                        return false;
+                    }
+                    return true;
+                },
+                isNum:function(value){
+                    var reg = /^\d+(\.\d+)?$/;
+                    if(reg.test(value)){
+                        return true;
+                    }
+                    return false;
+                },
+                isPhone:function(value){
+                    var reg = /^1[34578]\d{9}$/;
+                    if(reg.test(value)){
+                        return true;
+                    }
+                    return false;
+                },
+                isDate:function(value){
+                    var reg = /^(\d{4})-(\d{2})-(\d{2})$/;
+                    if(reg.test(value)){
+                        return true;
+                    }
+                    return false;
+                },
+                isQQ:function(value){
+                    var reg = /[1-9][0-9]{4,14}$/;
+                    if(reg.test(value)){
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            return function(value,type){ //type为检测类型,value为检测的值
+                if(!types[type]){
+                    throw "检测类型不存在";
+                }
+                if(!types[type](value)){
+                    return instructions[type];
+                }
+                return false;
+            }
+        })();
+        function detect (value,types){
+            var result;
+            if(!(types instanceof Array)){
+                throw "检测类型只能为数组";
+            }
+            for(var type of types){
+                var msg = validate(value,type);
+                if(!!msg){
+                    return msg;
+                } 
+            }
+            return false;
+        }
+        
+        $('.form-test').each(function(){
+            this.onblur = function(){
+                console.log('sdfsdf');
+                var value = this.value;
+                var test_type = this.getAttribute('data-form').split(' ');
+                console.log(value, test_type);
+                var result = detect(value, test_type);
+                console.log(result);
+                if (result) {
+                    this.parentNode.lastElementChild.innerText = result;
+                    this.parentNode.lastElementChild.style.display = 'block';
+                } else{
+                    this.parentNode.lastElementChild.style.display = 'none';
+                }
+            }
+        })
+        
+    //  document.getElementById('submit_btn').addEventListener('tap', function(){
+    //      mui('.form-test').each(function(){
+    //          var value = this.value;
+    //          var test_type = this.getAttribute('data-form').split(' ');
+    //          console.log(value, test_type);
+    //          var result = detect(value, test_type);
+    //          console.log(result);
+    //          if (result) {
+    //              this.parentNode.lastElementChild.innerText = result;
+    //              this.parentNode.lastElementChild.style.display = 'block';
+    //          } else{
+    //              this.parentNode.lastElementChild.style.display = 'none';
+    //          }
+    //      })
+    //  })
+//      检验填写格式---end
+    $('#submit_btn').click(function() {
+            isInputTrue = true;
+            $('.form-test').each(function(){
+                this.parentNode.style.display = 'block';
+                console.log(this.parentNode.style.display);
+                if (this.parentNode.style.display == 'block') {
+                    var value = this.value;
+                    var test_type = this.getAttribute('data-form').split(' ');
+                    console.log(value, test_type);
+                    var result = detect(value, test_type);
+                    console.log(result);
+                    if (result) {
+                        this.parentNode.lastElementChild.innerText = result;
+                        this.parentNode.lastElementChild.style.display = 'block';
+                        isInputTrue = false;
+                        return;
+                    } else{
+                        this.parentNode.lastElementChild.style.display = 'none';
+                    }
+                }
+            })
+            
+//          key_arr[5] = document.getElementById('telnum').value; 
+//          key_arr[0] = document.getElementById('invest_account').value;
+//          key_arr[1] = document.getElementById('amount').value;
+//          key_arr[2] = document.getElementById('term').value;
+//          key_arr[3] = document.getElementById('date').value;
+//          key_arr[4] = document.getElementById('zfb').value;
+//          key_arr[6] = document.getElementById('return_amount').value;
+//          key_arr[7] = document.getElementById('qq').value;
+//          var is_futou = $('input[name="is_futou"]:checked')[0].value;
+//          var remark = document.getElementById('remark').value;
+//          console.log(is_futou);
+//          // amount = parseFloat(amount);
+//          console.log(limit);
+//          console.log(key_arr);
+//          for (limit_id in limit) {
+//              if (key_arr[limit[limit_id]] || !key_arr[8]) {
+//                  if (limit[limit_id] == 8) {
+//                      console.log('有截图');
+//                  } else if (key_arr[limit[limit_id]]) {
+//                      console.log(key_arr[limit[limit_id]]);
+//                      
+//                  } else{
+//                      console.log(limit[limit_id]);
+//                      alert("必填写项不能为空");
+//                      return;
+//                  }
+//              }
+//          }
+//          console.log('isInputTrue: '+isInputTrue);
+//          if (!isInputTrue) {
+//              alert("填写格式不正确，请检查格式后重新提交！");
+//              return;
+//          }
+//          
+//          var xhr = new XMLHttpRequest();
+//          var formdata = getFormData();
+//
+//          for (limit_id in limit) {
+//              if (limit[limit_id] == 8) {
+//                  if (file_list.length==0){
+//                      alert("请上传任务完成截图");
+//                      return;
+//                  }
+//              }
+//          }
+//          var project_id = '{{id}}';
+//          for (i in file_list){
+//              formdata.append(file_list[i].name, file_list[i].blob);
+//          }
+//          formdata.append('project', project_id);
+//          formdata.append('invest_mobile', key_arr[5]);
+//          formdata.append('invest_name', key_arr[0]);
+//          formdata.append('invest_amount', key_arr[1]);
+//          formdata.append('invest_term', key_arr[2]);
+//          formdata.append('invest_date', key_arr[3]);
+//          formdata.append('zhifubao', key_arr[4]);
+//          formdata.append('expect_amount', key_arr[6]);
+//          formdata.append('qq_number', key_arr[7]);
+//          formdata.append('submit_type', is_futou);
+//          formdata.append('remark', remark);
+//          
+//          var submit_url = "{% url 'submitOrder' %}";
+//          xhr.open("post", submit_url);
+//          xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+//          xhr.onreadystatechange = function() {
+//              if (xhr.readyState == 4 && xhr.status == 200) {
+//                  var ret = JSON.parse(xhr.responseText);
+//                  if(ret.code == 0) {
+//                      alert("提交成功");
+//                      document.getElementById('invest_account').value = '';
+//                      document.getElementById('telnum').value = '';
+//                      document.getElementById("img-list").innerHTML = "";
+//                      file_list = [];
+//                      document.getElementById("upload").value = "";
+//                  }else{
+//                      alert(ret.msg);
+//                  }
+//              }
+//          };
+//
+//          xhr.send(formdata);
+        });
+</script>
+{% include "footer.html" %}
+</body>
+</html>
