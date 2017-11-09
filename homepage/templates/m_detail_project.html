@@ -122,9 +122,11 @@
                                 <p class="iframe__price">返现价格：<span class="price-num">{{price}}</span></p>
                                 <p class="iframe__invest">预计最高年化：<span class="invest-num">{{intrest}}</span></p>
                             </div>
-                            <iframe class="iframe" src="{{project.strategy}}">
-                              <p>您的浏览器不支持  iframe 标签。</p>
-                            </iframe>
+                            <div id="iframe_box" style="height: 100%;">
+                                <iframe id="iframe" class="iframe" src="{{project.strategy}}">
+                                  <p>您的浏览器不支持  iframe 标签。</p>
+                                </iframe>
+                            </div>
                             <!--<div class="iframe-bottom">
                                 <span class="btn m-green m-bottom">点击交单</span>
                             </div>-->
@@ -253,6 +255,21 @@
                     swipeBack:false //启用右滑关闭功能
                 });
                 
+                function iosIframeWidthBug(){
+                    //不是 iphone ipad就不执行了
+                    if (!navigator.userAgent.match(/iPad|iPhone/i))
+                        return false;
+                    //获取子iframe
+                    var iframebody = document.getElementById('iframe').contentWindow.document.body;
+                        iframebody.style.width = document.body.clientWidth+'px';
+                 
+                }
+                document.getElementById("iframe").onload = function () {
+//                  iosIframeWidthBug();
+console.log(document.body.clientWidth);
+                    document.getElementById('iframe_box').style.width = document.body.clientWidth + 'px';
+                    document.getElementById('iframe').style.width = document.body.clientWidth + 'px';
+                }
                 
                 //      检验填写格式
         var isInputTrue = true;        //填写格式是否正确

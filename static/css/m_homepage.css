@@ -69,7 +69,7 @@
     margin-top: 0;
 }
 .proj__title {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 26px;
     border-bottom: 1px solid #f5f5f5;
     color: #222;
@@ -100,23 +100,24 @@
     color: #fff;
 }
 .proj__img {
-    width: 5.5rem;
-    height: 2.3rem;
-    font-size: 2.5rem;
+    width: 2.6rem;
+    height: 1.1rem;
+    font-size: 1rem;
     color: #fff;
-    line-height: 5.5rem;
+    line-height: 1rem;
     text-align: center;
     background-size: 100% 100%;
     background-origin: center center;
     background-repeat: no-repeat;
-    border: 1px solid #f5f5f5;
-    border-radius: 4px;
+    /*border: 1px solid #f5f5f5;*/
+    /*border-radius: 4px;*/
 }
 .proj__intrest {
     width: 26%;
-    font-size: 10px;
+    font-size: 12px;
     line-height: 28px;
     text-align: center;
+    color: #444;
 }
 .proj__intrest-num {
     display: inline-block;
@@ -129,7 +130,8 @@
 }
 .proj__detail-item {
     height: 28px;
-    font-size: 10px;
+    font-size: 12px;
+    color: #444;
 }
 .proj__detail-item.m-mt {
     margin-top: 4px;
@@ -177,6 +179,10 @@
 .proj__btn.state20 {
     color: #e4e4e4;
     background-image: url(../images/m-bg-look-02.png);
+}
+.isbook_True,
+.isbook_true {
+    background: url(../images/yuyue-bg.png) right 1rem top 0/1rem auto no-repeat;
 }
 /*footer*/
 .qq-ask {

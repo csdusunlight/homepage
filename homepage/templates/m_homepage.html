@@ -12,11 +12,13 @@
     <link href="{% static 'css/m_common.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/m_homepage.css' %}" rel="stylesheet"/>
     <link id="skin" href="/static/css/m-skin1.css" rel="stylesheet" />
+    <script src="{% static 'js/flexible.js' %}"></script>
     <style>
         #search {
             padding: 0 10px;
             margin: 10px;
             height: 30px;
+            font-size: 0.5rem;
             line-height: 30px;
             text-align: center;
             color: #91C11D;
@@ -54,8 +56,8 @@
     <div class="mui-content">
         <ul class="mui-table-view" style="margin-bottom: 70px;">
             {% for recom in recom_list %}
-                <li class="mui-table-view-cell proj">
-                    <h2 class="proj__title">{{recom.title}}<a data-marks="{{recom.marks}}" class="recom-marks"></a></h2>
+                <li class="mui-table-view-cell proj"><a data-projectid="{{recom.id}}" class="proj__btn-submit isbook_{{recom.is_book}}">
+                    <h2 class="proj__title">{{recom.title}}<span data-marks="{{recom.marks}}" class="recom-marks"></span></h2>
                     <div class="proj__info">
                         <div data-pic="{{recom.pic}}" data-imgtxt="{{recom.title}}" class="proj__img"></div>
                         <p class="proj__intrest"><span class="proj__intrest-num">{{recom.intrest}}</span><br />预计最高年化</p>
@@ -65,11 +67,11 @@
                             <p class="proj__detail-item m-mt"><span class="proj__detail-name">投资标期：</span><span class="proj__detail-val">{{recom.term}}</span></p>
                         </div>
                     </div>
-                    <div class="proj__btnbox">
+                    <!--<div class="proj__btnbox">
                         <a data-projectid="{{recom.id}}" class="proj__btn state{{recom.state}} proj__btn-submit">查看攻略</a>
                         <a data-projectid="{{recom.id}}" class="proj__btn proj__btn-submit2 isbook_{{recom.is_book}}">交单</a>
-                    </div>
-                </li>
+                    </div>-->
+                </a></li>
             {%endfor%}
         </ul>
     </div>
@@ -157,12 +159,12 @@
 							var item = data.results[i];
 							var li = document.createElement('li');
 							li.className = 'mui-table-view-cell proj';
-							var str_block = '<h2 class="proj__title">'+ item.project_title +'<a class="marks">';
+							var str_block = '<a data-projectid="'+ item.project +'" class="proj__btn-submit isbook_'+ item.project_is_book +'"><h2 class="proj__title">'+ item.project_title +'<span class="marks">';
 							console.log(item.marks);
 							for (var i=0; i < item.marks.length; i++) {
                                 str_block += '<span class="mark">'+　item.marks[i]　+'</span>';
                             }
-							str_block += '</a></h2><div class="proj__info">';
+							str_block += '</span></h2><div class="proj__info">';
 							if (item.project_picture) {
 							    str_block += '<div style="background-image:url('+ item.project_picture +')" class="proj__img"></div>';
 							} else{
@@ -174,15 +176,15 @@
                             '<div class="proj__detail"><p class="proj__detail-item"><span class="proj__detail-name">返现价格：</span><span class="proj__detail-val">'+ (item.shortprice?item.shortprice:item.project_shortprice) +'</span></p>'+
                             '<p class="proj__detail-item m-mt"><span class="proj__detail-name">投标区间：</span><span class="proj__detail-val">'+ item.project_investrange +'</span></p>'+
                             '<p class="proj__detail-item m-mt"><span class="proj__detail-name">投资标期：</span><span class="proj__detail-val">'+ item.project_term +'</span></p>'+
-                            '</div></div>'+
-                            '<div class="proj__btnbox"><a data-projectid="'+ item.project +'" class="proj__btn state'+ item.project_state +' proj__btn-submit">'+
-                            (item.project_state == 10 ? '查看攻略' : '已结束') + '</a>';
+                            '</div></div></a>';
+//                          '<div class="proj__btnbox"><a data-projectid="'+ item.project +'" class="proj__btn state'+ item.project_state +' proj__btn-submit">'+
+//                          (item.project_state == 10 ? '查看攻略' : '已结束') + '</a>';
                             console.log(typeof(item.project_is_book));
-                            if (item.project_is_book) {
-                                str_block += '<a data-projectid="'+ item.project +'" class="proj__btn proj__btn-submit3">预约</a></div>';
-                            } else {
-                                str_block += '<a data-projectid="'+ item.project +'" class="proj__btn proj__btn-submit2">交单</a></div>';
-                            }
+//                          if (item.project_is_book) {
+//                              str_block += '<a data-projectid="'+ item.project +'" class="proj__btn proj__btn-submit3">预约</a></div>';
+//                          } else {
+//                              str_block += '<a data-projectid="'+ item.project +'" class="proj__btn proj__btn-submit2">交单</a></div>';
+//                          }
 
 							li.innerHTML = str_block;
 							table.appendChild(li);
@@ -208,10 +210,10 @@
 
     </script>
     <script type="text/javascript">
-        mui('.isbook_True').each(function(){
-            this.innerText = '预约';
-            this.className = 'proj__btn proj__btn-submit3 isbook_True'
-        })
+//      mui('.isbook_True').each(function(){
+//          this.innerText = '预约';
+//          this.className = 'proj__btn proj__btn-submit3 isbook_True'
+//      })
 //      var scrollToTopBox = document.getElementById('scrollToTop'); //返回按钮tap
 //      scrollToTopBox.addEventListener('tap', function(e) {
 //          e.stopPropagation();
