@@ -139,9 +139,12 @@ def quick_sumbit(request):
         logo = project.picture_url()
         szm = project.szm
         pinyin = project.pinyin
+        necessary_fields = project.necessary_fields
+        is_multisub_allowed = project.is_multisub_allowed
         key = szm[0:1]
         param = {}
-        param.update(id=id, title=title, logo=logo, szm=szm, pinyin=pinyin)
+        param.update(id=id, title=title, logo=logo, szm=szm, pinyin=pinyin, necessary_fields=necessary_fields,
+                     is_multisub_allowed = is_multisub_allowed)
         prolist = dic.get(key, [])
         if not prolist:
             dic[key] = prolist
