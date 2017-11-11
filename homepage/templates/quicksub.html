@@ -34,25 +34,15 @@
         border: 1px solid #000000;
     }
     
-    .img-btn {
-        margin: 10px auto;
-        width: 300px;
-    }
-    
-    .img-btn a {
+    .upload-btn {
         display: inline-block;
-        width: 40%;
-        height: 30px;
-        text-align: center;
-        line-height: 30px;
-        border: 1px solid;
-        border-radius: 5px;
-        cursor: pointer;
+        margin: 10px auto;
+        width: 40px;
+        height: 40px;
+        background: url(../../static/images/add-data-btn.png) top left/40px 40px no-repeat;
     }
     
-    .img-btn a:first-child {
-        margin-right: 20px;
-    }
+    
     
     .touch {
         background-color: #ddd;
@@ -61,24 +51,41 @@
     .img-up {
         width: 100%;
     }
-    .img-list {
-        width: 100%;
+    .img-container {
+        /*min-height: 122px;*/
         margin: 20px auto 10px;
-        /*border: 1px solid #e4e4e4;*/
+        width: 100%;
         border-radius: 6px;
+        border: 1px solid #e4e4e4;
     }
-    
-    .img-list li {
+    .img-list .img-item {
         position: relative;
         display: inline-block;
         width: 100px;
         height: 100px;
-        margin: 5px 5px 20px 5px;
+        margin: 10px 5px 10px 5px;
         border: 1px solid rgb(100, 149, 198);
         background: #fff no-repeat center;
         background-size: cover;
+        vertical-align: top;
     }
-    
+    .img-item:hover .img-del {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        text-align: center;
+        line-height: 100px;
+        font-size: 18px;
+        background-color: rgba(0,0,0,0.4);
+    }
+    .img-del {
+        display: none;
+        color: #fff;
+        cursor: pointer;
+    }
     .progress {
         position: absolute;
         width: 100%;
@@ -111,7 +118,8 @@
     }
     
     .img-tips {
-        display: block;
+        display: inline-block;
+        vertical-align: text-bottom;
         text-align: center;
         font-size: 13px;
         margin: 10px;
@@ -172,7 +180,7 @@
         <div class="limit-input input-box" data-limit="3">
           <label class="input-title">投资日期<i class="input-mark">*</i></label>
           <p class="input-detail">请选择投资日期</p>
-          <input type="text" class="form-test date_picker" data-form="required" placeholder="" id="date">
+          <input type="text" class="form-test date_picker" data-form="required" onkeyup="value=''" placeholder="" id="date">
           <p class="input-tips">提示内容部分</p>
         </div>
         <div class="limit-input input-box" data-limit="4">
@@ -227,12 +235,13 @@
             <label class="input-title">投资截图<i class="input-mark">*</i></label>
             <div id="img-list" class="img-up">
                 <input type="file" name="picfile" id="choose" accept="image/jpeg,image/png" multiple>
-                <ul class="img-list"></ul>
-                <div class="img-btn">
-                        <a id="clear_img" onclick="clearBtn()">清除截图</a>
-                        <a id="upload">上传截图</a>
+                <div class="img-container">
+                    <ul class="img-list"></ul>
+                    <div style="text-align: center;">
+                        <a class="upload-btn" id="upload"></a>
+                        <span class="img-tips">图片格式限jpg和png，最多可上传6张</span>
+                    </div>
                 </div>
-                <span class="img-tips">图片格式限jpg和png，最多可上传6张</span>
             </div>
         </div>
         <div class="input-box beizhu">
@@ -250,8 +259,11 @@
 <script type="text/javascript" src="{% static 'js/jquery.searchableSelect.js' %}"></script>
 <script type="text/javascript">
     $('.project-select').searchableSelect();
-    $(".submit-box").on("focus", ".date_picker", function() {
-        $(this).date_input();
+    $(function(){
+        $(".submit-box").on("focus", ".date_picker", function() {
+            $('.date_selector').remove();
+            $(this).date_input();
+        })
     })
 //  $('.select-box').on('click', '.searchable-select-item', function(){
 //      console.log('sdf');
@@ -507,9 +519,9 @@
                         alert("提交成功");
                         document.getElementById('invest_account').value = '';
                         document.getElementById('telnum').value = '';
-                        document.getElementById("img-list").innerHTML = "";
+                        $(".img-list").html('');
+                        document.getElementById("choose").value = '';
                         file_list = [];
-//                      document.getElementById("choose").value = "";
                     }else{
                         alert(ret.msg);
                     }
@@ -518,6 +530,14 @@
 
             xhr.send(formdata);
         });    
+        $('.img-up').on('click', '.img-item', function(){
+            var del_index = $(this).index();
+            console.log(del_index);
+            $(this).remove();
+            file_list.splice(del_index,1);
+            console.log(file_list);
+            document.getElementById("choose").value = '';
+        })
             //上传图片部分
             var filechooser = document.getElementById("choose");
             //    用于压缩图片的canvas
@@ -547,6 +567,8 @@
                     if(!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
                     var reader = new FileReader();
                     var li = document.createElement("li");
+                    li.className = 'img-item';
+                    li.innerHTML = '<span class="img-del">删除</span>';
                     //          获取图片大小
                     var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
                     $(".img-list").append($(li));
@@ -636,6 +658,7 @@
                     name:name,
                     blob:blob
                 });
+                console.log(file_list);
             }
     
             /**
