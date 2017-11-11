@@ -58,8 +58,11 @@
         background-color: #ddd;
     }
     
+    .img-up {
+        width: 100%;
+    }
     .img-list {
-        /*width: 350px;*/
+        width: 100%;
         margin: 20px auto 10px;
         /*border: 1px solid #e4e4e4;*/
         border-radius: 6px;
@@ -114,10 +117,6 @@
         margin: 10px;
         color: #999;
     }
-    .date_selector {
-        box-sizing: content-box;
-        margin-left: 90px;
-    }
 </style>
 <script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
 </head>
@@ -133,9 +132,11 @@
     </div>
 </div>
 <div class="container">
-    <div class="select-box">
+    <div class="input-box">
+        <label class="input-title">选择项目</label>
+        <p class="input-detail">选择唯一对应项目名称</p>
         <select class="project-select" name="project">
-            <option value="0">--</option>
+            <option value="0">请先选择项目再进行提交</option>
             {% for k,v in projects.items%}
                 {% for item in v %}
                 <option data-need="{{item.necessary_fields}}" data-isfutou="{{item.is_multisub_allowed}}" value="{{item.id}}">{{item.title}}</option>
@@ -145,46 +146,55 @@
     </div>
     <form class="submit-box">
         <div class="limit-input input-box" data-limit="5">
-            <label class="input-title">提交手机号&nbsp;&nbsp;</label>
-            <input id="telnum" class="form-test" data-form="required isPhone" type="text" maxlength=11 placeholder="平台注册手机号，限11字符">
+            <label class="input-title">提交手机号<i class="input-mark">*</i></label>
+            <p class="input-detail">填写平台注册手机号，限11字符</p>
+            <input id="telnum" class="form-test" data-form="required isPhone" type="text" maxlength=11 placeholder="">
             <p class="input-tips">提示内容部分</p>
         </div>
         <div class="limit-input input-box" data-limit="0">
-            <label class="input-title">投资姓名</label>
-            <input id="invest_account" class="form-test" data-form="required" type="text" maxlength="11" placeholder="平台注册用户名/姓名，限11字符">
+            <label class="input-title">投资姓名<i class="input-mark">*</i></label>
+            <p class="input-detail">平台注册用户名/姓名，限11字符</p>
+            <input id="invest_account" class="form-test" data-form="required" type="text" maxlength="11" placeholder="">
             <p class="input-tips">提示内容部分</p>
         </div>
         <div class="limit-input input-box" data-limit="1">
-          <label class="input-title">投资金额（元）</label>
-          <input type="text" class="form-test" data-form="required isNum" maxlength="10" placeholder="请填写纯数字 如1000，限10字符" id="amount">
+          <label class="input-title">投资金额（元）<i class="input-mark">*</i></label>
+          <p class="input-detail">请填写纯数字 如1000，限10字符</p>
+          <input type="text" class="form-test" data-form="required isNum" maxlength="10" placeholder="" id="amount">
           <p class="input-tips">提示内容部分</p>
         </div>
         <div class="limit-input input-box" data-limit="2">
-          <label class="input-title">投资标期（天）</label>
-          <input type="text" class="form-test" data-form="required isNum" placeholder="请填写纯数字 如30" id="term">
+          <label class="input-title">投资标期（天）<i class="input-mark">*</i></label>
+          <p class="input-detail">请填写纯数字 如30</p>
+          <input type="text" class="form-test" data-form="required isNum" placeholder="" id="term">
           <p class="input-tips">提示内容部分</p>
         </div>
         <div class="limit-input input-box" data-limit="3">
-          <label class="input-title">投资日期&nbsp;&nbsp;</label>
-          <input type="text" class="form-test date_picker" data-form="required" placeholder="请选择投资日期" id="date">
+          <label class="input-title">投资日期<i class="input-mark">*</i></label>
+          <p class="input-detail">请选择投资日期</p>
+          <input type="text" class="form-test date_picker" data-form="required" placeholder="" id="date">
           <p class="input-tips">提示内容部分</p>
         </div>
         <div class="limit-input input-box" data-limit="4">
-          <label class="input-title">收款信息&nbsp;&nbsp;</label>
-          <input type="text" class="form-test" data-form="required" maxlength="64" placeholder="收款帐号 如支付宝、qq等，限64字符" id="zfb">
+          <label class="input-title">收款信息<i class="input-mark">*</i></label>
+          <p class="input-detail">收款帐号 如支付宝、qq等，限64字符</p>
+          <input type="text" class="form-test" data-form="required" maxlength="64" placeholder="" id="zfb">
           <p class="input-tips">提示内容部分</p>
         </div>
         <div class="limit-input input-box" data-limit="6">
-          <label class="input-title">返现金额&nbsp;&nbsp;</label>
-          <input type="text" class="form-test" data-form="required" maxlength="10" placeholder="用户预期返现金额，限10字符" id="return_amount">
+          <label class="input-title">返现金额<i class="input-mark">*</i></label>
+          <p class="input-detail">用户预期返现金额，限10字符</p>
+          <input type="text" class="form-test" data-form="required" maxlength="10" placeholder="" id="return_amount">
           <p class="input-tips">提示内容部分</p>
         </div>
         <div class="limit-input input-box" data-limit="7">
-          <label class="input-title">QQ&nbsp;&nbsp;</label>
-          <input type="text" class="form-test" data-form="required isQQ" maxlength="20" placeholder="qq号码，以便于及时联系，限20字符" id="qq">
+          <label class="input-title">QQ<i class="input-mark">*</i></label>
+          <p class="input-detail">qq号码，以便于及时联系，限20字符</p>
+          <input type="text" class="form-test" data-form="required isQQ" maxlength="20" placeholder="" id="qq">
           <p class="input-tips">提示内容部分</p>
         </div>
-        <div class="isfutou-item input-box">
+        <!--<div class="isfutou-item input-box">
+            <label class="input-title">选择首复投<i class="input-mark">*</i></label>
             <div class="">
                 <label style="display: inline-block;">首投</label>
                 <input class="choose_item" name="is_futou" type="radio" checked="checked" value="1">
@@ -193,6 +203,11 @@
                 <label style="display: inline-block;">复投</label>
                 <input class="choose_item" name="is_futou" type="radio" value="2">
             </div>
+        </div>-->
+        <div class="isfutou-item input-box">
+            <span class="input-title" style="margin-bottom: 10px;">选择首复投<i class="input-mark">*</i></span>
+            <label><input class="choose_item" type="radio" value="1" checked="checked" name="is_futou" /><i class="choose_item-icon m-left"></i>首投</label>
+            <label><input class="choose_item" type="radio" value="2" name="is_futou" /><i class="choose_item-icon"></i>复投</label>
         </div>
         <!--<div class="img-up limit-input input-box"  data-limit="8">
             <p class="input-title">上传截图：</p>
@@ -208,9 +223,9 @@
             </div>
             <span class="tips">限jpg和png格式，最多6张</span>
         </div>-->
-        <div class="popup__item limit-input"  data-limit="8">
-            <span class="popup__itemname">相关截图：</span>
-            <div class="img-up">
+        <div class="limit-input input-box"  data-limit="8">
+            <label class="input-title">投资截图<i class="input-mark">*</i></label>
+            <div id="img-list" class="img-up">
                 <input type="file" name="picfile" id="choose" accept="image/jpeg,image/png" multiple>
                 <ul class="img-list"></ul>
                 <div class="img-btn">
@@ -222,9 +237,10 @@
         </div>
         <div class="input-box beizhu">
             <label class="input-title">备注：</label>
-            <input type="text" maxlength="100" placeholder="可不填，限100字符" id="remark">
+            <p class="input-detail">可不填，限100字符</p>
+            <input type="text" maxlength="100" placeholder="" id="remark">
         </div>
-         <button id="submit_btn" type="button" class="mui-btn mui-btn-blue">确认提交</button>
+         <a id="submit_btn" type="button" class="btn m-green">确认提交</a>
     </form>
 </div>
 
@@ -246,13 +262,16 @@
     var invest_type;
     var key_arr = [];
     $('.searchable-select-item').on('click', function(){
-        if ($(this).attr('data-value') != 0) {
+        if ($(this).attr('data-value') == 0){
+            $('.submit-box').hide();
+        } else {
             project_id = $(this).data('value');
             limit_str = $(this).data('need');
             limit = limit_str.split(',');
             invest_type = $(this).data('isfutou');
             console.log(limit_str+'/'+invest_type)
             
+            $('.submit-box').show();
             $('.input-tips').hide();
             $('.choose_item[value="1"]').prop("checked",true);
             if (invest_type == 'True') {
@@ -346,18 +365,35 @@
         }
         
         $('.form-test').each(function(){
-            this.onblur = function(){
-                console.log('sdfsdf');
-                var value = this.value;
-                var test_type = this.getAttribute('data-form').split(' ');
-                console.log(value, test_type);
-                var result = detect(value, test_type);
-                console.log(result);
-                if (result) {
-                    this.parentNode.lastElementChild.innerText = result;
-                    this.parentNode.lastElementChild.style.display = 'block';
-                } else{
-                    this.parentNode.lastElementChild.style.display = 'none';
+            if ($(this).hasClass('date_picker')) {
+            	this.onchange = function(){
+                    console.log('sdfsdf');
+                    var value = this.value;
+                    var test_type = this.getAttribute('data-form').split(' ');
+                    console.log(value, test_type);
+                    var result = detect(value, test_type);
+                    console.log(result);
+                    if (result) {
+                        this.parentNode.lastElementChild.innerText = result;
+                        this.parentNode.lastElementChild.style.display = 'block';
+                    } else{
+                        this.parentNode.lastElementChild.style.display = 'none';
+                    }
+                }
+            } else{
+                this.onblur = function(){
+                    console.log('sdfsdf');
+                    var value = this.value;
+                    var test_type = this.getAttribute('data-form').split(' ');
+                    console.log(value, test_type);
+                    var result = detect(value, test_type);
+                    console.log(result);
+                    if (result) {
+                        this.parentNode.lastElementChild.innerText = result;
+                        this.parentNode.lastElementChild.style.display = 'block';
+                    } else{
+                        this.parentNode.lastElementChild.style.display = 'none';
+                    }
                 }
             }
         })
@@ -473,7 +509,7 @@
                         document.getElementById('telnum').value = '';
                         document.getElementById("img-list").innerHTML = "";
                         file_list = [];
-                        document.getElementById("upload").value = "";
+//                      document.getElementById("choose").value = "";
                     }else{
                         alert(ret.msg);
                     }

@@ -23,6 +23,8 @@
             }
             .project__img {
                 display: inline-block;
+                height: 20px;
+                width: auto;
                 vertical-align: middle;
             }
             .mui-indexed-list-group, .mui-indexed-list-item {
@@ -103,7 +105,7 @@
                             <li data-group="{{k}}" class="mui-table-view-divider mui-indexed-list-group">{{k}}</li>
                             {% for item in v %}
                             <li data-value="{{item.szm}}" data-tags="{{item.pinyin}}" class="mui-table-view-cell mui-indexed-list-item">
-                                <a class="proj-link" href="/detail/project/{{item.id}}">
+                                <a class="proj-link" href="/detail/project/{{item.id}}?tab=2">
                                     <img class="project__img" src="{{item.logo}}" alt="" />
                                     <span>{{item.title}}</span>
                                 </a>
