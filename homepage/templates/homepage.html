@@ -246,8 +246,6 @@
             </span>
         </div>
     </div>
-    
-    
 
 <script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
@@ -467,6 +465,13 @@
         })
         $('.state20').text('已结束');
     }
+    $("#pagedata1").ajaxPage({
+        url: url + "&is_on=true",
+        pageId:$("#page1"),
+        run:true,
+        content:data,
+        complete:pagecallback,
+      });
     $('.hot__img').each(function(){
         var imgurl = $(this).data('pic');
 //      console.log(imgurl);
@@ -542,7 +547,6 @@
           complete:pagecallback,
         });
         
-    })
     $('.reorder__item.m-btn').click(function(){
         console.log(mark_key);
         var reorder_state = $(this).data('reorder');
