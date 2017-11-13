@@ -196,8 +196,8 @@
         <div class="con-right r">
             <!--<div class="clearfix">-->
                 <div class="ask-box l">
-                    <a href="http://wpa.qq.com/msgrd?v=3&uin={{user.qq_number}}&site=qq&menu=yes" target="_blank">
-                        <div class="ask">点击咨询我</div>
+                    <a href="/quick-submit/" target="_blank">
+                        <div class="ask">点此快速交单</div>
                     </a>
                 </div>
                 <!--<div class="collect-box r" onclick="addFavorite()">
@@ -236,6 +236,7 @@
             </div>
         </div>
     </div>
+    <a class="link-qq" href="http://wpa.qq.com/msgrd?v=3&uin={{user.qq_number}}&site=qq&menu=yes" target="_blank">联系客服</a>
     <div class="footer__box">
         <div class="footer">
             <img src="../../static/images/footer-txt-img.png"/>
@@ -445,7 +446,17 @@
             $('.mark').eq(0).addClass('on').siblings().removeClass('on');
         }
     });
-
+    
+    var rankarea = document.getElementById('rankBox');
+    var rank_con1 = document.getElementById('rank_con1');
+    var rank_con2 = document.getElementById('rank_con2');
+    function scrollUpRank(){
+        if(rankarea.scrollTop >= rank_con1.scrollHeight) {
+            rankarea.scrollTop = 0;
+            }else{
+               rankarea.scrollTop ++;
+            }
+    }
     $(function(){
         $("#pagedata1").ajaxPage({
           url: url + "&is_on=true",
@@ -477,18 +488,11 @@
             }
         });
         
-        var rankarea = document.getElementById('rankBox');
-        var rank_con1 = document.getElementById('rank_con1');
-        var rank_con2 = document.getElementById('rank_con2');
+        
+        
         var rank_speed = 50;
         rankarea.scrollTop = 0;
-        function scrollUpRank(){
-            if(rankarea.scrollTop >= rank_con1.scrollHeight) {
-                rankarea.scrollTop = 0;
-                }else{
-                   rankarea.scrollTop ++;
-                }
-        }
+        
         $.ajax({
             url:"/restapi/investlogs/?page=1&size=8",
             type: 'get',

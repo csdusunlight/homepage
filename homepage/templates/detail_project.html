@@ -279,6 +279,8 @@
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript">
+//  document.body.style.backgroundImage="url(/static/images/quicksub-"+ {{user.submit_bg}} +".jpg)"
+//  document.body.style.backgroundImage="url(../../static/images/quicksub-7.jpg)";
     var limit_str = "{{project.necessary_fields}}";
     var limit = limit_str.split(',');
     var invest_type = "{{project.is_multisub_allowed}}";

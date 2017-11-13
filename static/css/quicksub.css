@@ -1,5 +1,5 @@
 body {
-    background-image: url(../images/quicksub-3.jpg);
+    background-image: url(../images/quicksub-0.jpg);
     background-size: cover;
     background-attachment: fixed;
 }
@@ -113,4 +113,19 @@ body {
 }
 .searchable-select {
     width: 100%;
+}
+.link-qq {
+    position: fixed;
+    top: 140px;
+    right: 0;
+    padding-top: 60px;
+    width: 80px;
+    height: 175px;
+    border-radius: 10px 0 0 10px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 80px;
+    color: #fff;
+    writing-mode: vertical-lr;
+    background: url(../images/bg-icon-qq.png) center 20px no-repeat rgba(0,0,0,0.3);
 }

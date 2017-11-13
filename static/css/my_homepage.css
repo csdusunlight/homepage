@@ -521,3 +521,18 @@
     left: 999px;
     font-size: 18px;
 }
+.link-qq {
+    position: fixed;
+    top: 140px;
+    right: 0;
+    padding-top: 60px;
+    width: 80px;
+    height: 175px;
+    border-radius: 10px 0 0 10px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 80px;
+    color: #fff;
+    writing-mode: vertical-lr;
+    background: url(../images/bg-icon-qq.png) center 20px no-repeat #91C11D;
+}
