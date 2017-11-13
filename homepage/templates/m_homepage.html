@@ -102,6 +102,7 @@
 <ul class="footer clearfix tc">
 	<li class="tabnav footer__item">热门推荐</li>
 	<li class="tabnav footer__item on">项目列表</li>
+	<li class="to-quicksub footer__item">快速交单</li>
 </ul>
 
 
@@ -319,6 +320,23 @@
 //          });
 //      })
 
+        mui('.footer').on('tap', '.to-quicksub', function(){
+            var exp_url = "/quick-submit/";
+            mui.openWindow({
+                url: exp_url,
+                styles: {
+                    top: 0,
+                    bottom: 0
+                },
+                show: {
+                    aniShow: 'slide-in-right',
+                },
+                waiting: {
+                    autoShow: false, //自动显示等待框
+                    title: '正在加载...', //等待对话框上显示的提示内容
+                }
+            });
+        })
         mui('.tabcon').on('tap', '.proj__btn-submit', function(){
             var project_id = this.getAttribute('data-projectid');
             console.log(project_id);

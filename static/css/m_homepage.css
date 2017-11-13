@@ -206,7 +206,7 @@
 }
 .footer__item {
     padding-top: 34px;
-    width: 50%;
+    width: 33.33%;
     height: 100%;
     display: inline-block;
     font-size: 10px;
@@ -219,11 +219,14 @@
 .footer__item.on:first-child {
     background: url(../images/m-bg-recom.png) center 6px/auto 20px no-repeat;
 }
-.footer__item:last-child {
+.footer__item:nth-of-type(2) {
     background: url(../images/m-bg-list-02.png) center 6px/auto 20px no-repeat;
 }
-.footer__item.on:last-child {
+.footer__item.on:nth-of-type(2) {
     background: url(../images/m-bg-list.png) center 6px/auto 20px no-repeat;
+}
+.footer__item:nth-of-type(3) {
+    background: url(../images/m-bg-quicksub.png) center 6px/auto 20px no-repeat;
 }
 /*鏍峰紡閲嶇疆*/
 .mui-content>.project-all-box:first-child {
