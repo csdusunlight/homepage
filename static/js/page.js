@@ -3,7 +3,7 @@
 # www.xuexb.com;
 # jquery;
 */
-;(function (a) {
+(function (a) {
 	var ajaxPage = function (d) {
 		var c=a.extend({
 			type      :  "get",

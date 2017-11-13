@@ -1,4 +1,4 @@
-;(function($,window,document,undefined) {
+(function($,window,document,undefined) {
 //  绑定JQ的点击事件
     $.PopupClose = function (Id) {
         $('#'+Id+' .popup__close-btn').on('click', function(){

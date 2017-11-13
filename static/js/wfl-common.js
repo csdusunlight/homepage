@@ -1,4 +1,4 @@
-;(function($,window,document,undefined) {
+(function($,window,document,undefined) {
 
 	$.fn.addTitle = function() {
 		return this.each(function() {

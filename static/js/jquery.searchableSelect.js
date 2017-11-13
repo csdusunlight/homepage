@@ -2,7 +2,7 @@
 // E-mail: david@hereapp.cn
 // Date: 2014-11-05
 
-;(function($){
+(function($){
 
   // a case insensitive jQuery :contains selector
   $.expr[":"].searchableSelectContains = $.expr.createPseudo(function(arg) {
