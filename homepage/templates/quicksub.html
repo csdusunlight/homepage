@@ -275,15 +275,15 @@
 <script type="text/javascript">
     document.body.style.backgroundImage="url(/static/images/quicksub-"+ {{user.submit_bg}} +".jpg)"
 //  document.body.style.backgroundImage="url(../../static/images/quicksub-7.jpg)";
+    var project_id;
+    var limit_str;
+    var limit;
+    var invest_type;
+    var key_arr = [];
     $(function(){
         
         $('.project-select').searchableSelect();
         
-        var project_id;
-        var limit_str;
-        var limit;
-        var invest_type;
-        var key_arr = [];
         $('.searchable-select-item').on('click', function(){
             if ($(this).attr('data-value') == 0){
                 $('.submit-box').hide();
