@@ -1,17 +1,17 @@
 body {
-    background-image: url(../images/quicksub-bg-1.jpg);
+    background-image: url(../images/quicksub-3.jpg);
     background-size: cover;
     background-attachment: fixed;
 }
 .header {
     width: 100%;
-    background-color: #91c11d;
+        background-color: rgba(0,0,0,0.5);
     position: fixed;
     top: 0;
     z-index: 100;
 }
 .header__box {
-    width: 1250px;
+    width: 1000px;
     height: 66px;
     line-height: 1;
     margin: 0 auto;
@@ -43,16 +43,18 @@ body {
 }
 .container {
     margin: 100px auto 50px;
-    padding: 20px 130px;
+    padding: 20px 160px;
     width: 730px;
     min-height: 500px;
-    background-color: #fff;
+    background-color: rgba(255,255,255,0.9);
+    border-radius: 8px;
 }
 .submit-box {
     display: none;
 }
 .container input {
     width: 100%;
+    border-radius: 6px;
 }
 .limit-input {
     display: none;
@@ -67,6 +69,9 @@ body {
     display: block;
     font-size: 16px;
     color: #222;
+}
+.input-detail {
+    font-size: 12px;
 }
 .input-mark {
     position: absolute;
@@ -95,15 +100,12 @@ body {
     width: 26px;
     height: 26px;
     border-radius: 4px;
-    border: 1px solid #e4e4e4;
+    border: 1px solid #bbb;
     vertical-align: middle;
     cursor: pointer;
 }
 .choose_item:checked + .choose_item-icon {
     background: url(../images/bg-checked-choose.png) center center no-repeat;
-}
-#submit_btn {
-    margin-left: 200px;
 }
 .searchable-select {
     width: 100%;

@@ -55,6 +55,7 @@
         /*min-height: 122px;*/
         margin: 20px auto 10px;
         width: 100%;
+        background-color: #fff;
         border-radius: 6px;
         border: 1px solid #e4e4e4;
     }
@@ -63,11 +64,12 @@
         display: inline-block;
         width: 100px;
         height: 100px;
-        margin: 10px 5px 10px 5px;
-        border: 1px solid rgb(100, 149, 198);
+        margin: 10px 18px 10px 18px;
+        /*border: 1px solid rgb(100, 149, 198);*/
         background: #fff no-repeat center;
         background-size: cover;
         vertical-align: top;
+        border-radius: 6px;
     }
     .img-item:hover .img-del {
         display: inline-block;
@@ -125,6 +127,14 @@
         margin: 10px;
         color: #999;
     }
+    .look-detail {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        text-decoration: underline;
+        color:#91C11D;
+    }
 </style>
 <script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
 </head>
@@ -140,7 +150,7 @@
     </div>
 </div>
 <div class="container">
-    <div class="input-box">
+    <div style="position: relative;" class="input-box">
         <label class="input-title">选择项目</label>
         <p class="input-detail">选择唯一对应项目名称</p>
         <select class="project-select" name="project">
@@ -151,6 +161,7 @@
                 {% endfor %}
             {%endfor%}
         </select>
+        <a class="look-detail" target="_blank" href="#">查看项目攻略>></a>
     </div>
     <form class="submit-box">
         <div class="limit-input input-box" data-limit="5">
@@ -249,7 +260,7 @@
             <p class="input-detail">可不填，限100字符</p>
             <input type="text" maxlength="100" placeholder="" id="remark">
         </div>
-         <a id="submit_btn" type="button" class="btn m-green">确认提交</a>
+         <a id="submit_btn" type="button" class="btn m-yellow">确认提交</a>
     </form>
 </div>
 
@@ -259,6 +270,8 @@
 <script type="text/javascript" src="{% static 'js/jquery.searchableSelect.js' %}"></script>
 <script type="text/javascript">
     $('.project-select').searchableSelect();
+    document.body.style.backgroundImage="url(/static/images/quicksub-"+ {{user.submit_bg}} +".jpg)"
+    document.body.style.backgroundImage="url(/static/images/quicksub-8.jpg)";
     $(function(){
         $(".submit-box").on("focus", ".date_picker", function() {
             $('.date_selector').remove();
@@ -276,6 +289,7 @@
     $('.searchable-select-item').on('click', function(){
         if ($(this).attr('data-value') == 0){
             $('.submit-box').hide();
+            $('.look-detail').hide();
         } else {
             project_id = $(this).data('value');
             limit_str = $(this).data('need');
@@ -283,6 +297,8 @@
             invest_type = $(this).data('isfutou');
             console.log(limit_str+'/'+invest_type)
             
+            $('.look-detail').show();
+            $('.look-detail').attr('href', '/detail/project/'+ project_id +'/');
             $('.submit-box').show();
             $('.input-tips').hide();
             $('.choose_item[value="1"]').prop("checked",true);
