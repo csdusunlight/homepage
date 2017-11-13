@@ -118,11 +118,7 @@
         color: #999;
     }
 </style>
-<script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
-<script type="text/javascript">
-    var skin_id = "{{user.color}}";
-	skin.href="/static/css/skin" + skin_id + ".css";
-</script>
+
 </head>
 <body>
     <div class="user__top">
@@ -316,12 +312,16 @@
         </div>
     </div>-->
 
+<script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/wfl-common.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/wfl-popup.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.searchableSelect.js' %}"></script>
+
 <script type="text/javascript">
+    var skin_id = "{{user.color}}";
+    document.getElementById("skin").href="/static/css/skin" + skin_id + ".css";
     var limit_str;
     var limit;
     var limit_id;
@@ -415,54 +415,7 @@
     })
 
 
-    var rankarea = document.getElementById('rankBox');
-    var rank_con1 = document.getElementById('rank_con1');
-    var rank_con2 = document.getElementById('rank_con2');
-    var rank_speed = 50;
-    rankarea.scrollTop = 0;
-    function scrollUpRank(){
-        if(rankarea.scrollTop >= rank_con1.scrollHeight) {
-            rankarea.scrollTop = 0;
-            }else{
-               rankarea.scrollTop ++;
-            }
-    }
-    $.ajax({
-    	url:"/restapi/investlogs/?page=1&size=8",
-    	type: 'get',
-    	dataType: "json",
-    	success: function(ret) {
-//          console.log(ret.results);
-            var notice_html='';
-            for (var i=0; i<ret.results.length; i++) {
-                var phone = ret.results[i].invest_mobile;
-//              var phone2 = phone.substr(0, 3) + '****' + phone.substr(7, 11);
-            	notice_html += '<li><a class="rank__txt oneline">' + (i+1) + '、' + phone +
-            	'体验了<span class="rank__project">' + ret.results[i].project_title + '</span></a></li>';
-            }
-//          console.log(notice_html);
-            $('#rank_con1').html(notice_html);
-            
-            
-//          console.log(rankarea.clientHeight);
-//          console.log(rank_con1.clientHeight);
-            if (rankarea.clientHeight >= rank_con1.clientHeight) {
-            } else {    
-                rank_con2.innerHTML = rank_con1.innerHTML;
-                
-                var myScroll_rank = setInterval("scrollUpRank()",rank_speed);
-                rankarea.onmouseover = function(){
-                    clearInterval(myScroll_rank);
-                }
-                rankarea.onmouseout = function(){
-                    myScroll_rank = setInterval("scrollUpRank()",rank_speed);
-                }
-            }
-        },
-        error: function() {
-            console.log("请检查网络连接");
-        }
-    });
+
     
     $('.search-submit').click(function(){
         var search_key = $('.search-input').val();
@@ -494,6 +447,13 @@
     });
 
     $(function(){
+        $("#pagedata1").ajaxPage({
+          url: url + "&is_on=true",
+          pageId:$("#page1"),
+          run:true,
+          content:data,
+          complete:pagecallback,
+        });
         $('.state20').text('已结束');
         var popup_height = parseInt(document.documentElement.clientHeight*2/3);
         $('.popup__content.m-submit').css("max-height", popup_height);
@@ -516,6 +476,53 @@
                 console.log("数据错误");
             }
         });
+        
+        var rankarea = document.getElementById('rankBox');
+        var rank_con1 = document.getElementById('rank_con1');
+        var rank_con2 = document.getElementById('rank_con2');
+        var rank_speed = 50;
+        rankarea.scrollTop = 0;
+        function scrollUpRank(){
+            if(rankarea.scrollTop >= rank_con1.scrollHeight) {
+                rankarea.scrollTop = 0;
+                }else{
+                   rankarea.scrollTop ++;
+                }
+        }
+        $.ajax({
+            url:"/restapi/investlogs/?page=1&size=8",
+            type: 'get',
+            dataType: "json",
+            success: function(ret) {
+    //          console.log(ret.results);
+                var notice_html='';
+                for (var i=0; i<ret.results.length; i++) {
+                    var phone = ret.results[i].invest_mobile;
+    //              var phone2 = phone.substr(0, 3) + '****' + phone.substr(7, 11);
+                    notice_html += '<li><a class="rank__txt oneline">' + (i+1) + '、' + phone +
+                    '体验了<span class="rank__project">' + ret.results[i].project_title + '</span></a></li>';
+                }
+    //          console.log(notice_html);
+                $('#rank_con1').html(notice_html);
+                
+                if (rankarea.clientHeight >= rank_con1.clientHeight) {
+                } else {    
+                    rank_con2.innerHTML = rank_con1.innerHTML;
+                    
+                    var myScroll_rank = setInterval("scrollUpRank()",rank_speed);
+                    rankarea.onmouseover = function(){
+                        clearInterval(myScroll_rank);
+                    }
+                    rankarea.onmouseout = function(){
+                        myScroll_rank = setInterval("scrollUpRank()",rank_speed);
+                    }
+                }
+            },
+            error: function() {
+                console.log("请检查网络连接");
+            }
+        });
+        
         var mark_key = '';
         var url_filter = '&ordering=';
         $('.mark-box').on('click', '.mark', function(){        //选择标签
@@ -547,13 +554,6 @@
             
         })
         
-        $("#pagedata1").ajaxPage({
-          url: url + "&is_on=true",
-          pageId:$("#page1"),
-          run:true,
-          content:data,
-          complete:pagecallback,
-        });
         
         $.ajax({        //获取查询的项目名称
             url: "/restapi/sub/?pageSize=999",

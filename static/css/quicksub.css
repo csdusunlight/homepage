@@ -43,7 +43,7 @@ body {
 }
 .container {
     margin: 100px auto 50px;
-    padding: 20px 160px;
+    padding: 20px 0;
     width: 730px;
     min-height: 600px;
     background-color: rgba(255,255,255,0.9);
@@ -63,7 +63,9 @@ body {
     display: none;
 }
 .input-box {
-    margin-bottom: 40px;
+    position: relative;
+    padding: 0 160px;
+    margin-bottom: 20px;
 }
 .input-title {
     display: block;
@@ -81,6 +83,8 @@ body {
 }
 .input-tips {
     position: absolute;
+    left: 580px;
+    bottom: 2px;
     display: none;
     font-size: 12px;
     color: red;
