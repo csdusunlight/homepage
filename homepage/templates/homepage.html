@@ -15,8 +15,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/datePicker.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/wfl-page.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.searchableSelect.css' %}" />
-<script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/page.js' %}"></script>
+
 <style type="text/css">
 	.state20 {
 	    /*pointer-events: none;*/
@@ -250,7 +249,8 @@
     
     
 
-
+<script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/wfl-common.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/wfl-popup.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.searchableSelect.js' %}"></script>
@@ -393,7 +393,7 @@
                rankarea.scrollTop ++;
             }
     }
-    $(function(){
+//  $(function(){
         $("#pagedata1").ajaxPage({
           url: url + "&is_on=true",
           pageId:$("#page1"),
@@ -525,7 +525,7 @@
           s.parentNode.insertBefore(hm, s);
         })();
         //百度分享 统计部分---end
-    })
+//  })
     var mark_key = '';
     var url_filter = '&ordering=';
     $('.mark-box').on('click', '.mark', function(){        //选择标签
