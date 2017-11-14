@@ -533,6 +533,7 @@
     text-align: center;
     line-height: 80px;
     color: #fff;
+    writing-mode: bt-lr;
     writing-mode: vertical-lr;
     background: url(../images/bg-icon-qq.png) center 20px no-repeat #91C11D;
 }
