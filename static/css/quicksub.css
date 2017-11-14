@@ -62,6 +62,15 @@ body {
 .limit-input {
     display: none;
 }
+.form-test {
+    padding-left: 24px !important;
+}
+.form-test.date_picker {
+    background: url(../images/icon-bg-date.png) 4px center no-repeat #fff;
+}
+.form-test.m-num {
+    background: url(../images/icon-bg-num.png) 4px center no-repeat #fff;
+}
 .isfutou-item {
     display: none;
 }
