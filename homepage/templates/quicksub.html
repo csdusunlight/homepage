@@ -325,10 +325,10 @@
             $('.date_selector').remove();
             $(this).date_input();
         })
-    })
+    });
 //  $('.select-box').on('click', '.searchable-select-item', function(){
 //      console.log('sdf');
-//  })
+//  });
     //      检验填写格式
     var isInputTrue = true;        //填写格式是否正确
     var validate = (function(){
@@ -390,6 +390,7 @@
         if(!(types instanceof Array)){
             throw "检测类型只能为数组";
         }
+
         for(var i=0;i<types.length;i++){
             var msg = validate(value,types[i]);
             if(!!msg){
@@ -431,7 +432,7 @@
                 }
             }
         }
-    })
+    });
         
     //  document.getElementById('submit_btn').addEventListener('tap', function(){
     //      mui('.form-test').each(function(){
@@ -447,7 +448,7 @@
     //              this.parentNode.lastElementChild.style.display = 'none';
     //          }
     //      })
-    //  })
+    //  });
 //      检验填写格式---end
     $('#submit_btn').click(function() {
         isInputTrue = true;
@@ -469,7 +470,7 @@
                     this.parentNode.lastElementChild.style.display = 'none';
                 }
             }
-        })
+        });
             
         key_arr[5] = document.getElementById('telnum').value; 
         key_arr[0] = document.getElementById('invest_account').value;
