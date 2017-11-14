@@ -130,7 +130,7 @@ def search(request):
 @login_required
 def quick_sumbit(request):
     user = request.user
-    subs = SubscribeShip.objects.filter(user=user).select_related('project').order_by('project__szm')
+    subs = SubscribeShip.objects.filter(user=user, is_on=True).select_related('project').order_by('project__szm')
     dic = OrderedDict()
     for sub in subs:
         project = sub.project
