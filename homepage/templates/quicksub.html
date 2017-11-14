@@ -390,8 +390,8 @@
         if(!(types instanceof Array)){
             throw "检测类型只能为数组";
         }
-        for(var type of types){
-            var msg = validate(value,type);
+        for(var i=0;i<types.length;i++){
+            var msg = validate(value,types[i]);
             if(!!msg){
                 return msg;
             } 
