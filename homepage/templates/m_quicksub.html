@@ -30,6 +30,20 @@
             .mui-indexed-list-group, .mui-indexed-list-item {
                 padding-right: 30px;
             }
+            .mui-icon-search {
+                position: absolute;
+                left: 10px;
+                top: 4px;
+            }
+            .mui-indexed-list-bar {
+                width: 0.8rem;
+            }
+            .mui-indexed-list-bar a {
+                font-size: 0.6rem;
+            }
+            .proj-search {
+                padding-left: 40px !important;
+            }
         </style>
     </head>
 
@@ -40,10 +54,17 @@
         </header>
         <div class="mui-content">
             <div id='list' class="mui-indexed-list">
-                <div class="mui-indexed-list-search mui-input-row mui-search">
+                <!--<div class="mui-indexed-list-search mui-input-row mui-search">
                     <input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="搜索项目">
+                </div>-->
+                <div class="mui-indexed-list-search mui-input-row">
+                    <span class="search-icon mui-icon mui-icon-search"></span>
+                    <input type="search" class="proj-search mui-input-clear mui-indexed-list-search-input" placeholder="搜索项目">
                 </div>
                 <div class="mui-indexed-list-bar">
+                    {% for k,v in projects.items%}
+                        <a>{{k}}</a>
+                    {%endfor%}
                     <!--<a>A</a>
                     <a>B</a>
                     <a>C</a>
@@ -70,7 +91,7 @@
                     <a>X</a>
                     <a>Y</a>
                     <a>Z</a>-->
-                    <a>a</a>
+                    <!--<a>a</a>
                     <a>b</a>
                     <a>c</a>
                     <a>d</a>
@@ -95,7 +116,7 @@
                     <a>w</a>
                     <a>x</a>
                     <a>y</a>
-                    <a>z</a>
+                    <a>z</a>-->
                 </div>
                 <div class="mui-indexed-list-alert"></div>
                 <div class="mui-indexed-list-inner">

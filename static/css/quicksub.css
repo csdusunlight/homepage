@@ -5,7 +5,7 @@ body {
 }
 .header {
     width: 100%;
-        background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.2);
     position: fixed;
     top: 0;
     z-index: 100;
@@ -21,6 +21,7 @@ body {
 }
 .header__img {
     display: inline-block;
+    margin-right: 4px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -33,6 +34,8 @@ body {
 }
 .header__intro {
     display: inline-block;
+    margin-left: 20px;
+    max-width: 700px;
     font-size: 14px;
     color: #fff;
     vertical-align: middle;
@@ -58,6 +61,15 @@ body {
 }
 .limit-input {
     display: none;
+}
+.form-test {
+    padding-left: 24px !important;
+}
+.form-test.date_picker {
+    background: url(../images/icon-bg-date.png) 4px center no-repeat #fff;
+}
+.form-test.m-num {
+    background: url(../images/icon-bg-num.png) 4px center no-repeat #fff;
 }
 .isfutou-item {
     display: none;
@@ -127,5 +139,5 @@ body {
     line-height: 80px;
     color: #fff;
     writing-mode: vertical-lr;
-    background: url(../images/bg-icon-qq.png) center 20px no-repeat rgba(0,0,0,0.3);
+    background: url(../images/bg-icon-qq.png) center 20px no-repeat rgba(0,0,0,0.2);
 }
