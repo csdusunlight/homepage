@@ -1,0 +1,104 @@
+﻿{% load staticfiles %}
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="P2P理财,P2P网贷,投资理财,网络理财,网络投资,小额投资理财,如何投资理财,个人理财,家庭理财" />
+<meta name="description" content="福利联盟是行业领先的P2P渠道分发机构。" />
+<meta itemprop="name" content="{{user.username}}"/>
+<meta itemprop="image" content="{{user.picture_url}}" />
+<meta name="description" itemprop="description" content="{{user.profile}}" />
+<title>{{user.username}}</title>
+<link href="{% static 'images/favicon.ico'%}" rel="shortcut icon"/>
+<!--<link rel="stylesheet" type="text/css" href="{% static 'css/wfl-common.css' %}" />-->
+<style type="text/css">
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+	.container {
+	    width: 800px;
+	    margin: 40px auto;
+	}
+	.doc__top {
+	    font-size: 26px;
+	    line-height: 1;
+	    color: #fe8802;
+	}
+	.doc__content {
+	    position: relative;
+	    box-sizing: border-box;
+	    padding: 140px 100px 50px;
+	    min-height: 800px;
+	    background-color: #fff;
+	    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+	}
+	.doc__title {
+	    position: absolute;
+	    top: 70px;
+	    width: 600px;
+	    height: 50px;
+        line-height: 50px;
+        color: #333;
+        font-size: 30px;
+        font-weight: 700;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        border-bottom: 1px solid #e4e4e4;
+	}
+	.doc__detail {
+	    margin-top: 30px;
+	}
+	.doc__footer {
+	    margin: 15px 10px;
+	    font-size: 0;
+	}
+	.doc__footer-item {
+	    display: inline-block;
+	    width: 50%;
+	    font-size: 14px;
+	    color: #666;
+	}
+	.doc__footer-item.m-left {
+	    text-align: left;
+	}
+	.doc__footer-item.m-right {
+        text-align: right;
+    }
+    .doc__close {
+        font-size: 40px;
+        color: #666;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="doc__top">番薯文档</h1>
+        <div class="doc__content">
+            <h1 class="doc__title">{{doc.title}}</h1>
+            <div class="doc__detail">
+                {{doc.content|safe}}
+            </div>
+        </div>
+        <p class="doc__footer">
+            <span class="doc__footer-item m-left">编写于番文档</span>
+            <span class="doc__footer-item m-right">{{doc.view_count}}&nbsp;阅</span>
+        </p>
+    </div>
+
+<!--<script type="text/javascript" src="{% static 'js/wfl-common.js' %}"></script>-->
+
+{% include "footer.html" %}
+
+<script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+<script>
+    var doc_id = "{{doc.id}}";
+    console.log(doc_id);
+    if(!doc_id) {
+        $('.doc__content').html('<p class="doc__close">该文档已关闭</p>')
+    }
+</script>
+</body>
+</html>
