@@ -15,4 +15,4 @@ class Document(RandomPrimaryIdModel):
     def __unicode__(self):
         return self.user.username + self.title
     def fanshu_url(self):
-        return FANSHU_DOMAIN + 'docs/' + str(self.id)
+        return FANSHU_DOMAIN + '/docs/' + str(self.id)
