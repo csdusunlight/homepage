@@ -51,7 +51,7 @@
 	    margin-top: 30px;
 	}
 	.doc__footer {
-	    margin: 35px 10px;
+	    margin: 15px 10px;
 	    font-size: 0;
 	}
 	.doc__footer-item {
@@ -66,6 +66,11 @@
 	.doc__footer-item.m-right {
         text-align: right;
     }
+    .doc__close {
+        font-size: 40px;
+        color: #666;
+        text-align: center;
+    }
 </style>
 </head>
 <body>
@@ -78,8 +83,8 @@
             </div>
         </div>
         <p class="doc__footer">
-            <span class="doc__footer-item m-left">编写于番薯文档</span>
-            <span class="doc__footer-item m-right">{{doc.view_count}}阅</span>
+            <span class="doc__footer-item m-left">编写于番文档</span>
+            <span class="doc__footer-item m-right">{{doc.view_count}}&nbsp;阅</span>
         </p>
     </div>
 
@@ -88,5 +93,12 @@
 {% include "footer.html" %}
 
 <script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+<script>
+    var doc_id = "{{doc.id}}";
+    console.log(doc_id);
+    if(!doc_id) {
+        $('.doc__content').html('<p class="doc__close">该文档已关闭</p>')
+    }
+</script>
 </body>
 </html>
