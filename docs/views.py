@@ -10,6 +10,8 @@ from django.db.models import F
 
 def display_doc(request, id):
     doc = Document.objects.get(id=id)
+    view_count = doc.view_count
     doc.view_count = F('view_count')+1
     doc.save(update_fields=['view_count',])
+    doc.view_count = view_count + 1
     return render(request, 'display_doc.html', {'doc':doc})
