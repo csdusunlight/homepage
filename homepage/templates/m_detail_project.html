@@ -22,8 +22,8 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>信息登记</title>
-    <link href="{%static 'css/mui.min.css'%}" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="{%static 'css/m_common.css'%}"/>
+    <link href="{%static 'css/mui.css'%}" rel="stylesheet"/>
+    <!--<link rel="stylesheet" type="text/css" href="{%static 'css/m_common.css'%}"/>-->
     <link rel="stylesheet" type="text/css" href="{%static 'css/m_expsubmit_project.css'%}"/>
     <style type="text/css">
         .limit-input {
@@ -139,7 +139,7 @@
                         </div>
                     </div>
                     <div id="item2" style="overflow-y: scroll;" class="mui-slider-item mui-control-content" value="2">
-                        <form class="mui-input-group">
+                        <form>
                             {% csrf_token %}
                             <div class="input-box">
                               <label class="input-title">QQ&nbsp;&nbsp;</label>
