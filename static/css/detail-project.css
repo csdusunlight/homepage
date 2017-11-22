@@ -130,10 +130,25 @@
     line-height: 50px;
     cursor: pointer;
 }
-.iframe {
+.iframe,
+.doc__box {
     width: 100%;
     height: 800px;
     border: none;
+}
+.doc__box {
+    padding: 120px 100px 80px;
+}
+.doc__title {
+    /* top: 70px; */
+    margin: 0;
+    width: 600px;
+    /* height: 50px; */
+    line-height: 50px;
+    color: #333;
+    font-size: 30px;
+    font-weight: 700;
+    border-bottom: 1px solid #e4e4e4;
 }
 
 .popup .date_selector {
