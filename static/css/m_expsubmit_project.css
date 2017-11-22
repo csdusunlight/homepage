@@ -1,6 +1,9 @@
 ﻿body {
 	background: #fff;
 }
+input,textarea {
+    box-sizing: border-box;
+}
 .mui-content {
 	/*padding: 0 1.875% 0;*/
 	background: #fff;
@@ -125,6 +128,7 @@ form {
 .doc__box {
     padding: 100px 25px 20px;
     overflow-y: scroll;
+    box-sizing: border-box;
 }
 .doc__title {
     width: 100%;
@@ -132,7 +136,7 @@ form {
     margin: 0;
     line-height: 30px;
     font-size: 20px;
-    color: #333;
+    color: #222;
     font-weight: 700;
     border-bottom: 1px solid #e4e4e4;
 }
