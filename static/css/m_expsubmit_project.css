@@ -114,12 +114,16 @@ form {
     height: 180px;
     background-color: #fff;
 }*/
-.iframe {
+.iframe,
+.doc__box {
     /*width: 100% !important;*/
     height: 100%;
     margin-top: 1px;
     border: none;
     overflow-x: scroll;
+}
+.doc__box {
+    padding: 80px 10px 20px;
 }
 
 /*样式覆盖*/

@@ -43,6 +43,10 @@
     width: 820px;
     
 }
+.myproj-nav-box {
+    margin: 0;
+    padding: 0;
+}
 .navitem {
     display: inline-block;
     width: 110px;
@@ -88,10 +92,12 @@
     border-bottom: 1px dashed #e4e4e4;
 }
 .iframe__title {
+    margin: 0;
     width: 300px;
     font-size: 18px;
     line-height: 90px;
     text-align: center;
+    color: #222;
 }
 .iframe__invest {
     width: 100px;
