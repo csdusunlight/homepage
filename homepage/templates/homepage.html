@@ -249,7 +249,11 @@
     
     
 
-<script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    if(!window.jQuery)
+    document.write('<script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"><'+'/script>');
+</script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/wfl-common.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/wfl-popup.js' %}"></script>
