@@ -146,7 +146,10 @@ form {
 .doc__detail {
     margin-top: 20px;
 }
-
+.doc__detail img {
+    max-width: 100%;
+    height: auto !important;
+}
 /*样式覆盖*/
 form.mui-input-group .mui-input-row:after {
 	left: 15px;
