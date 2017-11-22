@@ -12,6 +12,7 @@ from django.db.models import F
 from activity.views import on_submit
 from collections import OrderedDict
 from dragon.settings import FANSHU_DOMAIN
+from docs.models import Document
 
 # Create your views here.
 @login_required
@@ -53,10 +54,20 @@ def detail_project(request, id):
     intrest = sub.intrest if sub.intrest else project.intrest
     price = sub.price if sub.price else project.cprice
     is_fanshu = 0
-    if FANSHU_DOMAIN in project.strategy:
+    kwargs = {'id':id, 'project':project, 'intrest':intrest, 'price':price,}
+    strategy =  project.strategy
+    if FANSHU_DOMAIN in strategy and '/' in strategy:
         is_fanshu = 1
+        try:
+            spl = strategy.split('/')
+            pk = spl[-1] or spl[-2]
+            doc = Document.objects.get(id=pk)
+            kwargs.update(doc=doc)
+        except:
+            pass
+    kwargs.update(is_fanshu=is_fanshu)
     template = 'm_detail_project.html' if request.mobile else 'detail_project.html'
-    return render(request, template ,{'id':id, 'project':project, 'intrest':intrest, 'price':price, 'is_fanshu':is_fanshu})
+    return render(request, template , kwargs)
 
 @csrf_exempt
 @transaction.atomic
