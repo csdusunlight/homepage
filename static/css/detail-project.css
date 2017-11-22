@@ -143,6 +143,7 @@
     border: none;
 }
 .doc__box {
+    box-sizing: border-box;
     padding: 120px 100px 80px;
 }
 .doc__title {

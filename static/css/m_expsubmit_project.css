@@ -125,6 +125,16 @@ form {
 .doc__box {
     padding: 80px 10px 20px;
 }
+.doc__title {
+    width: 100%;
+    padding-bottom: 0.2rem;
+    margin: 0;
+    line-height: 1rem;
+    font-size: 0.6rem;
+    color: #333;
+    font-weight: 700;
+    border-bottom: 1px solid #e4e4e4;
+}
 
 /*样式覆盖*/
 form.mui-input-group .mui-input-row:after {
