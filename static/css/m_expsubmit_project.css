@@ -86,6 +86,7 @@ form {
     width: 100%;
 }
 .iframe-top {
+    box-sizing: border-box;
     position: absolute;
     top: 0;
     left: 0;
@@ -96,10 +97,12 @@ form {
     font-size: 0;
 }
 .iframe__price {
+    margin: 0;
     line-height: 20px;
     font-size: 14px;
 }
 .iframe__invest {
+    margin: 0;
     line-height: 20px;
     font-size: 10px;
 }
@@ -126,7 +129,7 @@ form {
     /*overflow-y: scroll;*/
 }
 .doc__box {
-    padding: 100px 25px 20px;
+    padding: 80px 25px 20px;
     overflow-y: scroll;
     box-sizing: border-box;
 }
