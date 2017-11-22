@@ -145,6 +145,7 @@
 .doc__box {
     box-sizing: border-box;
     padding: 120px 100px 80px;
+    overflow-y: scroll;
 }
 .doc__title {
     /* top: 70px; */

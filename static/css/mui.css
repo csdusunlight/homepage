@@ -5,18 +5,18 @@
  */
 
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
-html
+/*html
 {
     font-family: sans-serif;
 
     -webkit-text-size-adjust: 100%;
-}
+}*/
 
 body
 {
     margin: 0;
 }
-
+/*
 article,
 aside,
 details,
@@ -65,32 +65,32 @@ a:active,
 a:hover
 {
     outline: 0;
-}
+}*/
 
 abbr[title]
 {
     border-bottom: 1px dotted;
 }
 
-b,
+/*b,
 strong
 {
     font-weight: bold;
-}
+}*/
 
 dfn
 {
     font-style: italic;
 }
 
-h1
+/*h1
 {
     font-size: 2em;
 
     margin: .67em 0;
-}
+}*/
 
-mark
+/*mark
 {
     color: #000;
     background: #ff0;
@@ -99,9 +99,9 @@ mark
 small
 {
     font-size: 80%;
-}
+}*/
 
-sub,
+/*sub,
 sup
 {
     font-size: 75%;
@@ -110,9 +110,9 @@ sup
     position: relative;
 
     vertical-align: baseline;
-}
+}*/
 
-sup
+/*sup
 {
     top: -.5em;
 }
@@ -125,9 +125,9 @@ sub
 img
 {
     border: 0;
-}
+}*/
 
-svg:not(:root)
+/*svg:not(:root)
 {
     overflow: hidden;
 }
@@ -135,19 +135,19 @@ svg:not(:root)
 figure
 {
     margin: 1em 40px;
-}
+}*/
 
-hr
+/*hr
 {
     box-sizing: content-box;
     height: 0;
-}
+}*/
 
-pre
+/*pre
 {
     overflow: auto;
-}
-
+}*/
+/*
 code,
 kbd,
 pre,
@@ -155,7 +155,7 @@ samp
 {
     font-family: monospace, monospace;
     font-size: 1em;
-}
+}*/
 
 button,
 input,
@@ -229,44 +229,44 @@ input[type='search']::-webkit-search-decoration
     -webkit-appearance: none;
 }
 
-fieldset
+/*fieldset
 {
     margin: 0 2px;
     padding: .35em .625em .75em;
 
     border: 1px solid #c0c0c0;
-}
+}*/
 
-legend
+/*legend
 {
     padding: 0;
 
     border: 0;
-}
+}*/
 
 textarea
 {
     overflow: auto;
 }
 
-optgroup
+/*optgroup
 {
     font-weight: bold;
-}
+}*/
 
-table
+/*table
 {
     border-spacing: 0;
     border-collapse: collapse;
-}
+}*/
 
-td,
+/*td,
 th
 {
     padding: 0;
-}
+}*/
 
-*
+/**
 {
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
@@ -277,7 +277,7 @@ th
 
     -webkit-tap-highlight-color: transparent;
     -webkit-tap-highlight-color: transparent;
-}
+}*/
 
 body
 {
