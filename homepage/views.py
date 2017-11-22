@@ -11,6 +11,7 @@ from django.db import transaction
 from django.db.models import F
 from activity.views import on_submit
 from collections import OrderedDict
+from dragon.settings import FANSHU_DOMAIN
 
 # Create your views here.
 @login_required
@@ -51,8 +52,11 @@ def detail_project(request, id):
     sub = SubscribeShip.objects.get(project=id,user=request.user)
     intrest = sub.intrest if sub.intrest else project.intrest
     price = sub.price if sub.price else project.cprice
-    template = 'm_detail_project.html' if request.mobile else 'detail_project.html' 
-    return render(request, template ,{'id':id, 'project':project, 'intrest':intrest, 'price':price})
+    is_fanshu = 0
+    if FANSHU_DOMAIN in project.strategy:
+        is_fanshu = 1
+    template = 'm_detail_project.html' if request.mobile else 'detail_project.html'
+    return render(request, template ,{'id':id, 'project':project, 'intrest':intrest, 'price':price, 'is_fanshu':is_fanshu})
 
 @csrf_exempt
 @transaction.atomic
