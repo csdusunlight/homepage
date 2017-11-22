@@ -7,6 +7,7 @@
 <meta itemprop="name" content="{{user.username}}"/>
 <meta itemprop="image" content="{{user.picture_url}}" />
 <meta name="description" itemprop="description" content="{{user.profile}}" />
+<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
 <title>{{user.username}}</title>
 <link href="{% static 'images/favicon.ico'%}" rel="shortcut icon"/>
 <!--<link rel="stylesheet" type="text/css" href="{% static 'css/wfl-common.css' %}" />-->
@@ -15,6 +16,7 @@
         margin: 0;
         padding: 0;
         background-color: #f0f0f0;
+        font-family: "microsoft yahei";
     }
 	.container {
 	    width: 800px;
@@ -23,28 +25,30 @@
 	.doc__top {
 	    font-size: 26px;
 	    line-height: 1;
+	    font-weight: 400;
 	    color: #fe8802;
 	}
 	.doc__content {
-	    position: relative;
+	    /*position: relative;*/
 	    box-sizing: border-box;
-	    padding: 140px 100px 50px;
-	    min-height: 800px;
+	    padding: 54px 100px 50px;
+	    margin-top: 30px;
+	    min-height: 1000px;
 	    background-color: #fff;
 	    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 	}
 	.doc__title {
-	    position: absolute;
-	    top: 70px;
+	    /*position: absolute;*/
+	    /*top: 70px;*/
 	    width: 600px;
-	    height: 50px;
+	    /*height: 50px;*/
         line-height: 50px;
         color: #333;
         font-size: 30px;
         font-weight: 700;
-        overflow: hidden;
+        /*overflow: hidden;
         white-space: nowrap;
-        text-overflow: ellipsis;
+        text-overflow: ellipsis;*/
         border-bottom: 1px solid #e4e4e4;
 	}
 	.doc__detail {
@@ -71,12 +75,42 @@
         color: #666;
         text-align: center;
     }
+    @media screen and (max-width:800px){
+        .container {
+            width: 90%;
+            margin: 1rem auto;
+        }
+        .doc__top {
+            font-size: 0.5rem;
+        }
+        .doc__content {
+            padding: 0.6rem 0.2rem 0.4rem;
+            margin-top: 0;
+            min-height: 600px;
+        }
+        .doc__title {
+            width: 100%;
+            margin: 0;
+            line-height: 1rem;
+            font-size: 0.6rem;
+        }
+        .doc__detail {
+            margin-top: 0.4rem;
+            font-size: 12px;
+        }
+        .doc__footer-item {
+            font-size: 0.3rem;
+        }
+        .doc__close {
+            font-size: 1rem;
+        }
+    }
 </style>
 </head>
 <body>
     <div class="container">
         <h1 class="doc__top">番薯文档</h1>
-        <div class="doc__content">
+        <div id="doc_content" class="doc__content">
             <h1 class="doc__title">{{doc.title}}</h1>
             <div class="doc__detail">
                 {{doc.content|safe}}
@@ -92,12 +126,14 @@
 
 {% include "footer.html" %}
 
-<script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+<!--<script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>-->
+<script src="{% static 'js/flexible.js' %}"></script>
 <script>
     var doc_id = "{{doc.id}}";
     console.log(doc_id);
     if(!doc_id) {
-        $('.doc__content').html('<p class="doc__close">该文档已关闭</p>')
+//      $('.doc__content').html('<p class="doc__close">该文档已关闭</p>')
+        document.getElementById('doc_content').innerHTML = '<p class="doc__close">该文档已关闭</p>';
     }
 </script>
 </body>
