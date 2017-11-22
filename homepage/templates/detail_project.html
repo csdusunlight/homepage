@@ -147,15 +147,13 @@
                             <p class="iframe__invest l"><span class="invest-num">{{intrest}}</span><br />预计最高年化</p>
                             <p class="iframe__price l"><span class="price-num">{{price}}</span></p>
                         </div>
-                        <!--<iframe class="iframe" src="{{project.strategy}}">
+                        <iframe class="iframe" src="{{project.strategy}}">
                           <p>您的浏览器不支持  iframe 标签。</p>
-                        </iframe>-->
+                        </iframe>
                         <div class="doc__box">
-                            <h1 class="doc__title">项目标题</h1>
+                            <h1 class="doc__title">{{doc.title}}</h1>
                             <div class="doc__detail">
-                                <h2>上的风格类似的广告费</h2>
-                                <p>是的撒的撒地方</p>
-                                <p>规范化甲方工会经费</p>
+                                {{doc.content|safe}}
                             </div>
                         </div>
                         <div class="iframe-bottom">
@@ -287,6 +285,14 @@
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript">
+    var is_fanshu = '{{is_fanshu}}';
+    if (is_fanshu == '0') {
+    	$('.iframe').show();
+    	$('.doc__box').hide();
+    } else{
+    	$('.iframe').hide();
+        $('.doc__box').show();
+    }
 //  document.body.style.backgroundImage="url(/static/images/quicksub-"+ {{user.submit_bg}} +".jpg)"
 //  document.body.style.backgroundImage="url(../../static/images/quicksub-7.jpg)";
     var limit_str = "{{project.necessary_fields}}";
