@@ -286,6 +286,7 @@
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript">
     var is_fanshu = '{{is_fanshu}}';
+    console.log(is_fanshu);
     if (is_fanshu == '0') {
     	$('.iframe').show();
     	$('.doc__box').hide();
