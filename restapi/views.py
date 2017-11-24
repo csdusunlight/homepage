@@ -21,6 +21,7 @@ from django.db.models import Q
 from wafuli_admin.models import DayStatis
 from rest_framework.exceptions import ValidationError
 from account.tools import send_book_email
+from weixin.tools import sendWeixinNotify
 # from django.core.mail import send_mail
 # from wafuli.Filters import UserEventFilter
 class BaseViewMixin(object):
@@ -199,6 +200,7 @@ class BookLogList(BaseViewMixin, generics.ListCreateAPIView):
     pagination_class = MyPageNumberPagination
     def perform_create(self, serializer):
         generics.ListCreateAPIView.perform_create(self, serializer)
+#         sendWeixinNotify([(self.request.user, serializer.instance)], 'book')
         if self.request.user.is_book_email_notice:
             qq_address = self.request.user.qq_number + '@qq.com'
             instance = serializer.instance

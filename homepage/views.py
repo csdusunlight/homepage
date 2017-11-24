@@ -13,6 +13,7 @@ from activity.views import on_submit
 from collections import OrderedDict
 from dragon.settings import FANSHU_DOMAIN
 from docs.models import Document
+from weixin.tools import sendWeixinNotify
 
 # Create your views here.
 @login_required
@@ -114,6 +115,11 @@ def submitOrder(request):
     #活动插入
     on_submit(request, request.user, investlog)
     #活动插入结束
+    
+    #
+#     sendWeixinNotify([(request.user, investlog),], 'submit')
+    #
+    
     project.points = F('points') + 1
     project.save(update_fields=['points',])
     imgurl_list = []
