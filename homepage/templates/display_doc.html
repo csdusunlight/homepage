@@ -18,21 +18,23 @@
         background-color: #f0f0f0;
         font-family: "microsoft yahei";
     }
+    a,span,p {
+        word-wrap: break-word;
+    }
 	.container {
 	    width: 800px;
-	    margin: 40px auto;
+	    margin: 10px auto;
 	}
-	.doc__top {
+	/*.doc__top {
 	    font-size: 26px;
 	    line-height: 1;
 	    font-weight: 400;
 	    color: #fe8802;
-	}
+	}*/
 	.doc__content {
 	    /*position: relative;*/
 	    box-sizing: border-box;
 	    padding: 54px 100px 50px;
-	    margin-top: 30px;
 	    min-height: 1000px;
 	    background-color: #fff;
 	    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -89,9 +91,13 @@
             width: 100%;
             margin: 0.4rem auto;
         }
-        .doc__top {
+        /*.doc__top {
             font-size: 0.5rem;
             margin-left: 0.4rem;
+        }*/
+        .doc__logo {
+            display: block;
+            width: 2rem;
         }
         .doc__content {
             padding: 0.6rem 0.6rem 0.4rem;
@@ -121,7 +127,8 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="doc__top">番薯文档</h1>
+        <!--<h1 class="doc__top">番薯文档</h1>-->
+        <img class="doc__logo" src="{% static 'images/fanshu-logo.png' %}"/>
         <div id="doc_content" class="doc__content">
             <h1 class="doc__title">{{doc.title}}</h1>
             <div class="doc__detail">

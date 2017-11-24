@@ -1,6 +1,9 @@
 ﻿body {
 	background: #fff;
 }
+a,span,p {
+    word-wrap: break-word;
+}
 input,textarea {
     box-sizing: border-box;
 }

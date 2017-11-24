@@ -3,6 +3,9 @@
     background-size: cover;
     background-attachment: fixed;
 }*/
+a,span,p {
+    word-wrap: break-word;
+}
 .header {
     width: 100%;
     background-color: #91c11d;
@@ -146,6 +149,9 @@
     box-sizing: border-box;
     padding: 120px 100px 80px;
     overflow-y: scroll;
+}
+.doc__detail {
+    margin-top: 10px;
 }
 .doc__title {
     /* top: 70px; */
