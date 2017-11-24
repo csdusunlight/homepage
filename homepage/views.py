@@ -117,7 +117,7 @@ def submitOrder(request):
     #活动插入结束
     
     #
-    sendWeixinNotify([(request.user, investlog),], 'submit')
+#     sendWeixinNotify([(request.user, investlog),], 'submit')
     #
     
     project.points = F('points') + 1

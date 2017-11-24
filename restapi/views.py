@@ -200,20 +200,20 @@ class BookLogList(BaseViewMixin, generics.ListCreateAPIView):
     pagination_class = MyPageNumberPagination
     def perform_create(self, serializer):
         generics.ListCreateAPIView.perform_create(self, serializer)
-        sendWeixinNotify([(self.request.user, serializer.instance)], 'book')
-#         if self.request.user.is_book_email_notice:
-#             qq_address = self.request.user.qq_number + '@qq.com'
-#             instance = serializer.instance
-#             pname = instance.project.title
-#             subject = u'个人主页项目预约-' + pname
-#             content = u"项目：" + instance.project.title + '\n' \
-#                 + u"QQ：" + instance.qq_number + '\n' \
-#                 + u"预约金额：" + instance.book_content + '\n' \
-#                 + u"预约标期：" + instance.book_term + '\n' \
-#                 + u"预约日期：" + str(instance.book_date) + '\n' \
-#                 + u"留言：" + instance.remark or u"无"
-#             content = content + '\n' + u"请到个人中心-预约管理中查看并处理。"
-#             send_book_email(qq_address, subject, content)
+#         sendWeixinNotify([(self.request.user, serializer.instance)], 'book')
+        if self.request.user.is_book_email_notice:
+            qq_address = self.request.user.qq_number + '@qq.com'
+            instance = serializer.instance
+            pname = instance.project.title
+            subject = u'个人主页项目预约-' + pname
+            content = u"项目：" + instance.project.title + '\n' \
+                + u"QQ：" + instance.qq_number + '\n' \
+                + u"预约金额：" + instance.book_content + '\n' \
+                + u"预约标期：" + instance.book_term + '\n' \
+                + u"预约日期：" + str(instance.book_date) + '\n' \
+                + u"留言：" + instance.remark or u"无"
+            content = content + '\n' + u"请到个人中心-预约管理中查看并处理。"
+            send_book_email(qq_address, subject, content)
 #         send_mail(subject, content, u'hunanjinyezi@126.com', ['690501772@qq.com',], auth_user='lvchunhui7@126.com',
 #                    auth_password='95123120290')
     
