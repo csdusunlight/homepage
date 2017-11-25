@@ -24,15 +24,18 @@ a,span,p {
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    vertical-align: middle;
 }
 .header__username {
     display: inline-block;
+    margin: 0 10px;
     vertical-align: middle;
     font-size: 18px;
     color: #fff;
 }
 .header__intro {
     display: inline-block;
+    margin: 0;
     font-size: 14px;
     color: #fff;
     vertical-align: middle;
@@ -188,6 +191,7 @@ a,span,p {
 }
 .popup__title {
     padding-top: 40px;
+    margin-top: 0;
 }
 .popup__btnbox {
     margin-bottom: 20px;
@@ -216,6 +220,7 @@ a,span,p {
     padding-left: 80px;
 }
 .link-qq {
+    box-sizing: border-box;
     position: fixed;
     top: 140px;
     right: 0;
@@ -228,5 +233,6 @@ a,span,p {
     line-height: 80px;
     color: #fff;
     writing-mode: vertical-lr;
+    text-decoration: none;
     background: url(../images/bg-icon-qq.png) center 20px no-repeat #91C11D;
 }
