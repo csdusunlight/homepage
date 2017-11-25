@@ -100,17 +100,6 @@
             width: 48%;
         }
     </style>
-    <script type="text/javascript">
-    	var is_fanshu = '{{is_fanshu}}';
-        console.log(is_fanshu);
-        if (is_fanshu == '0') {
-            var doc = document.getElementById('doc__box');
-            doc.parentNode.removeChild(doc);
-        } else if(is_fanshu == '1'){
-            var doc = document.getElementById('iframe');
-            doc.parentNode.removeChild(doc);
-        }
-    </script>
 </head>
 
     <body>
@@ -134,15 +123,18 @@
                                 <p class="iframe__invest">预计最高年化：<span class="invest-num">{{intrest}}</span></p>
                             </div>
                             <div id="iframe_box" style="height: 100%;">
+                                {%if is_fanshu == 1 %}
                                 <iframe id="iframe" class="iframe" src="{{project.strategy}}">
                                   <p>您的浏览器不支持  iframe 标签。</p>
                                 </iframe>
+                                {% else %}
                                 <div id="doc__box" class="doc__box">
                                     <h1 class="doc__title">{{doc.title}}</h1>
                                     <div class="doc__detail">
                                         {{doc.content|safe}}
                                     </div>
                                 </div>
+                                {%endif%}
                             </div>
                             <!--<div class="iframe-bottom">
                                 <span class="btn m-green m-bottom">点击交单</span>
