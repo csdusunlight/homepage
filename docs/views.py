@@ -9,9 +9,12 @@ from django.db.models import F
 # Create your views here.
 
 def display_doc(request, id):
-    doc = Document.objects.get(id=id)
-    view_count = doc.view_count
-    doc.view_count = F('view_count')+1
-    doc.save(update_fields=['view_count',])
-    doc.view_count = view_count + 1
-    return render(request, 'display_doc.html', {'doc':doc})
+    try:
+        doc = Document.objects.get(id=id, is_on=True)
+        view_count = doc.view_count
+        doc.view_count = F('view_count')+1
+        doc.save(update_fields=['view_count',])
+        doc.view_count = view_count + 1
+        return render(request, 'display_doc.html', {'doc':doc})
+    except:
+        return render(request, 'hide_doc.html', )
