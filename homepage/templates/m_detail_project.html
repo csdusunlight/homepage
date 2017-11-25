@@ -100,6 +100,17 @@
             width: 48%;
         }
     </style>
+    <script type="text/javascript">
+    	var is_fanshu = '{{is_fanshu}}';
+        console.log(is_fanshu);
+        if (is_fanshu == '0') {
+            var doc = document.getElementById('doc__box');
+            doc.parentNode.removeChild(doc);
+        } else if(is_fanshu == '1'){
+            var doc = document.getElementById('iframe');
+            doc.parentNode.removeChild(doc);
+        }
+    </script>
 </head>
 
     <body>
@@ -261,14 +272,14 @@
                     swipeBack:false //启用右滑关闭功能
                 });
                 
-                var is_fanshu = '{{is_fanshu}}';
-                if (is_fanshu == '0') {
-                    document.getElementById('iframe').style.display = 'block';
-                    document.getElementById('doc__box').style.display = 'none';
-                } else{
-                    document.getElementById('doc__box').style.display = 'block';
-                    document.getElementById('iframe').style.display = 'none';
-                }
+//              var is_fanshu = '{{is_fanshu}}';
+//              if (is_fanshu == '0') {
+//                  document.getElementById('iframe').style.display = 'block';
+//                  document.getElementById('doc__box').style.display = 'none';
+//              } else{
+//                  document.getElementById('doc__box').style.display = 'block';
+//                  document.getElementById('iframe').style.display = 'none';
+//              }
                 
                 function iosIframeWidthBug(){
                     //不是 iphone ipad就不执行了
