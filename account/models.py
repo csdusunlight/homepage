@@ -12,7 +12,6 @@ from django.contrib.auth.hashers import (
 )
 from wafuli.data import BANK
 from decimal import Decimal
-import re
 from django.core.exceptions import ValidationError
 class MyUserManager(BaseUserManager):
 

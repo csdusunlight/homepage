@@ -13,12 +13,12 @@ class SubdomainMiddleware(object):
         logger.info( request.META.keys())
         domain_parts = request.get_host().split('.')
         if len(domain_parts) == 3:
-            qq_number = domain_parts[0]
-            if qq_number == "test":
-                qq_number = '690501772'
-            try:
-                request.user = MyUser.objects.get(qq_number=qq_number)
-            except:
-                raise Http404
-        request.prehost= 'm'
+            domain_name = domain_parts[0]
+            if domain_name == "test":
+                request.user = MyUser.objects.get(id=1)
+            else:
+                try:
+                    request.user = MyUser.objects.get(domain_name=domain_name)
+                except:
+                    raise Http404
         return None
