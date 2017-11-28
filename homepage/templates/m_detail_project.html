@@ -123,15 +123,18 @@
                                 <p class="iframe__invest">预计最高年化：<span class="invest-num">{{intrest}}</span></p>
                             </div>
                             <div id="iframe_box" style="height: 100%;">
+                                {%if is_fanshu == 0 %}
                                 <iframe id="iframe" class="iframe" src="{{project.strategy}}">
                                   <p>您的浏览器不支持  iframe 标签。</p>
                                 </iframe>
+                                {% else %}
                                 <div id="doc__box" class="doc__box">
                                     <h1 class="doc__title">{{doc.title}}</h1>
                                     <div class="doc__detail">
                                         {{doc.content|safe}}
                                     </div>
                                 </div>
+                                {%endif%}
                             </div>
                             <!--<div class="iframe-bottom">
                                 <span class="btn m-green m-bottom">点击交单</span>
@@ -261,14 +264,14 @@
                     swipeBack:false //启用右滑关闭功能
                 });
                 
-                var is_fanshu = '{{is_fanshu}}';
-                if (is_fanshu == '0') {
-                    document.getElementById('iframe').style.display = 'block';
-                    document.getElementById('doc__box').style.display = 'none';
-                } else{
-                    document.getElementById('doc__box').style.display = 'block';
-                    document.getElementById('iframe').style.display = 'none';
-                }
+//              var is_fanshu = '{{is_fanshu}}';
+//              if (is_fanshu == '0') {
+//                  document.getElementById('iframe').style.display = 'block';
+//                  document.getElementById('doc__box').style.display = 'none';
+//              } else{
+//                  document.getElementById('doc__box').style.display = 'block';
+//                  document.getElementById('iframe').style.display = 'none';
+//              }
                 
                 function iosIframeWidthBug(){
                     //不是 iphone ipad就不执行了

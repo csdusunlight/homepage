@@ -147,15 +147,18 @@
                             <p class="iframe__invest l"><span class="invest-num">{{intrest}}</span><br />预计最高年化</p>
                             <p class="iframe__price l"><span class="price-num">{{price}}</span></p>
                         </div>
-                        <iframe class="iframe" src="{{project.strategy}}">
+                        {%if is_fanshu == 0 %}
+                        <iframe id="iframe_doc" class="iframe" src="{{project.strategy}}">
                           <p>您的浏览器不支持  iframe 标签。</p>
                         </iframe>
-                        <div class="doc__box">
+                        {% else %}
+                        <div id="fanshu_doc" class="doc__box">
                             <h1 class="doc__title">{{doc.title}}</h1>
                             <div class="doc__detail">
                                 {{doc.content|safe}}
                             </div>
                         </div>
+                        {%endif%}
                         <div class="iframe-bottom">
                             <span class="btn m-green m-bottom">点击交单</span>
                         </div>
@@ -274,7 +277,7 @@
             </ul>
         </div>
     </div>
-    <a class="link-qq" href="http://wpa.qq.com/msgrd?v=3&uin={{user.qq_number}}&site=qq&menu=yes" target="_blank">联系客服</a>
+    <a class="link-qq" href="http://wpa.qq.com/msgrd?v=3&uin={{user.cs_qq}}&site=qq&menu=yes" target="_blank">联系客服</a>
     <!--<div class="popup m-submit-proj">-->
         
     <!--</div>-->
@@ -285,17 +288,6 @@
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/page.js' %}"></script>
 <script type="text/javascript">
-    var is_fanshu = '{{is_fanshu}}';
-    console.log(is_fanshu);
-    if (is_fanshu == '0') {
-    	$('.iframe').show();
-    	$('.doc__box').hide();
-    } else if(is_fanshu == '1'){
-    	$('.iframe').hide();
-        $('.doc__box').show();
-    }
-//  document.body.style.backgroundImage="url(/static/images/quicksub-"+ {{user.submit_bg}} +".jpg)"
-//  document.body.style.backgroundImage="url(../../static/images/quicksub-7.jpg)";
     var limit_str = "{{project.necessary_fields}}";
     var limit = limit_str.split(',');
     var invest_type = "{{project.is_multisub_allowed}}";
