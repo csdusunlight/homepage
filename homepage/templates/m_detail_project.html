@@ -122,20 +122,23 @@
                                 <p class="iframe__price">返现价格：<span class="price-num">{{price}}</span></p>
                                 <p class="iframe__invest">预计最高年化：<span class="invest-num">{{intrest}}</span></p>
                             </div>
+                            {%if is_fanshu == 0 %}
                             <div id="iframe_box" style="height: 100%;">
-                                {%if is_fanshu == 0 %}
                                 <iframe id="iframe" class="iframe" src="{{project.strategy}}">
                                   <p>您的浏览器不支持  iframe 标签。</p>
                                 </iframe>
-                                {% else %}
+                            </div>
+                            {% else %}
+                            <div id="iframe_box" style="height: 100%;">
                                 <div id="doc__box" class="doc__box">
                                     <h1 class="doc__title">{{doc.title}}</h1>
                                     <div class="doc__detail">
                                         {{doc.content|safe}}
                                     </div>
                                 </div>
-                                {%endif%}
                             </div>
+                            {%endif%}
+                            
                             <!--<div class="iframe-bottom">
                                 <span class="btn m-green m-bottom">点击交单</span>
                             </div>-->
