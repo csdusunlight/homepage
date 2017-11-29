@@ -282,11 +282,14 @@
                         iframebody.style.width = document.body.clientWidth+'px';
                  
                 }
-                document.getElementById("iframe").onload = function () {
-//                  iosIframeWidthBug();
-console.log(document.body.clientWidth);
-                    document.getElementById('iframe_box').style.width = document.body.clientWidth + 'px';
-                    document.getElementById('iframe').style.width = document.body.clientWidth + 'px';
+                if (document.getElementById("iframe")) {
+                	
+                    document.getElementById("iframe").onload = function () {
+    //                  iosIframeWidthBug();
+    console.log(document.body.clientWidth);
+                        document.getElementById('iframe_box').style.width = document.body.clientWidth + 'px';
+                        document.getElementById('iframe').style.width = document.body.clientWidth + 'px';
+                    }
                 }
                 
                 //      检验填写格式
