@@ -90,7 +90,7 @@ form {
     width: 100%;*/
 }
 .iframe_box {
-    /*position: relative;*/
+    position: relative;
     height: 100%;
     -webkit-overflow-scrolling: touch;  
     overflow-y: scroll;
@@ -133,7 +133,7 @@ form {
 }*/
 .iframe,
 .doc__box {
-    /*width: 100% !important;*/
+    width: 100% !important;
     height: 100%;
     margin-top: 1px;
     border: none;
