@@ -106,18 +106,22 @@ a,span,p {
     color: #222;
 }
 .iframe__invest {
-    width: 100px;
-    margin-top: 20px;
-    text-align: center;
+    margin: 0;
+    height: 45px;
+    line-height: 45px;
+    font-size: 14px;
 }
 .invest-num {
     font-size: 28px;
     color: #91C11D;
 }
 .iframe__price {
-    margin-left: 100px;
+    /*margin-left: 100px;*/
+    margin: 0;
     display: table;
-    height: 90px;
+    height: 45px;
+    line-height: 45px;
+    font-size: 14px;
 }
 .price-num {
     display: table-cell;

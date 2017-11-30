@@ -1,7 +1,15 @@
 ﻿body {
 	background: #fff;
 }
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+td {
+    border: 1px solid #ddd;
+}
 a,span,p {
+    max-width: 100%;
     word-wrap: break-word;
 }
 input,textarea {
@@ -85,7 +93,7 @@ form {
     position: relative;
     height: 100%;
     -webkit-overflow-scrolling: touch;  
-    /*overflow-y: scroll;*/
+    overflow-y: scroll;
     width: 100%;
 }
 .iframe-top {
@@ -125,7 +133,7 @@ form {
 }*/
 .iframe,
 .doc__box {
-    /*width: 100% !important;*/
+    width: 100% !important;
     height: 100%;
     margin-top: 1px;
     border: none;

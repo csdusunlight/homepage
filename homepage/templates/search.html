@@ -82,6 +82,8 @@
 
     <script src="{% static 'js/mui.min.js' %}"></script>
     <script type="text/javascript" charset="utf-8">
+        var count = 1;
+        var get_proj_url = "/restapi/sub/?is_on=true";
         document.getElementById('search').addEventListener('input', function () {
             console.log(this.value);
             var table = document.body.querySelector('.project-all-box');
@@ -118,8 +120,6 @@
 		/**
 		 * 上拉加载具体业务实现
 		 */
-		var count = 1;
-		var get_proj_url = "/restapi/sub/?is_on=true";
 		function get_wel_list(n){
 		    console.log(n);
 			mui.ajax(get_proj_url,{
