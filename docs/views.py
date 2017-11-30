@@ -18,3 +18,17 @@ def display_doc(request, id):
         return render(request, 'display_doc.html', {'doc':doc})
     except:
         return render(request, 'hide_doc.html', )
+    
+def get_doc_content(request):
+    secret = request.POST.get('secret', '')
+    doc_id = request.POST.get('id', '')
+    ret = {}
+    try:
+        doc = Document.objects.get(id=doc_id, secret=secret)
+        ret['code'] = 0
+        ret['content'] = doc.content
+    except:
+        ret['code'] = 1
+        ret['msg'] = u"口令输入错误"
+    return JsonResponse(ret)
+    
