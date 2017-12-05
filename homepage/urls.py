@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^submitOrder/$', homepage.views.submitOrder, name='submitOrder'),
     url(r'^search/$', homepage.views.search, name='search'),
     url(r'^quick-submit/$', homepage.views.quick_sumbit, name='quick_submit'),
+    url(r'^lookup/$', homepage.views.look_up, name='lookup'),
 ]

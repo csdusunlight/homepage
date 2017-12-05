@@ -1,0 +1,305 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta itemprop="name" content="{{user.username}}"/>
+	<meta itemprop="image" content="{{user.picture_url}}" />
+	<meta name="description" itemprop="description" content="{{user.profile}}" />
+    <title>{{user.username}}</title>
+    <link href="{% static 'css/mui.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/m_common.css' %}" rel="stylesheet"/>
+    <!--<link href="{% static 'css/m_homepage.css' %}" rel="stylesheet"/>-->
+    <link id="skin" href="/static/css/m-skin1.css" rel="stylesheet" />
+    <script src="{% static 'js/flexible.js' %}"></script>
+    <style type="text/css">
+        .search-box {
+            position: fixed;
+            top: 44px;
+            padding: 0 10px;
+            width: 100%;
+            height: 50px;
+            font-size: 0;
+            background-color: #fff;
+        }
+    	#search {
+    	    display: inline-block;
+    	    width: 70%;
+    	    height: 36px;
+    	    font-size: 14px;
+    	    border-radius: 6px;
+    	}
+    	.search-btn {
+    	    display: inline-block;
+    	    width: 30%;
+    	    height: 50px;
+    	    line-height: 50px;
+    	    font-size: 0.4rem;
+    	    text-align: center;
+    	    vertical-align: sub;
+    	}
+    	.project-all-box {
+    	    background-color: #efeff4;
+    	}
+        .list {
+            padding: 2px 10px;
+            margin: 0 auto 10px;
+            width: 94%;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+        .item-line {
+            line-height: 26px;
+        }
+        .list-item {
+            font-size: 0.4rem;
+            color: #666;
+        }
+        .list-item.m-title {
+            color: #222;
+        }
+        .list-item.m-state0 {
+            color: #91c11d;
+        }
+        .list-item.m-state1 {
+            color: #ffbe00;
+        }
+        .list-item.m-state2 {
+            color: red;
+        }
+        .list-item.m-state3 {
+            color: blue;
+        }
+        .search-none {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.6rem;
+        }
+        .mui-table-view:before {
+            display: none;
+        }
+        .mui-icon-search:before {
+            font-size: 0.6rem;
+            color: #91C11D;
+        }
+    </style>
+</head>
+<body>
+    
+<header id="header" class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">快速查单</h1>
+</header>
+    <div class="search-box">
+        <input id="search" type="number" class="mui-input-clear" placeholder="请输入查询手机号" >
+        <span id="search_btn" class="search-icon mui-icon mui-icon-search search-btn">查找</span>
+    </div>
+    <div id="pullrefresh" class="mui-scroll-wrapper tabcon" style="margin-top: 94px;">
+        <div class="mui-content">
+            
+            <ul class="mui-table-view project-all-box">
+                <!--<li class="list">
+                    <p class="item-line clearfix">
+                        <span class="list-item m-title l">和时代一期</span>
+                        <span class="list-item r">未审核</span>
+                    </p>
+                    <p class="item-line clearfix">
+                        <span class="list-item l">标期：345&nbsp;天</span>
+                        <span class="list-item r">金额：346545.00&nbsp;元</span>
+                    </p>
+                </li>-->
+                
+            </ul>
+        </div>
+    </div>
+<span id="qq_ask" class="qq-ask mui-icon mui-icon-qq"></span>
+    <!--测试-->
+<!--</div>-->
+    <!--回到顶部部分-->
+<!--<a id="scrollToTop" class="backTop hide"><i class="icon iconfont">&#xe623;</i></a>-->
+<!--底部导航-->
+
+<!--<ul class="footer clearfix tc">
+	<li class="tabnav footer__item on">热门推荐</li>
+	<li class="tabnav footer__item">项目列表</li>
+</ul>-->
+
+
+    <script src="{% static 'js/mui.min.js' %}"></script>
+    <script type="text/javascript" charset="utf-8">
+        mui.init();
+        var count = 1;
+        var get_proj_url = "/restapi/sub/?is_on=true";
+        document.getElementById('search_btn').addEventListener('tap', function () {
+            var search_key = document.getElementById('search').value;
+            if (!search_key) {
+            	mui.alert('请输入要查询的手机号');
+            	return;
+            }
+            var reg = /^1[34578]\d{9}$/;
+            if(!reg.test(search_key)){
+                mui.alert('手机号格式不正确');
+                return;
+            }
+            console.log(search_key);
+            var table = document.body.querySelector('.project-all-box');
+            console.log(table);
+            table.innerHTML = '';
+//          mui('#pullrefresh').pullRefresh().refresh(true);
+            count = 1;
+            get_list_url = "/restapi/investlogs/?user={{user.id}}&invest_mobile=" + search_key;
+            pullupRefresh();
+        })
+
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function get_wel_list(n){
+		    console.log(n);
+			mui.ajax(get_list_url,{
+				data:{
+					'page':n,
+					'pageSize': 99,
+				},
+				dataType:'json',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				timeout:10000,//超时时间设置为10秒；
+//				headers:{'Content-Type':'application/json'},
+				success:function(data){
+				    console.log(data.results);
+					if (!data.results.length){
+					    var table = document.body.querySelector('.project-all-box');
+					    table.innerHTML = '<p class="search-none">没有搜索到相关的数据</p>';
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					}
+					else {
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
+						var table = document.body.querySelector('.project-all-box');
+//						var cells = document.body.querySelectorAll('.mui-table-view-cell');
+						for (var i in data.results) {
+							var item = data.results[i];
+							var li = document.createElement('li');
+							li.className = 'list';
+							var str_block = '<p class="item-line clearfix">' +
+							                 '<span class="list-item m-title l">' + item.project_title + '</span>' +
+							                 '<span class="list-item m-state'+ item.audit_state +' r">';
+							switch (item.audit_state){
+                                case '1':
+                                    str_block += '未审核';
+                                    break;
+                                case '0':
+                                    str_block += '已通过';
+                                    break;
+                                case '2':
+                                    str_block += '已拒绝';
+                                    break;
+                                case '3':
+                                    str_block += '复审中';
+                                    break;
+                                default:
+                                    break;
+                            }
+							str_block += '</span></p>' +
+						                 '<p class="item-line clearfix">'+
+						                 '<span class="list-item l">标期：'+ item.invest_term +'&nbsp;天</span>'+
+						                 '<span class="list-item r">金额：'+ item.invest_amount +'&nbsp;元</span></p>';
+							li.innerHTML = str_block;
+							table.appendChild(li);
+						}
+					}
+
+				},
+				error:function(xhr,type,errorThrown){
+				    mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					console.log(xhr.responseText);
+				}
+			});
+		}
+		function pullupRefresh() {
+		    console.log('ss');
+			if (count == 1){
+				mui('#pullrefresh').pullRefresh().scrollTo(0,0);
+			}
+			get_wel_list(count++);
+		}
+		
+
+
+    </script>
+    <script type="text/javascript">
+        
+//      var colors = ['#8cd9f1','#a0a2cf','#a6d7b9','#f7bbd1','#feb8a6','#99badf','#d0aea1','#a0d6d6','#ff9a8c'];
+//      mui('.proj__img').each(function(){
+//          var imgurl = this.getAttribute('data-pic');
+//          console.log(imgurl);
+//          if (imgurl) {
+//              console.log('gdfg');
+//              this.style.backgroundImage = 'url('+ imgurl +')';
+//          } else{
+//              var imgtxt = ''+this.getAttribute('data-imgtxt');
+//              imgtxt = imgtxt.substr(0, 1);
+//              console.log(imgtxt);
+//              var num = parseInt(Math.random()*6);
+//              console.log(this);
+//              this.innerText = imgtxt;
+//              this.style.backgroundColor = colors[num];
+//          }
+//      })
+
+
+//      mui('.tabcon').on('tap', '.proj__btn-submit', function(){
+//          var project_id = this.getAttribute('data-projectid');
+//          console.log(project_id);
+//          var exp_url = "/detail/project/" + project_id + '/';
+//          mui.openWindow({
+//              url: exp_url,
+//              styles: {
+//                  top: 0,
+//                  bottom: 0
+//              },
+//              show: {
+//                  aniShow: 'slide-in-right',
+//              },
+//              waiting: {
+//                  autoShow: false, //自动显示等待框
+//                  title: '正在加载...', //等待对话框上显示的提示内容
+//              }
+//          });
+//      })
+//      mui('.tabcon').on('tap', '.proj__btn-submit2', function(){
+//          var project_id = this.getAttribute('data-projectid');
+//          console.log(project_id);
+//          var exp_url = "/detail/project/" + project_id + '/?tab=2';
+//          mui.openWindow({
+//              url: exp_url,
+//              styles: {
+//                  top: 0,
+//                  bottom: 0
+//              },
+//              show: {
+//                  aniShow: 'slide-in-right',
+//              },
+//              waiting: {
+//                  autoShow: false, //自动显示等待框
+//                  title: '正在加载...', //等待对话框上显示的提示内容
+//              }
+//          });
+//      })
+        
+//      document.getElementById('qq_ask').addEventListener('tap', function () {
+//          console.log('s');
+//          mui.openWindow({
+//              url: "http://wpa.qq.com/msgrd?v=3&uin={{user.cs_qq}}&site=qq&menu=yes",
+//          });
+//      })
+        
+//      mui('.state20').each(function(){
+//          console.log(this);
+//          this.innerText = '已结束';
+//      })
+
+    </script>
+{% include "footer.html" %}
+</body>
+</html>

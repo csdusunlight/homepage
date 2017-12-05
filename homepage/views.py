@@ -172,3 +172,8 @@ def quick_sumbit(request):
         prolist.append(param)
     template = 'm_quicksub.html' if request.mobile else 'quicksub.html' 
     return render(request, template, {'projects':dic})
+
+@login_required
+def look_up(request):
+    template = 'lookup.html'
+    return render(request, template, {})
