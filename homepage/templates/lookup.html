@@ -22,7 +22,7 @@
             height: 50px;
             font-size: 0;
             background-color: #fff;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
             z-index: 10;
         }
     	#search {
@@ -45,6 +45,8 @@
     	    font-size: 0.4rem;
     	    text-align: center;
     	    vertical-align: inherit;
+    	    -webkit-user-select: none;
+    	    -ms-user-select: none;
     	}
     	.project-all-box {
     	    background-color: #efeff4;
@@ -104,7 +106,6 @@
 </header>
     <div class="search-box clearfix">
         <input id="search" type="number" class="l" placeholder="请输入查询手机号" >
-        <!--<button id="search_btn" class="search-icon mui-icon mui-icon-search search-btn">查找</button>-->
         <button id="search_btn" type="button" class="search-btn r mui-btn mui-btn-success">查找</button>
     </div>
     <div id="pullrefresh" class="mui-scroll-wrapper tabcon" style="margin-top: 94px; padding-bottom: 30px;">
@@ -126,16 +127,7 @@
         </div>
     </div>
 <span id="qq_ask" class="qq-ask mui-icon mui-icon-qq"></span>
-    <!--测试-->
-<!--</div>-->
-    <!--回到顶部部分-->
-<!--<a id="scrollToTop" class="backTop hide"><i class="icon iconfont">&#xe623;</i></a>-->
-<!--底部导航-->
 
-<!--<ul class="footer clearfix tc">
-	<li class="tabnav footer__item on">热门推荐</li>
-	<li class="tabnav footer__item">项目列表</li>
-</ul>-->
 
 
     <script src="{% static 'js/mui.min.js' %}"></script>
@@ -178,7 +170,6 @@
 				dataType:'json',//服务器返回json格式数据
 				type:'get',//HTTP请求类型
 				timeout:10000,//超时时间设置为10秒；
-//				headers:{'Content-Type':'application/json'},
 				success:function(data){
 				    console.log(data.results);
 					if (!data.results.length){
@@ -189,7 +180,6 @@
 					else {
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
 						var table = document.body.querySelector('.project-all-box');
-//						var cells = document.body.querySelectorAll('.mui-table-view-cell');
 						for (var i in data.results) {
 							var item = data.results[i];
 							var li = document.createElement('li');
@@ -229,90 +219,8 @@
 				}
 			});
 		}
-//		function loadData() {
-//		    console.log('ss');
-//			if (count == 1){
-//				mui('#pullrefresh').pullRefresh().scrollTo(0,0);
-//			}
-//			get_wel_list(count++);
-//		}
-		
-
-
     </script>
-    <script type="text/javascript">
-        
-//      var colors = ['#8cd9f1','#a0a2cf','#a6d7b9','#f7bbd1','#feb8a6','#99badf','#d0aea1','#a0d6d6','#ff9a8c'];
-//      mui('.proj__img').each(function(){
-//          var imgurl = this.getAttribute('data-pic');
-//          console.log(imgurl);
-//          if (imgurl) {
-//              console.log('gdfg');
-//              this.style.backgroundImage = 'url('+ imgurl +')';
-//          } else{
-//              var imgtxt = ''+this.getAttribute('data-imgtxt');
-//              imgtxt = imgtxt.substr(0, 1);
-//              console.log(imgtxt);
-//              var num = parseInt(Math.random()*6);
-//              console.log(this);
-//              this.innerText = imgtxt;
-//              this.style.backgroundColor = colors[num];
-//          }
-//      })
 
-
-//      mui('.tabcon').on('tap', '.proj__btn-submit', function(){
-//          var project_id = this.getAttribute('data-projectid');
-//          console.log(project_id);
-//          var exp_url = "/detail/project/" + project_id + '/';
-//          mui.openWindow({
-//              url: exp_url,
-//              styles: {
-//                  top: 0,
-//                  bottom: 0
-//              },
-//              show: {
-//                  aniShow: 'slide-in-right',
-//              },
-//              waiting: {
-//                  autoShow: false, //自动显示等待框
-//                  title: '正在加载...', //等待对话框上显示的提示内容
-//              }
-//          });
-//      })
-//      mui('.tabcon').on('tap', '.proj__btn-submit2', function(){
-//          var project_id = this.getAttribute('data-projectid');
-//          console.log(project_id);
-//          var exp_url = "/detail/project/" + project_id + '/?tab=2';
-//          mui.openWindow({
-//              url: exp_url,
-//              styles: {
-//                  top: 0,
-//                  bottom: 0
-//              },
-//              show: {
-//                  aniShow: 'slide-in-right',
-//              },
-//              waiting: {
-//                  autoShow: false, //自动显示等待框
-//                  title: '正在加载...', //等待对话框上显示的提示内容
-//              }
-//          });
-//      })
-        
-//      document.getElementById('qq_ask').addEventListener('tap', function () {
-//          console.log('s');
-//          mui.openWindow({
-//              url: "http://wpa.qq.com/msgrd?v=3&uin={{user.cs_qq}}&site=qq&menu=yes",
-//          });
-//      })
-        
-//      mui('.state20').each(function(){
-//          console.log(this);
-//          this.innerText = '已结束';
-//      })
-
-    </script>
 {% include "footer.html" %}
 </body>
 </html>
