@@ -105,36 +105,25 @@
     <h1 class="mui-title">快速查单</h1>
 </header>
     <div class="search-box clearfix">
-        <input id="search" type="number" class="l" placeholder="请输入查询手机号" >
-        <button id="search_btn" type="button" class="search-btn r mui-btn mui-btn-success">查找</button>
+        <input id="search" type="number" class="" placeholder="请输入查询手机号" >
+        <button id="search_btn" type="button" class="search-btn">查找</button>
     </div>
-    <div id="pullrefresh" class="mui-scroll-wrapper tabcon" style="margin-top: 94px; padding-bottom: 30px;">
         <div class="mui-content">
             
-            <ul class="mui-table-view project-all-box">
-                <!--<li class="list">
-                    <p class="item-line clearfix">
-                        <span class="list-item m-title l">和时代一期</span>
-                        <span class="list-item r">未审核</span>
-                    </p>
-                    <p class="item-line clearfix">
-                        <span class="list-item l">标期：345&nbsp;天</span>
-                        <span class="list-item r">金额：346545.00&nbsp;元</span>
-                    </p>
-                </li>-->
-                
+            <ul class="project-all-box">
+
             </ul>
         </div>
-    </div>
 <span id="qq_ask" class="qq-ask mui-icon mui-icon-qq"></span>
 
 
 
     <script src="{% static 'js/mui.min.js' %}"></script>
     <script type="text/javascript" charset="utf-8">
-        var count = 1;
-        var get_proj_url = "/restapi/sub/?is_on=true";
         var get_list_url;
+		mui.init({
+            
+        });
         document.getElementById('search_btn').addEventListener('tap', function () {
             var search_key = document.getElementById('search').value;
             if (!search_key) {
@@ -155,9 +144,7 @@
             get_wel_list();
         })
 
-        mui.init({
-            
-        });
+        
 		/**
 		 * 上拉加载具体业务实现
 		 */
@@ -175,10 +162,8 @@
 					if (!data.results.length){
 					    var table = document.body.querySelector('.project-all-box');
 					    table.innerHTML = '<p class="search-none">没有搜索到相关的数据</p>';
-						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
 					}
 					else {
-						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
 						var table = document.body.querySelector('.project-all-box');
 						for (var i in data.results) {
 							var item = data.results[i];
@@ -214,7 +199,6 @@
 
 				},
 				error:function(xhr,type,errorThrown){
-				    mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
 					console.log(xhr.responseText);
 				}
 			});
