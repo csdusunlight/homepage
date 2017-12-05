@@ -137,6 +137,7 @@
         mui.init();
         var count = 1;
         var get_proj_url = "/restapi/sub/?is_on=true";
+        var get_list_url;
         document.getElementById('search_btn').addEventListener('tap', function () {
             var search_key = document.getElementById('search').value;
             if (!search_key) {
