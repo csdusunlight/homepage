@@ -22,7 +22,7 @@
             height: 50px;
             font-size: 0;
             background-color: #fff;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
             z-index: 10;
         }
     	#search {
@@ -140,7 +140,6 @@
 
     <script src="{% static 'js/mui.min.js' %}"></script>
     <script type="text/javascript" charset="utf-8">
-        mui.init();
         var count = 1;
         var get_proj_url = "/restapi/sub/?is_on=true";
         var get_list_url;
@@ -160,19 +159,21 @@
             console.log(table);
             table.innerHTML = '';
 //          mui('#pullrefresh').pullRefresh().refresh(true);
-            count = 1;
             get_list_url = "/restapi/investlogs/?user={{user.id}}&invest_mobile=" + search_key;
-            loadData();
+            get_wel_list();
         })
 
+        mui.init({
+            
+        });
 		/**
 		 * 上拉加载具体业务实现
 		 */
-		function get_wel_list(n){
+		function get_wel_list(){
 		    console.log(n);
 			mui.ajax(get_list_url,{
 				data:{
-					'page':n,
+					'page':1,
 					'pageSize': 99,
 				},
 				dataType:'json',//服务器返回json格式数据
@@ -229,13 +230,13 @@
 				}
 			});
 		}
-		function loadData() {
-		    console.log('ss');
-			if (count == 1){
-				mui('#pullrefresh').pullRefresh().scrollTo(0,0);
-			}
-			get_wel_list(count++);
-		}
+//		function loadData() {
+//		    console.log('ss');
+//			if (count == 1){
+//				mui('#pullrefresh').pullRefresh().scrollTo(0,0);
+//			}
+//			get_wel_list(count++);
+//		}
 		
 
 
