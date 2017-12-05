@@ -109,8 +109,8 @@
     <h1 class="mui-title">快速查单</h1>
 </header>
     <div class="search-box clearfix">
-        <input id="search" type="number" class="l" placeholder="请输入查询手机号" >
-        <button id="search_btn" type="button" class="search-btn r mui-btn mui-btn-success">查找</button>
+        <input id="search" type="number" class="" placeholder="请输入查询手机号" >
+        <button id="search_btn" type="button" class="search-btn">查找</button>
     </div>
     <div id="pullrefresh" class="mui-scroll-wrapper tabcon" style="margin-top: 94px; padding-bottom: 30px;">
         <div class="mui-content">
@@ -136,9 +136,10 @@
 
     <script src="{% static 'js/mui.min.js' %}"></script>
     <script type="text/javascript" charset="utf-8">
-        var count = 1;
-        var get_proj_url = "/restapi/sub/?is_on=true";
         var get_list_url;
+		mui.init({
+            
+        });
         document.getElementById('search_btn').addEventListener('tap', function () {
             var search_key = document.getElementById('search').value;
             if (!search_key) {
@@ -159,9 +160,7 @@
             get_wel_list();
         })
 
-        mui.init({
-            
-        });
+        
 		/**
 		 * 上拉加载具体业务实现
 		 */
