@@ -14,22 +14,6 @@
     <link id="skin" href="/static/css/m-skin1.css" rel="stylesheet" />
     <script src="{% static 'js/flexible.js' %}"></script>
     <style type="text/css">
-        /*.mui-search {
-            margin-top: -3px;
-        }
-    	.mui-search .mui-placeholder {
-    	    top: 8px;
-    	}
-    	.mui-search.mui-active:before {
-    	    top: 12px;
-    	}
-    	.mui-bar .mui-input-row .mui-input-clear~.mui-icon-clear {
-    	    top: 14px;
-    	    right: 0;
-    	}*/
-    	/*#search:focus + .search-icon {
-    	    left: 0;
-    	}*/
     	#search {
     	    
     	    display: inline-block;
@@ -51,97 +35,52 @@
     
 <header id="header" class="mui-bar mui-bar-nav">
     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-    <!--<h1 class="mui-title">搜索页</h1>-->
     <div class="mui-title">
         <input id="search" type="search" class="mui-input-clear" placeholder="请输入搜索关键字" >
         <span class="search-icon mui-icon mui-icon-search"></span>
-        <!--<div class="mui-input-row mui-search">
-        </div>-->
     </div>
 </header>
-    <div id="pullrefresh" class="mui-scroll-wrapper tabcon" style="margin-top: 44px;">
-        <div class="mui-content">
-            
-            <ul class="mui-table-view project-all-box">
-                
-            </ul>
-        </div>
-    </div>
+<div class="mui-content">
+    
+    <ul class="mui-table-view project-all-box">
+        
+    </ul>
+</div>
 <span id="qq_ask" class="qq-ask mui-icon mui-icon-qq"></span>
-    <!--测试-->
-<!--</div>-->
-    <!--回到顶部部分-->
-<!--<a id="scrollToTop" class="backTop hide"><i class="icon iconfont">&#xe623;</i></a>-->
-<!--底部导航-->
 
-<!--<ul class="footer clearfix tc">
-	<li class="tabnav footer__item on">热门推荐</li>
-	<li class="tabnav footer__item">项目列表</li>
-</ul>-->
 
 
     <script src="{% static 'js/mui.min.js' %}"></script>
     <script type="text/javascript" charset="utf-8">
-        var count = 1;
         var get_proj_url = "/restapi/sub/?is_on=true";
         document.getElementById('search').addEventListener('input', function () {
             console.log(this.value);
             var table = document.body.querySelector('.project-all-box');
             console.log(table);
             table.innerHTML = '';
-//          mui('#pullrefresh').pullRefresh().refresh(true);
-            count = 1;
             get_proj_url = "/restapi/sub/?is_on=true&project_title_contains=" + this.value;
-            pullupRefresh();
+            get_wel_list();
         })
-//      var btn = document.getElementById('again_up');
-//      console.log(btn);
-//      btn.addEventListener('tap',function(){
-//          console.log('again');
-//          var table = document.body.querySelector('.project-all-box');
-//          console.log(table);
-//          table.innerHTML = '';
-//          mui('#pullrefresh').pullRefresh().refresh(true);
-//          count = 1;
-//          get_proj_url = "/restapi/sub/?is_on=false";
-//          pullupRefresh();
-//      })
+
       	mui.init({
-//				pullRefresh: {
-//					container: '#pullrefresh',
-//					up: {
-//						auto:false,
-//						contentrefresh: '正在加载...',
-//						contentnomore:'—— 我可是有底线的 ——',//可选，请求完毕若没有更多数据时显示的提醒内容；
-//						callback: pullupRefresh
-//					}
-//				}
 		});
-		/**
-		 * 上拉加载具体业务实现
-		 */
-		function get_wel_list(n){
-		    console.log(n);
+		function get_wel_list(){
 			mui.ajax(get_proj_url,{
 				data:{
-					'page':n,
+					'page':1,
 					'pageSize': 99,
 				},
 				dataType:'json',//服务器返回json格式数据
 				type:'get',//HTTP请求类型
 				timeout:10000,//超时时间设置为10秒；
-//				headers:{'Content-Type':'application/json'},
 				success:function(data){
 				    console.log(data.results);
 					if (!data.results.length){
 					    var table = document.body.querySelector('.project-all-box');
 					    table.innerHTML = '<p class="search-none">没有搜索到相关的数据</p>';
-						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
 					}
 					else {
-						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
 						var table = document.body.querySelector('.project-all-box');
-//						var cells = document.body.querySelectorAll('.mui-table-view-cell');
 						for (var i in data.results) {
 							var item = data.results[i];
 							var li = document.createElement('li');
@@ -164,10 +103,6 @@
                             '<p class="proj__detail-item m-mt"><span class="proj__detail-name">投标区间：</span><span class="proj__detail-val">'+ item.project_investrange +'</span></p>'+
                             '<p class="proj__detail-item m-mt"><span class="proj__detail-name">投资标期：</span><span class="proj__detail-val">'+ item.project_term +'</span></p>'+
                             '</div></div></a>';
-//                          '<div class="proj__btnbox"><a data-projectid="'+ item.project +'" class="proj__btn state'+ item.project_state +' proj__btn-submit">'+
-//                          (item.project_state == 10 ? '查看攻略' : '已结束') +
-//                          '</a><a data-projectid="'+ item.project +'" class="proj__btn proj__btn-submit2">交单</a></div>';
-
 							li.innerHTML = str_block;
 							table.appendChild(li);
 						}
@@ -175,38 +110,12 @@
 
 				},
 				error:function(xhr,type,errorThrown){
-				    mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
 					console.log(xhr.responseText);
 				}
 			});
 		}
-		function pullupRefresh() {
-		    console.log('ss');
-			if (count == 1){
-				mui('#pullrefresh').pullRefresh().scrollTo(0,0);
-			}
-			get_wel_list(count++);
-		}
-		
-
-
     </script>
     <script type="text/javascript">
-//      var scrollToTopBox = document.getElementById('scrollToTop'); //返回按钮tap
-//      scrollToTopBox.addEventListener('tap', function(e) {
-//          e.stopPropagation();
-//          mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 500);//滚动到顶部
-//      });
-//      document.getElementById('pullrefresh').addEventListener('scrollend', function() {
-//          if (mui('#pullrefresh').pullRefresh().y <= window.innerHeight * (-0.5) && scrollToTopBox.classList.contains('hide'))
-//              scrollToTopBox.classList.remove('hide');
-//          else if (mui('#pullrefresh').pullRefresh().y > window.innerHeight * (-0.5) && !scrollToTopBox.classList.contains('hide'))
-//              scrollToTopBox.classList.add('hide');
-//      });
-        
-        
-
-        
         var colors = ['#8cd9f1','#a0a2cf','#a6d7b9','#f7bbd1','#feb8a6','#99badf','#d0aea1','#a0d6d6','#ff9a8c'];
         mui('.proj__img').each(function(){
             var imgurl = this.getAttribute('data-pic');
@@ -224,13 +133,6 @@
                 this.style.backgroundColor = colors[num];
             }
         })
-        
-//      mui('.tabcon').on('tap', '.proj__btn.state10', function(){
-//          var url = this.getAttribute('href');
-//          mui.openWindow({
-//              url: url, 
-//          });
-//      })
 
         mui('.tabcon').on('tap', '.proj__btn-submit', function(){
             var project_id = this.getAttribute('data-projectid');
@@ -282,23 +184,6 @@
             console.log(this);
             this.innerText = '已结束';
         })
-//      function sleep(numberMillis) {
-//          var now = new Date();
-//          var exitTime = now.getTime() + numberMillis;
-//          while (true) {
-//              now = new Date();
-//              if (now.getTime() > exitTime) {
-//                  return;
-//              } else {
-//                  var btn = document.getElementById("search");
-//                  mui.toast('click');
-//                  btn.focus();
-//              }
-//          }
-//      }
-//      window.onload = function() {
-//          sleep(1000);
-//      }
     </script>
 {% include "footer.html" %}
 </body>

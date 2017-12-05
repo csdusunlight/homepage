@@ -105,16 +105,15 @@
     <h1 class="mui-title">快速查单</h1>
 </header>
     <div class="search-box clearfix">
-        <input id="search" type="number" class="" placeholder="请输入查询手机号" >
-        <button id="search_btn" type="button" class="search-btn">查找</button>
+        <input id="search" type="number" class="l" placeholder="请输入查询手机号" >
+        <button id="search_btn" type="button" class="search-btn r mui-btn mui-btn-success">查找</button>
     </div>
-        <div class="mui-content">
-            
-            <ul class="project-all-box">
+    <div class="mui-content" style="padding-top: 94px;">
+        
+        <ul class="project-all-box">
 
-            </ul>
-        </div>
-<span id="qq_ask" class="qq-ask mui-icon mui-icon-qq"></span>
+        </ul>
+    </div>
 
 
 
@@ -139,7 +138,6 @@
             var table = document.body.querySelector('.project-all-box');
             console.log(table);
             table.innerHTML = '';
-//          mui('#pullrefresh').pullRefresh().refresh(true);
             get_list_url = "/restapi/investlogs/?user={{user.id}}&invest_mobile=" + search_key;
             get_wel_list();
         })
