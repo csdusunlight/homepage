@@ -9,7 +9,6 @@ from wafuli.tools import saveImgAndGenerateUrl
 import datetime
 from django.db import transaction
 from django.db.models import F
-from activity.views import on_submit
 from collections import OrderedDict
 from dragon.settings import FANSHU_DOMAIN
 from docs.models import Document
@@ -113,7 +112,7 @@ def submitOrder(request):
                               invest_term=invest_term, is_official=project.is_official,
                               submit_way='1', is_selfsub=False, audit_state='1')
     #活动插入
-    on_submit(request, request.user, investlog)
+#     on_submit(request, request.user, investlog)
     #活动插入结束
     
     #
