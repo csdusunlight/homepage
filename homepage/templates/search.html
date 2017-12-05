@@ -134,7 +134,7 @@
             }
         })
 
-        mui('.tabcon').on('tap', '.proj__btn-submit', function(){
+        mui('.project-all-box').on('tap', '.proj__btn-submit', function(){
             var project_id = this.getAttribute('data-projectid');
             console.log(project_id);
             var exp_url = "/detail/project/" + project_id + '/';
@@ -153,25 +153,25 @@
                 }
             });
         })
-        mui('.tabcon').on('tap', '.proj__btn-submit2', function(){
-            var project_id = this.getAttribute('data-projectid');
-            console.log(project_id);
-            var exp_url = "/detail/project/" + project_id + '/?tab=2';
-            mui.openWindow({
-                url: exp_url,
-                styles: {
-                    top: 0,
-                    bottom: 0
-                },
-                show: {
-                    aniShow: 'slide-in-right',
-                },
-                waiting: {
-                    autoShow: false, //自动显示等待框
-                    title: '正在加载...', //等待对话框上显示的提示内容
-                }
-            });
-        })
+//      mui('.tabcon').on('tap', '.proj__btn-submit2', function(){
+//          var project_id = this.getAttribute('data-projectid');
+//          console.log(project_id);
+//          var exp_url = "/detail/project/" + project_id + '/?tab=2';
+//          mui.openWindow({
+//              url: exp_url,
+//              styles: {
+//                  top: 0,
+//                  bottom: 0
+//              },
+//              show: {
+//                  aniShow: 'slide-in-right',
+//              },
+//              waiting: {
+//                  autoShow: false, //自动显示等待框
+//                  title: '正在加载...', //等待对话框上显示的提示内容
+//              }
+//          });
+//      })
         
         document.getElementById('qq_ask').addEventListener('tap', function () {
             console.log('s');

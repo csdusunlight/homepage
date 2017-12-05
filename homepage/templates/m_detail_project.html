@@ -255,6 +255,7 @@
                             <textarea id="remark" rows="3" maxlength="100" placeholder="可不填，限100字符"></textarea>
                         </div>-->
                         <button id="submit_btn" type="button" class="mui-btn mui-btn-blue">确认提交</button>
+                        <button id="lookup" style="margin-top:1rem; margin-bottom: 1rem;" type="button" class="lookup mui-btn mui-btn-yellow">查单入口</button>
                     </div>       
         
                 </div>
@@ -294,6 +295,23 @@
                         document.getElementById('iframe').style.width = document.body.clientWidth + 'px';
                     }
                 }
+                document.getElementById('lookup').addEventListener('tap',function(){
+                    console.log('sdf');
+                    mui.openWindow({
+                        url: '/lookup/',
+                        styles: {
+                            top: 0,
+                            bottom: 0
+                        },
+                        show: {
+                            aniShow: 'slide-in-right',
+                        },
+                        waiting: {
+                            autoShow: false, //自动显示等待框
+                            title: '正在加载...', //等待对话框上显示的提示内容
+                        }
+                    });
+                })
                 
                 //      检验填写格式
         var isInputTrue = true;        //填写格式是否正确
@@ -889,7 +907,7 @@
                 history.back();
             }
         };
-
+        
         </script>
     {%endif%}
     {% include "footer.html" %}

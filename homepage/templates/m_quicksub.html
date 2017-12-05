@@ -44,6 +44,14 @@
             .proj-search {
                 padding-left: 40px !important;
             }
+            .lookup {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 0.4rem;
+                color: #febe00;
+                text-decoration: underline;
+            }
         </style>
     </head>
 
@@ -51,6 +59,7 @@
         <header class="mui-bar mui-bar-nav">
             <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
             <h1 class="mui-title">选择交单项目</h1>
+            <a class="lookup">查单入口</a>
         </header>
         <div class="mui-content">
             <div id='list' class="mui-indexed-list">
@@ -144,10 +153,24 @@
                 
                 mui('.list-box').on('tap', '.proj-link', function(){       //项目跳转
                     var project_url = this.getAttribute('href');
-//                  console.log(project_id);
-//                  var exp_url = "/detail/project/" + project_id + '/';
                     mui.openWindow({
                         url: project_url,
+                        styles: {
+                            top: 0,
+                            bottom: 0
+                        },
+                        show: {
+                            aniShow: 'slide-in-right',
+                        },
+                        waiting: {
+                            autoShow: false, //自动显示等待框
+                            title: '正在加载...', //等待对话框上显示的提示内容
+                        }
+                    });
+                })
+                mui('.mui-bar').on('tap', '.lookup', function(){       
+                    mui.openWindow({
+                        url: '/lookup/',
                         styles: {
                             top: 0,
                             bottom: 0
