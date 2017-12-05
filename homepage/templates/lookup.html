@@ -24,19 +24,22 @@
             background-color: #fff;
         }
     	#search {
-    	    display: inline-block;
+    	    /*display: inline-block;*/
     	    padding: 0 10px;
-    	    width: 70%;
+    	    margin-top: 7px;
+    	    width: 60%;
     	    height: 36px;
     	    line-height: 36px;
     	    font-size: 14px;
     	    border-radius: 6px;
     	}
     	.search-btn {
-    	    display: inline-block;
+    	    /*display: inline-block;*/
+    	    padding: 0;
+    	    margin-top: 5px;
     	    width: 30%;
-    	    height: 50px;
-    	    line-height: 50px;
+    	    height: 40px;
+    	    line-height: 40px;
     	    font-size: 0.4rem;
     	    text-align: center;
     	    vertical-align: inherit;
@@ -93,9 +96,10 @@
     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
     <h1 class="mui-title">快速查单</h1>
 </header>
-    <div class="search-box">
-        <input id="search" type="number" class="" placeholder="请输入查询手机号" >
-        <span id="search_btn" class="search-icon mui-icon mui-icon-search search-btn">查找</span>
+    <div class="search-box clearfix">
+        <input id="search" type="number" class="l" placeholder="请输入查询手机号" >
+        <!--<button id="search_btn" class="search-icon mui-icon mui-icon-search search-btn">查找</button>-->
+        <button id="search_btn" type="button" class="search-btn r mui-btn mui-btn-success">查找</button>
     </div>
     <div id="pullrefresh" class="mui-scroll-wrapper tabcon" style="margin-top: 94px;">
         <div class="mui-content">
@@ -151,7 +155,7 @@
 //          mui('#pullrefresh').pullRefresh().refresh(true);
             count = 1;
             get_list_url = "/restapi/investlogs/?user={{user.id}}&invest_mobile=" + search_key;
-            pullupRefresh();
+            loadData();
         })
 
 		/**
@@ -218,7 +222,7 @@
 				}
 			});
 		}
-		function pullupRefresh() {
+		function loadData() {
 		    console.log('ss');
 			if (count == 1){
 				mui('#pullrefresh').pullRefresh().scrollTo(0,0);
