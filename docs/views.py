@@ -9,16 +9,19 @@ from django.db.models import F
 # Create your views here.
 
 def display_doc(request, id):
+    try:
+        doc = Document.objects.get(id=id, is_on=True)
+    except:
+        return render(request, 'doc404.html', )
     if request.method == 'POST':
+        code = 1
         secret = request.POST.get('secret')
+        if secret == doc.secret:
+            code = 0
         request.session['secret' + str(id)] = secret
-        return JsonResponse({})
+        return JsonResponse({'code':code})
     else:
         secret = request.session.get('secret' + str(id), '')
-        try:
-            doc = Document.objects.get(id=id, is_on=True)
-        except:
-            return render(request, 'doc404.html', )
         if doc.secret == '' or doc.secret == secret:
             view_count = doc.view_count
             doc.view_count = F('view_count')+1
