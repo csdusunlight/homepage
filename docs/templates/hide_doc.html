@@ -186,7 +186,7 @@
             oAjax.onreadystatechange=function() {
                 if(oAjax.readyState==4) {
                     if(oAjax.status==200) {
-                        console.log(xmlhttp.responseText);
+                        console.log(oAjax.responseText);
 //                      location.reload([true]);   
                     } else {
                         alert('密码错误');
