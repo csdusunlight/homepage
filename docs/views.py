@@ -16,14 +16,18 @@ def display_doc(request, id):
     else:
         secret = request.session.get('secret' + str(id), '')
         try:
-            doc = Document.objects.get(id=id, is_on=True, secret__in = [secret,''])
+            doc = Document.objects.get(id=id, is_on=True)
+        except:
+            return render(request, 'doc404.html', )
+        if doc.secret == '' or doc.secret == secret:
             view_count = doc.view_count
             doc.view_count = F('view_count')+1
             doc.save(update_fields=['view_count',])
             doc.view_count = view_count + 1
             return render(request, 'display_doc.html', {'doc':doc})
-        except:
+        else:
             return render(request, 'hide_doc.html', )
+        
     
 # def get_doc_content(request):
 #     secret = request.POST.get('secret', '')
