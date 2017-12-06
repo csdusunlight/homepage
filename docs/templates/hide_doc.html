@@ -186,7 +186,7 @@
             oAjax.onreadystatechange=function() {
                 if(oAjax.readyState==4) {
                     if(oAjax.status==200) {
-                        console.log(typeof(oAjax.responseText));
+                        console.log(typeof(eval(oAjax.responseText)));
                         console.log(oAjax.responseText);
                         console.log(oAjax.responseText.code);
                         if (oAjax.responseText.code == 0) {
