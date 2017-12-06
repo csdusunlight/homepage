@@ -186,15 +186,16 @@
             oAjax.onreadystatechange=function() {
                 if(oAjax.readyState==4) {
                     if(oAjax.status==200) {
-                        console.log(typeof(eval(oAjax.responseText)));
-                        console.log(oAjax.responseText);
-                        console.log(oAjax.responseText.code);
-                        if (oAjax.responseText.code == 0) {
-                        	console.log('sss')
+                        var ret = JSON.parse(oAjax.responseText);
+                        console.log(ret.code);
+                        if (ret == 0) {
+                        	console.log('sss');
                             //                      location.reload([true]);   
+                        } else (ret == 1) {
+                            alert('密码错误');
                         }
                     } else {
-                        alert('密码错误');
+                        alert('请检查网络连接');
                     }
                 }
             };
