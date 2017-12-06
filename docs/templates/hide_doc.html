@@ -186,10 +186,10 @@
             oAjax.onreadystatechange=function() {
                 if(oAjax.readyState==4) {
                     if(oAjax.status==200) {
-                        console.log("成功");
-                        location.reload([true]);   
+                        console.log(xmlhttp.responseText);
+//                      location.reload([true]);   
                     } else {
-                        console.log("失败");
+                        alert('密码错误');
                     }
                 }
             };
