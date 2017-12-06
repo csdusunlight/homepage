@@ -14,16 +14,12 @@
     <link id="skin" href="/static/css/m-skin1.css" rel="stylesheet" />
     <script src="{% static 'js/flexible.js' %}"></script>
     <style type="text/css">
-        *{
-            -webkit-user-select: none;
-            -ms-user-select: none;
-        }
         .search-box {
             position: fixed;
             top: 44px;
             padding: 0 10px;
             width: 100%;
-            height: 50px;
+            height: 60px;
             font-size: 0;
             background-color: #fff;
             box-shadow: 0 3px 6px rgba(0,0,0,0.2);
@@ -32,7 +28,7 @@
     	#search {
     	    /*display: inline-block;*/
     	    padding: 0 10px;
-    	    margin-top: 7px;
+    	    margin-top: 12px;
     	    width: 60%;
     	    height: 36px;
     	    line-height: 36px;
@@ -42,7 +38,7 @@
     	.search-btn {
     	    /*display: inline-block;*/
     	    padding: 0;
-    	    margin-top: 5px;
+    	    margin-top: 10px;
     	    width: 30%;
     	    height: 40px;
     	    line-height: 40px;
@@ -53,6 +49,7 @@
     	    -ms-user-select: none;
     	}
     	.project-all-box {
+    	    padding-top: 20px;
     	    background-color: #efeff4;
     	}
         .list {
@@ -109,16 +106,15 @@
     <h1 class="mui-title">快速查单</h1>
 </header>
     <div class="search-box clearfix">
-        <input id="search" type="number" class="" placeholder="请输入查询手机号" >
-        <button id="search_btn" type="button" class="search-btn">查找</button>
+        <input id="search" type="number" class="l" placeholder="请输入查询手机号" >
+        <button id="search_btn" type="button" class="search-btn r mui-btn mui-btn-success">查找</button>
     </div>
-        <div class="mui-content">
-            
-            <ul class="project-all-box">
+    <div class="mui-content" style="padding-top: 104px;">
+        
+        <ul class="project-all-box">
 
-            </ul>
-        </div>
-<span id="qq_ask" class="qq-ask mui-icon mui-icon-qq"></span>
+        </ul>
+    </div>
 
 
 
@@ -143,7 +139,6 @@
             var table = document.body.querySelector('.project-all-box');
             console.log(table);
             table.innerHTML = '';
-//          mui('#pullrefresh').pullRefresh().refresh(true);
             get_list_url = "/restapi/investlogs/?user={{user.id}}&invest_mobile=" + search_key;
             get_wel_list();
         })

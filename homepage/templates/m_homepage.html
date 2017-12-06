@@ -73,6 +73,7 @@
                     </div>-->
                 </a></li>
             {%endfor%}
+            <li style="font-size: 15px; line-height: 36px; text-align: center;">——我可是有底线的——</li>
         </ul>
     </div>
 </div>
@@ -92,7 +93,7 @@
         </div>
     </div>
 </div>
-<span id="qq_ask" class="qq-ask mui-icon mui-icon-qq"></span>
+<span id="qq_ask" class="qq-ask"></span>
     <!--测试-->
 <!--</div>-->
     <!--回到顶部部分-->
@@ -160,7 +161,7 @@
 							var item = data.results[i];
 							var li = document.createElement('li');
 							li.className = 'mui-table-view-cell proj';
-							var str_block = '<a data-projectid="'+ item.project +'" class="proj__btn-submit isbook_'+ item.project_is_book +'"><h2 class="proj__title">'+ item.project_title +'<span class="marks">';
+							var str_block = '<a data-projectid="'+ item.project +'" class="proj__btn-submit isbook_'+ item.project_is_book + ' state' + item.project_state +'"><h2 class="proj__title">'+ item.project_title +'<span class="marks">';
 							console.log(item.marks);
 							for (var i=0; i < item.marks.length; i++) {
                                 str_block += '<span class="mark">'+　item.marks[i]　+'</span>';
