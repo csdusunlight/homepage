@@ -15,82 +15,84 @@
     body {
         margin: 0;
         padding: 0;
-        background-color: #f0f0f0;
+        background-color: #fff;
         font-family: "microsoft yahei";
+        overflow-y: hidden;
     }
-    a,span,p {
-        word-wrap: break-word;
-    }
-    p {
-        line-height: 1.5em;
-    }
-    img {
-        max-width: 100%;
-        height: auto;
-    }
-    table {
-        margin-top: 10px;
-    }
-    td, th {
-        padding: 5px 10px;
-    }
+    
 	.container {
 	    width: 800px;
 	    margin: 10px auto;
 	}
-	/*.doc__top {
-	    font-size: 26px;
-	    line-height: 1;
-	    font-weight: 400;
-	    color: #fe8802;
-	}*/
-	.doc__content {
-	    /*position: relative;*/
-	    box-sizing: border-box;
-	    padding: 54px 100px 50px;
-	    min-height: 1000px;
-	    background-color: #fff;
-	    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+	.doc-tips {
+	    text-align: center;
+	    font-size: 20px;
+	    font-family: "宋体";
 	}
-	.doc__title {
-	    /*position: absolute;*/
-	    /*top: 70px;*/
-	    margin: 0;
-	    width: 600px;
-	    /*height: 50px;*/
-        line-height: 50px;
-        color: #333;
-        font-size: 30px;
-        font-weight: 700;
-        /*overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;*/
-        border-bottom: 1px solid #e4e4e4;
-	}
-	.doc__detail {
-	    margin-top: 16px;
-	}
-	.doc__footer {
-	    margin: 30px 10px;
-	    font-size: 0;
-	}
-	.doc__footer-item {
-	    display: inline-block;
-	    width: 50%;
-	    font-size: 14px;
+	.password-title {
+	    position: relative;
+	    width: 40%;
+	    margin: 40px auto;
+	    font-size: 30px;
+	    line-height: 30px;
+	    text-align: center;
+	    /*font-family: '宋体';*/
 	    color: #666;
 	}
-	.doc__footer-item.m-left {
-	    text-align: left;
+	.password-title:before {
+	    content: '';
+	    position: absolute;
+	    top: 14px;
+	    left: -80px;
+	    width: 110px;
+	    height: 2px;
+	    background-color: #666;
 	}
-	.doc__footer-item.m-right {
-        text-align: right;
+	.password-title:after {
+        content: '';
+        position: absolute;
+        top: 14px;
+        right: -80px;
+        width: 110px;
+        height: 2px;
+        background-color: #666;
     }
-    .doc__close {
-        font-size: 40px;
-        color: #666;
+    .password {
+        box-sizing: border-box;
+        /*padding-left: 10px;*/
+        display: block;
+        margin: 50px auto 0;
+        width: 300px;
+        height: 55px;
+        border: 1px solid #6b4c81;
         text-align: center;
+        border-radius: 8px;
     }
+    .confirm {
+        box-sizing: border-box;
+        /*padding-left: 10px;*/
+        display: block;
+        margin: 30px auto 0;
+        width: 300px;
+        height: 55px;
+        border: none;
+        background-color: #7f5b98;
+        color: #fff;
+        font-size: 20px;
+        text-align: center;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease-in;
+    }
+    .confirm:active {
+        background-color: #6b4c81;
+    }
+	.doc__bg {
+	    display: block;
+	    margin: 50px auto;
+	}
+	
+	
     @media screen and (min-width:800px){
         body {
             font-size: 16px !important;
@@ -98,54 +100,53 @@
     }
     @media screen and (max-width:800px){
         body {
-            background-color: #f5f5f5;
+            background-color: #fff;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        td {
-            border: 1px solid #ddd;
-        }
-        .container {
-            width: 100%;
-            margin: 0.4rem auto;
-        }
-        p,span,div {
-            max-width: 100%;
-        }
-        /*.doc__top {
-            font-size: 0.5rem;
-            margin-left: 0.4rem;
-        }*/
+        
         .doc__logo {
             display: block;
             margin-left: 0.6rem;
             width: 2rem;
         }
-        .doc__content {
-            padding: 0.6rem 0.6rem 0.4rem;
-            margin-top: 0;
-            min-height: 600px;
-            box-shadow: 0 1px 10px rgba(0,0,0,0.1);
-        }
-        .doc__title {
+        .container {
             width: 100%;
-            padding-bottom: 0.2rem;
-            margin: 0;
-            line-height: 1rem;
+        }
+        .doc-tips {
+            font-size: 0.4rem;
+        }
+        .password-title {
+            margin: 1.2rem auto;
             font-size: 0.6rem;
+            width: 60%;
         }
-        .doc__detail {
-            margin-top: 0.4rem;
-            font-size: 16px;
+        .password-title:before {
+            top: 14px;
+            left: -20%;
+            width: 30%;
+            height: 1px;
+            background-color: #666;
         }
-        .doc__footer-item {
-            font-size: 0.3rem;
+        .password-title:after {
+            top: 14px;
+            right: -20%;
+            width: 30%;
+            height: 1px;
+            background-color: #666;
         }
-        .doc__close {
-            font-size: 1rem;
+        .password {
+            margin: 1.7rem auto 0;
+            width: 80%;
+            height: 1.6rem;
         }
+        .confirm {
+            margin: 1rem auto 0;
+            width: 80%;
+            height: 1.6rem;
+        }
+        .doc__bg {
+            max-width: 40%;
+        }
+        
     }
 </style>
 </head>
@@ -153,16 +154,11 @@
     <div class="container">
         <!--<h1 class="doc__top">番薯文档</h1>-->
         <img class="doc__logo" src="{% static 'images/fanshu-logo.png' %}"/>
-        <div id="doc_content" class="doc__content">
-            <h1 class="doc__title">{{doc.title}}</h1>
-            <div class="doc__detail">
-                {{doc.content|safe}}
-            </div>
-        </div>
-        <p class="doc__footer">
-            <span class="doc__footer-item m-left">编写于番薯文档</span>
-            <span class="doc__footer-item m-right">{{doc.view_count}}&nbsp;阅</span>
-        </p>
+        <p class="doc-tips">金叶子分享了一个加密文件</p>
+        <p class="password-title">请输入访问密码</p>
+        <input class="password" type="text" maxlength="4" />
+        <input class="confirm" type="button" name="" value="确&nbsp;&nbsp;定" />
+        <img class="doc__bg" src="{% static 'images/flower.png' %}"/>
     </div>
 
 <!--<script type="text/javascript" src="{% static 'js/wfl-common.js' %}"></script>-->
@@ -172,12 +168,31 @@
 <!--<script type="text/javascript" src="{% static 'js/jquery-1.11.2.min.js' %}"></script>-->
 <script src="{% static 'js/flexible.js' %}"></script>
 <script>
-    var doc_id = "{{doc.id}}";
-    console.log(doc_id);
-    if(!doc_id) {
-//      $('.doc__content').html('<p class="doc__close">该文档已关闭</p>')
-        document.getElementById('doc_content').innerHTML = '<p class="doc__close">该文档已关闭</p>';
-    }
+    window.onload=function() {
+        var oBtn = document.getElementById("btn1");
+        oBtn.onclick = function() {
+            
+            if(window.XMLHttpRequest) { //如果有XMLHttpRequest，那就是非IE6浏览器。()里面加window的原因下面会有描述。
+                var oAjax = new XMLHttpRequest();//创建ajax对象
+            } else {
+                var oAjax = new ActiveXObject("Microsoft.XMLHTTP");//IE6浏览器创建ajax对象
+            }
+            
+            oAjax.open("POST","a.txt?t='+new Date().getTime()",true);//加上t='+new Date().getTime()"的目的是为了消除缓存，每次的t的值不一样。
+            
+            oAjax.send();
+            
+            oAjax.onreadystatechange=function() {
+                if(oAjax.readyState==4) {
+                    if(oAjax.status==200) {
+                        alert("成功"+oAjax.responseText);
+                    } else {
+                        alert("失败");
+                    }
+                }
+            };
+        }
+    };
 </script>
 </body>
 </html>
