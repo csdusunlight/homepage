@@ -260,7 +260,7 @@
 <script type="text/javascript" src="{% static 'js/jquery.searchableSelect.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.date_input.pack.js' %}"></script>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
     var skin_id = "{{user.color}}";
     document.getElementById("skin").href="/static/css/skin" + skin_id + ".css";
     var limit_str;
@@ -284,7 +284,7 @@
     
     var url = '/restapi/sub/?page={page}&pageSize=999';
     var colors = ['#8cd9f1','#a0a2cf','#a6d7b9','#f7bbd1','#feb8a6','#99badf','#d0aea1','#a0d6d6','#ff9a8c'];
-    //  $(function(){
+    $(function(){
         $("#pagedata1").ajaxPage({
           url: url + "&is_on=true",
           pageId:$("#page1"),
@@ -316,11 +316,7 @@
         });
         
         
-        var rankarea = document.getElementById('rankBox');
-        var rank_con1 = document.getElementById('rank_con1');
-        var rank_con2 = document.getElementById('rank_con2');
-        var rank_speed = 50;
-        rankarea.scrollTop = 0;
+        
         
         $.ajax({
             url:"/restapi/investlogs/?page=1&size=8",
@@ -407,7 +403,7 @@
                 console.log("数据错误");
             }
         });
-        
+    })    
         //百度分享 统计部分
         window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"slide":{"type":"slide","bdImg":"0","bdPos":"left","bdTop":"106.5"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         var _hmt = _hmt || [];
@@ -418,7 +414,7 @@
           s.parentNode.insertBefore(hm, s);
         })();
         //百度分享 统计部分---end
-//  })
+    
     
     
     function pagecallback (){
@@ -523,7 +519,11 @@
         }
     });
     
-    
+    var rankarea = document.getElementById('rankBox');
+    var rank_con1 = document.getElementById('rank_con1');
+    var rank_con2 = document.getElementById('rank_con2');
+    var rank_speed = 50;
+    rankarea.scrollTop = 0;
     function scrollUpRank(){
         if(rankarea.scrollTop >= rank_con1.scrollHeight) {
             rankarea.scrollTop = 0;
@@ -772,7 +772,6 @@
         }
     });
 
-    
 
     
 </script>
