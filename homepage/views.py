@@ -12,7 +12,9 @@ from django.db.models import F
 from collections import OrderedDict
 from dragon.settings import FANSHU_DOMAIN
 from docs.models import Document
-from weixin.tools import sendWeixinNotify
+from weixin.tasks import sendWeixinNotify
+import logging
+logger = logging.getLogger('wafuli')
 
 # Create your views here.
 @login_required
@@ -41,9 +43,10 @@ def index(request):
             'marks':','.join([ x.name for x in r.marks.all()])
         }
         recom_list.append(data)
+#     sub_list = SubscribeShip.objects.filter(user=request.user, is_on=True)
     notice_list = Notice.objects.filter(user=request.user)
     template = 'm_homepage.html' if request.mobile else 'homepage.html' 
-    return render(request, template,{'recom_list':recom_list, 'notice_list':notice_list})
+    return render(request, template,{'recom_list':recom_list, 'notice_list':notice_list,})
 
 
 
@@ -115,9 +118,11 @@ def submitOrder(request):
 #     on_submit(request, request.user, investlog)
     #活动插入结束
     
-    #
-#     sendWeixinNotify([(request.user, investlog),], 'submit')
-    #
+    try:
+        sendWeixinNotify.delay([(request.user, investlog),], 'submit')
+    except Exception, e:
+        logger.error(e)
+    
     
     project.points = F('points') + 1
     project.save(update_fields=['points',])

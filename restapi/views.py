@@ -21,7 +21,9 @@ from django.db.models import Q
 from wafuli_admin.models import DayStatis
 from rest_framework.exceptions import ValidationError
 from account.tools import send_book_email
-from weixin.tools import sendWeixinNotify
+from weixin.tasks import sendWeixinNotify
+import logging
+logger = logging.getLogger('wafuli')
 # from django.core.mail import send_mail
 # from wafuli.Filters import UserEventFilter
 class BaseViewMixin(object):
@@ -201,19 +203,23 @@ class BookLogList(BaseViewMixin, generics.ListCreateAPIView):
     def perform_create(self, serializer):
         generics.ListCreateAPIView.perform_create(self, serializer)
 #         sendWeixinNotify([(self.request.user, serializer.instance)], 'book')
-        if self.request.user.is_book_email_notice:
-            qq_address = self.request.user.qq_number + '@qq.com'
-            instance = serializer.instance
-            pname = instance.project.title
-            subject = u'个人主页项目预约-' + pname
-            content = u"项目：" + instance.project.title + '\n' \
-                + u"QQ：" + instance.qq_number + '\n' \
-                + u"预约金额：" + instance.book_content + '\n' \
-                + u"预约标期：" + instance.book_term + '\n' \
-                + u"预约日期：" + str(instance.book_date) + '\n' \
-                + u"留言：" + instance.remark or u"无"
-            content = content + '\n' + u"请到个人中心-预约管理中查看并处理。"
-            send_book_email(qq_address, subject, content)
-#         send_mail(subject, content, u'hunanjinyezi@126.com', ['690501772@qq.com',], auth_user='lvchunhui7@126.com',
-#                    auth_password='95123120290')
+        try:
+            sendWeixinNotify.delay([(self.request.user, serializer.instance),], 'book')
+        except Exception, e:
+            logger.error(e)
+#         if self.request.user.is_book_email_notice:
+#             qq_address = self.request.user.qq_number + '@qq.com'
+#             instance = serializer.instance
+#             pname = instance.project.title
+#             subject = u'个人主页项目预约-' + pname
+#             content = u"项目：" + instance.project.title + '\n' \
+#                 + u"QQ：" + instance.qq_number + '\n' \
+#                 + u"预约金额：" + instance.book_content + '\n' \
+#                 + u"预约标期：" + instance.book_term + '\n' \
+#                 + u"预约日期：" + str(instance.book_date) + '\n' \
+#                 + u"留言：" + instance.remark or u"无"
+#             content = content + '\n' + u"请到个人中心-预约管理中查看并处理。"
+#             send_book_email(qq_address, subject, content)
+# #         send_mail(subject, content, u'hunanjinyezi@126.com', ['690501772@qq.com',], auth_user='lvchunhui7@126.com',
+# #                    auth_password='95123120290')
     
