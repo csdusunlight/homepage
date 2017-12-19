@@ -29,6 +29,9 @@ def sendWeixinNotify(user_obj_list, type):
     kwarg.update(access_token=access_token)
     if type == 'submit':
         kwarg.update(template_id=submit_investlog_notify_templateid)
+        to_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + APPID +"&redirect_uri=http%3A%2F%2F" + \
+            FULIUNION_DOMAIN + "%2Fweixin%2Fbind-user%2F%3Fto_url%3Daccount_audited&response_type=code&scope=snsapi_userinfo"
+        kwarg.update(url=to_url, topcolor="#FF0000")
         for user_investlog in user_obj_list:
             user = user_investlog[0]
             investlog = user_investlog[1]
