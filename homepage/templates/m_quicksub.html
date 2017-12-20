@@ -104,7 +104,8 @@
    					var refer = document.referrer;
    					if(refer){
    						var flag = refer.indexOf("51fanshu.com");
-   						if (flag===-1){
+   						var flag2 = refer.indexOf("fuliunion.com");
+   						if (flag===-1 and flag2===-1){
    							is_back = false;
    						}
    						else {
