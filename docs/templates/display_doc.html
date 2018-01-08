@@ -157,7 +157,9 @@
     <div class="container">
         <!--<h1 class="doc__top">番薯文档</h1>-->
         <img class="doc__logo" src="{% static 'images/fanshu-logo.png' %}"/>
-        <span class="close-time">文档关闭时间：{{doc.close_time}}</span>
+        {% if not doc.close_time %}
+        <span class="close-time">文档关闭时间：{{doc.close_time| date:'Y-m-d\Th:i'}}</span>
+        {% endif %}
         <div id="doc_content" class="doc__content">
             <h1 class="doc__title">{{doc.title}}</h1>
             <div class="doc__detail">
