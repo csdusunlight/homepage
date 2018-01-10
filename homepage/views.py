@@ -1,5 +1,5 @@
 #coding:utf-8
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from wafuli.models import SubscribeShip, Notice, Project, InvestLog
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -179,5 +179,8 @@ def quick_sumbit(request):
 
 @login_required
 def look_up(request):
-    template = 'lookup.html'
-    return render(request, template, {})
+    if request.mobile:
+        template = 'lookup.html'
+        return render(request, template, {})
+    else:
+        return redirect('hm_index')
