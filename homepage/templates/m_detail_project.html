@@ -26,6 +26,9 @@
     <!--<link rel="stylesheet" type="text/css" href="{%static 'css/m_common.css'%}"/>-->
     <link rel="stylesheet" type="text/css" href="{%static 'css/m_expsubmit_project-11.30.css'%}"/>
     <style type="text/css">
+        img {
+            max-width: 100%;
+        }
         .limit-input {
             display: none;
         }
@@ -117,6 +120,7 @@
                 <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
                 <div class="mui-slider-group">
                     <div id="item1" class="mui-slider-item mui-control-content mui-active" value="1">
+                        {%if project.state != 20 %}
                         <div class="iframe-box">
                             <div class="iframe-top">
                                 <p class="iframe__price">返现价格：<span class="price-num">{{price}}</span></p>
@@ -143,6 +147,9 @@
                                 <span class="btn m-green m-bottom">点击交单</span>
                             </div>-->
                         </div>
+                        {% else %}
+                        <p style="margin-top: 80px; font-size: 24px; text-align: center";>项目已结束</p>
+                        {%endif%}
                     </div>
                     <div id="item2" style="overflow-y: scroll;" class="mui-slider-item mui-control-content" value="2">
                         <form>
