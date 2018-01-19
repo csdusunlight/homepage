@@ -144,7 +144,7 @@
             </ul>
             <div class="conitem-box">
                 <div class="conitem m-gonglue" style="display: block;">
-                    {%if project.state != 20 %}
+                    {%if project.state != '20' %}
                     <div class="iframe-box">
                         <div class="iframe-top clearfix">
                             <h4 class="iframe__title l">{{project.title}}</h4>
@@ -170,7 +170,7 @@
                         </div>
                     </div>
                     {% else %}
-                    <p style="margin: 80px; font-size: 24px; text-align: center";>项目已结束</p>
+                    <p style="margin: 80px; font-size: 24px; text-align: center";>项目已结束，请尽快交单</p>
                     {%endif%}
                 </div>
                 <div class="conitem m-yuyue" style="display: none;">

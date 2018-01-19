@@ -97,7 +97,7 @@ def submitOrder(request):
         result['code'] = 0
         result['msg'] = u"请提交投资手机号"
         return JsonResponse(result)
-    if invest_date:
+    if invest_date and type(invest_date)==str:
         invest_date = datetime.datetime.strptime(invest_date, "%Y-%m-%d")
     if not project.is_multisub_allowed or submit_type=='1':
         if project.company is None:
