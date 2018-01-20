@@ -40,12 +40,12 @@ class ProjectList(BaseViewMixin, generics.ListAPIView):
         
     serializer_class = ProjectSerializer
     filter_backends = (SearchFilter, django_filters.rest_framework.DjangoFilterBackend, OrderingFilter)
-    filter_fields = ['state','type','is_multisub_allowed','is_official']
+    filter_fields = ['state','type','is_multisub_allowed','is_official','category']
     ordering_fields = ('state','pub_date','pinyin')
     search_fields = ('title', 'introduction')
     pagination_class = MyPageNumberPagination
     def perform_create(self, serializer):
-        obj = serializer.save(is_official=False, user=self.request.user, state='10')
+        obj = serializer.save(is_official=False, category='self', user=self.request.user, state='10')
         SubscribeShip.objects.create(project=obj, user=self.request.user)
 
 class ProjectDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
@@ -83,6 +83,7 @@ class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
     def perform_create(self, serializer):
         project = serializer.validated_data['project']
         is_official = project.is_official
+        category = project.category
         invest_mobile = serializer.validated_data['invest_mobile']
         if not project.is_multisub_allowed:
             print project.company
@@ -92,7 +93,7 @@ class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
                 queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project__company_id=project.company_id)
             if queryset.exclude(audit_state='2').exists():    
                 raise ValidationError({'detail':u"投资手机号重复"})
-        serializer.save(is_official=is_official, audit_state='1', user=self.request.user)
+        serializer.save(is_official=is_official, category=category, audit_state='1', user=self.request.user)
 
 class InvestlogDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = InvestLog.objects.all()
