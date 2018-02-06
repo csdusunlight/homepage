@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from public.tools import login_required_ajax
 from django.http.response import JsonResponse, Http404
 from django.db.models import F
+from public.redis import cache_incr_or_set
 
 # Create your views here.
 
@@ -24,9 +25,10 @@ def display_doc(request, id):
         secret = request.session.get('secret' + str(id), '')
         if doc.secret == '' or doc.secret == secret:
             view_count = doc.view_count
-            doc.view_count = F('view_count')+1
-            doc.save(update_fields=['view_count',])
-            doc.view_count = view_count + 1
+#             doc.view_count = F('view_count')+1
+#             doc.save(update_fields=['view_count',])
+#             doc.view_count = view_count + 1
+            cache_incr_or_set('doc_%s' % doc.id)
             return render(request, 'display_doc.html', {'doc':doc})
         else:
             return render(request, 'hide_doc.html', )
