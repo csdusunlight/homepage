@@ -6,6 +6,7 @@ from public.tools import login_required_ajax
 from django.http.response import JsonResponse, Http404
 from django.db.models import F
 from public.redis import cache_incr_or_set
+from django.core.cache import cache
 
 # Create your views here.
 
@@ -29,6 +30,8 @@ def display_doc(request, id):
 #             doc.save(update_fields=['view_count',])
 #             doc.view_count = view_count + 1
             cache_incr_or_set('doc_%s' % doc.id)
+            temp_count = cache.get('doc_%s' % doc.id)
+            doc.view_count += temp_count
             return render(request, 'display_doc.html', {'doc':doc})
         else:
             return render(request, 'hide_doc.html', )
