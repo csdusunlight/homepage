@@ -9,6 +9,7 @@ from django.utils import timezone
 import datetime
 from django.core.urlresolvers import reverse
 from public.pinyin import PinYin
+from docs.models import Document
 def get_today():
     return datetime.date.today()
 AUDIT_STATE = (
@@ -82,6 +83,7 @@ class Project(models.Model):
     state = models.CharField(u"项目状态", max_length=2, choices=Project_STATE, default='10')
     pic = models.ImageField(upload_to='photos/%Y/%m/%d', verbose_name=u"标志图片上传（最大不超过30k，越小越好）", blank=True)
     strategy = models.URLField(u"攻略链接")
+    doc = models.ForeignKey(Document, null=True, on_delete=models.SET_NULL, default=None)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, verbose_name=u"合作平台")
     type = models.CharField(u"项目类别", max_length=1, choices=Project_TYPE, blank=True)
     is_multisub_allowed = models.BooleanField(u"是否允许同一手机号多次提交", default=False)
@@ -155,8 +157,8 @@ class SubscribeShip(models.Model):
     project = models.ForeignKey(Project)
     introduction = models.CharField(u"项目简介",max_length=100)
     myprice = models.CharField(u"保留字段",max_length=40)
-    price = models.CharField(u"客户价",max_length=40)
-    shortprice = models.CharField(u"客户价简洁展示",max_length=20,)
+    price = models.CharField(u"客户价",max_length=40,default=u"私聊")
+    shortprice = models.CharField(u"客户价简洁展示",max_length=20,default=u"私聊")
     is_on = models.BooleanField(u"是否在主页显示",default=True)
     is_recommend = models.BooleanField(u"是否放到推荐位置",default=False)
     intrest = models.CharField(u"预期年化", max_length=20)
@@ -207,18 +209,18 @@ class InvestLog(models.Model):
     zhifubao_name = models.CharField(u'支付宝姓名', max_length=30, blank=True)
     expect_amount = models.CharField(u'用户预期返现金额(6)', max_length=20, blank=True)
     admin_user = models.ForeignKey(MyUser, related_name="investlog_admin", null=True)
-    audit_time = models.DateTimeField(u'审核时间', null=True, blank=True)
+    audit_time = models.DateTimeField(u'审核时间', null=True, blank=True, default=None)
     audit_state = models.CharField(max_length=10, choices=AUDIT_STATE, verbose_name=u"审核状态")
     preaudit_state = models.CharField(max_length=10, choices=AUDIT_STATE, default='1', verbose_name=u"预审状态")
     audit_reason = models.CharField(u"审核说明", max_length=30, blank=True)
     settle_amount = models.DecimalField(u'结算金额', max_digits=10, decimal_places=2, default=0)
     return_amount = models.DecimalField(u'返现金额', max_digits=10, decimal_places=2, null=True)
-    broker_amount = models.DecimalField(u'佣金', max_digits=10, decimal_places=2, null=True)
+    broker_amount = models.DecimalField(u'佣金', max_digits=10, decimal_places=2, default=0)
     remark = models.CharField(u"备注", max_length=100, blank=True)
     reaudit_reason = models.CharField(u"复审原因", max_length=50, blank=True)
     appeal_reason = models.CharField(u"申诉理由", max_length=50, blank=True)
     presettle_amount = models.DecimalField(u'预结算金额', max_digits=10, decimal_places=2, default=0)
-    preaudit_time = models.DateTimeField(u'审核时间', null=True, blank=True, default=None)
+    preaudit_time = models.DateTimeField(u'预审核时间', null=True, blank=True, default=None)
     translist = GenericRelation('TransList')
     def __unicode__(self):
         return u"来自渠道用户：%s 的投资数据提交：%s" % (self.user, self.invest_amount)
@@ -264,6 +266,7 @@ ADMIN_TYPE = (
     ('1', u'更改现金余额'),
     ('2', u'更改用户状态'),
     ('3', u'更改用户等级'),
+    ('4', u'更改保证金余额'),
 )   
 class AdminLog(models.Model):
     admin_user = models.ForeignKey(MyUser, related_name="user_admin_history")
@@ -296,8 +299,7 @@ class TransList(models.Model):
 #     investlog = models.ForeignKey(InvestLog, related_name="translist", null=True,on_delete=models.SET_NULL)
 #     adminlog = models.ForeignKey(AdminLog, related_name="translist", null=True,on_delete=models.SET_NULL)
     def __unicode__(self):
-        return u"%s:%s了%s现金 提交时间%s" % (self.user, self.get_transType_display(),self.transAmount,
-                                       self.user_event.time if self.user_event else "")
+        return u"%s:%s了%s现金 提交时间%s" % (self.user, self.get_transType_display(),self.transAmount, self.time)
     class Meta:
         ordering = ["-time",]
     
