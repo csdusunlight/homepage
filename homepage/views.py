@@ -14,6 +14,7 @@ from dragon.settings import FANSHU_DOMAIN
 from docs.models import Document
 from weixin.tasks import sendWeixinNotify
 import logging
+from public.redis import cache_incr_or_set
 logger = logging.getLogger('wafuli')
 
 # Create your views here.
@@ -66,6 +67,7 @@ def detail_project(request, id):
             pk = spl[-1] or spl[-2]
             doc = Document.objects.get(id=pk)
             kwargs.update(doc=doc)
+            cache_incr_or_set('doc_%s' % doc.id)
         except:
             pass
     kwargs.update(is_fanshu=is_fanshu)
