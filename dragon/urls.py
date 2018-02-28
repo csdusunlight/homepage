@@ -21,6 +21,7 @@ urlpatterns = [
 #    url(r'^', include('wafuli.urls',)),
     url('^restapi/', include('restapi.urls')),
     url('^account/', include('account.urls')),
+    url(r'^xcx/', include('xiaochengxu.urls', namespace='xcx'),),
 #     url('^Admin/', include('wafuli_admin.urls')),
 #     url(r'^ueditor/',  include('DjangoUeditor.urls' )),
 #     url(r'^captcha/', include('captcha.urls')),
