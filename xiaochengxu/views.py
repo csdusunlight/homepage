@@ -7,6 +7,14 @@ from weixin_python.client import WXAPPAPI
 from django.views.decorators.csrf import csrf_exempt
 import json
 from xiaochengxu.models import WXUser
+from rest_framework import generics, permissions
+from public.permissions import CsrfExemptSessionAuthentication, IsOwnerOrStaff,\
+    IsSelfSubmited
+from wafuli.models import InvestLog
+from restapi.serializers import InvestLogSerializer
+import django_filters
+from public.Paginations import MyPageNumberPagination
+from rest_framework.exceptions import ValidationError
 
 # Create your views here.
 def login(request):
@@ -61,3 +69,48 @@ def update_userinfo(request):
     user.language = userinfo.get('language','')
     user.save()
     return JsonResponse({})
+
+class BaseViewMixin(object):
+    authentication_classes = (CsrfExemptSessionAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
+#     def get_queryset(self):
+#         user = self.request.user
+#         if user.is_staff:
+#             return InvestLog.objects.all()
+#         else:
+#             return InvestLog.objects.filter(user=user)
+    queryset = InvestLog.objects.all()
+    serializer_class = InvestLogSerializer
+    pagination_class = MyPageNumberPagination
+    def perform_create(self, serializer):
+        project = serializer.validated_data['project']
+        is_official = project.is_official
+        category = project.category
+        invest_mobile = serializer.validated_data['invest_mobile']
+        if not project.is_multisub_allowed:
+            print project.company
+            if project.company is None:
+                queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project=project)
+            else:
+                queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project__company_id=project.company_id)
+            if queryset.exclude(audit_state='2').exists():    
+                raise ValidationError({'detail':u"投资手机号重复"})
+        serializer.save(is_official=is_official, category=category, audit_state='1', user=self.request.user)
+
+class InvestlogDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
+    queryset = InvestLog.objects.all()
+    permission_classes = (IsSelfSubmited,)
+    serializer_class = InvestLogSerializer
+    def perform_update(self, serializer):
+        project = serializer.validated_data['project']
+        id = serializer.validated_data['id']
+        invest_mobile = serializer.validated_data['invest_mobile']
+        if not project.is_multisub_allowed:
+            if project.company is None:
+                queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project=project)
+            else:
+                queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project__company_id=project.company_id)
+            if queryset.exclude(audit_state='2').exclude(id=id).exists():    
+                raise ValidationError({'detail':u"投资手机号重复"})
+        serializer.save()
