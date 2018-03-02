@@ -6,6 +6,8 @@ urlpatterns = [
     
     url(r'^login/$', views.login, name='login'),
     url(r'^update_userinfo/$', views.update_userinfo, name='update_userinfo'),
-#     url(r'^logout/$', auth_views.logout, {'template_name': 'registration/logged_out.html', 'next_page':'login'}, name='logout'),
-
+    url(r'^investlogs/$', views.InvestlogList.as_view()),
+    url(r'^investlogs/(?P<pk>[0-9]+)/$', views.InvestlogDetail.as_view(), kwargs={'partial':True}),
+    url(r'^wxusers/$', views.WXUserList.as_view()),
+    url(r'^wxusers/(?P<pk>[0-9]+)/$', views.WXUserDetail.as_view(), kwargs={'partial':True}),
 ]
