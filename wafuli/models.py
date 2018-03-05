@@ -83,7 +83,7 @@ class Project(models.Model):
     state = models.CharField(u"项目状态", max_length=2, choices=Project_STATE, default='10')
     pic = models.ImageField(upload_to='photos/%Y/%m/%d', verbose_name=u"标志图片上传（最大不超过30k，越小越好）", blank=True)
     strategy = models.URLField(u"攻略链接")
-    doc = models.ForeignKey(Document, null=True, on_delete=models.SET_NULL, default=None)
+    doc = models.ForeignKey(Document, null=True, on_delete=models.SET_NULL, default=None, blank=True)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, verbose_name=u"合作平台")
     type = models.CharField(u"项目类别", max_length=1, choices=Project_TYPE, blank=True)
     is_multisub_allowed = models.BooleanField(u"是否允许同一手机号多次提交", default=False)
@@ -105,7 +105,7 @@ class Project(models.Model):
     pinyin = models.CharField(u"拼音全拼", max_length=100)
     szm = models.CharField(u"首字母", max_length=20)
     remark = models.CharField(u"项目备注", max_length=50, blank=True)
-    broker_rate = models.SmallIntegerField(u"佣金比例，百分数", default=0)
+    broker_rate = models.DecimalField(u"佣金比例，百分数", max_digits=10, decimal_places=2, default=0)
     def save(self, force_insert=False, force_update=False, using=None, 
              update_fields=None):
         pyin = PinYin()
