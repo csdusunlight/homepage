@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from xiaochengxu.models import WXUser
 from rest_framework import generics, permissions
-from public.permissions import CsrfExemptSessionAuthentication, IsWxOwner, IsWXSelf
+from public.permissions import CsrfExemptSessionAuthentication, IsWxOwner, IsWXSelf,\
+    IsWXAuthenticated
 from wafuli.models import InvestLog
 from restapi.serializers import InvestLogSerializer
 import django_filters
@@ -57,23 +58,23 @@ def login(request):
     # 这两个参数需要js获取
 #     user_info = crypt.decrypt(encrypted_data, iv)
 
-def update_userinfo(request):
-    user = request.jwt_user
-    userinfo = json.loads(request.body)
-#     fields = ['nickName', 'avatarUrl', 'city', 'country', 'gender', 'province','language']
-#     update_dict = dict((k,v) for k, v in userinfo.items() if k in fields)
-    user.nickName = userinfo.get('nickName','')
-    user.avatarUrl = userinfo.get('avatarUrl','')
-    user.city = userinfo.get('city','')
-    user.country = userinfo.get('country','')
-    user.gender = userinfo.get('gender','')
-    user.province = userinfo.get('province','')
-    user.language = userinfo.get('language','')
-    user.save()
-    return JsonResponse({})
+# def update_userinfo(request):
+#     user = request.wxuser
+#     userinfo = json.loads(request.body)
+# #     fields = ['nickName', 'avatarUrl', 'city', 'country', 'gender', 'province','language']
+# #     update_dict = dict((k,v) for k, v in userinfo.items() if k in fields)
+#     user.nickName = userinfo.get('nickName','')
+#     user.avatarUrl = userinfo.get('avatarUrl','')
+#     user.city = userinfo.get('city','')
+#     user.country = userinfo.get('country','')
+#     user.gender = userinfo.get('gender','')
+#     user.province = userinfo.get('province','')
+#     user.language = userinfo.get('language','')
+#     user.save()
+#     return JsonResponse({})
 
 def bind_userinfo(request):
-    user = request.jwt_user
+    user = request.wxuser
     userinfo = json.loads(request.body)
 #     fields = ['nickName', 'avatarUrl', 'city', 'country', 'gender', 'province','language']
 #     update_dict = dict((k,v) for k, v in userinfo.items() if k in fields)
@@ -89,15 +90,11 @@ def bind_userinfo(request):
 
 class BaseViewMixin(object):
     authentication_classes = (CsrfExemptSessionAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsWXAuthenticated,)
 class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
-#     def get_queryset(self):
-#         user = self.request.user
-#         if user.is_staff:
-#             return InvestLog.objects.all()
-#         else:
-#             return InvestLog.objects.filter(user=user)
-    queryset = InvestLog.objects.all()
+    def get_queryset(self):
+        wxuser = self.request.wxuser
+        return InvestLog.objects.filter(wxuser=wxuser)
     serializer_class = InvestLogSerializer
     pagination_class = MyPageNumberPagination
     def perform_create(self, serializer):
@@ -132,7 +129,7 @@ class InvestlogDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
                 raise ValidationError({'detail':u"投资手机号重复"})
         serializer.save()
         
-class WXUserList(BaseViewMixin, generics.ListCreateAPIView):
+class WXUserList(BaseViewMixin, generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         if user.is_staff:
@@ -142,7 +139,9 @@ class WXUserList(BaseViewMixin, generics.ListCreateAPIView):
     serializer_class = WXUserSerializer
     pagination_class = MyPageNumberPagination
 
-class WXUserDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
+class WXUserDetail(BaseViewMixin, generics.RetrieveUpdateAPIView):
     queryset = InvestLog.objects.all()
     permission_classes = (IsWXSelf,)
     serializer_class = WXUserSerializer
+    def get_object(self):
+        return self.request.wxuser

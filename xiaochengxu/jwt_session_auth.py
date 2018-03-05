@@ -168,9 +168,9 @@ class JwtSession(dict):
 class JwtAuthMiddleware(object):
     """ jwt auth middleware
 
-    Check the `AUTHORIZATION` header in request, and add the correspond `jwt_user` and `jwt_session` to request.
+    Check the `AUTHORIZATION` header in request, and add the correspond `wxuser` and `jwt_session` to request.
 
-    if the authentication failed, the `request.jwt_user` will be None, and `jwt_session` will be a empty JwtSession.
+    if the authentication failed, the `request.wxuser` will be None, and `jwt_session` will be a empty JwtSession.
     """
 
     _user_key_prefix = ''
@@ -181,24 +181,23 @@ class JwtAuthMiddleware(object):
         request.app_id = app_id
         print token
         if not token:
-            request.jwt_user = None or (self.test_user if django_settings.DEBUG else None)
+            request.wxuser = None or (self.test_user() if django_settings.DEBUG else None)
             request.jwt_session = self._get_empty_jwt_session()
         else:
             decoder = self._get_decoder()
             payload = decoder(token)
             payload_to_user_func = self._get_payload_to_user_handler()
-            jwt_user = payload_to_user_func(payload)
+            wxuser = payload_to_user_func(payload)
             print payload
-            print jwt_user
-            request.jwt_user = jwt_user
-            request.jwt_session = self.get_jwt_session(jwt_user)
-        if request.jwt_user:
+            print wxuser
+            request.wxuser = wxuser
+            request.jwt_session = self.get_jwt_session(wxuser)
+        if request.wxuser:
             try:
                 user = App.objects.get(app_id=app_id).user
             except App.DoesNotExist:
                 user = MyUser.objects.get(mobile='18500581509')
             request.user = user
-        print request.jwt_session
     def process_response(self, request, response):
         if hasattr(request, 'jwt_session'):
             request.jwt_session.save()
@@ -214,11 +213,8 @@ class JwtAuthMiddleware(object):
     def test_user(cls):
         """ load test user if TEST_USER_GETTER is exists
         """
-        test_user_getter = jwt_settings['TEST_USER_GETTER']
-        if not cls._test_user and test_user_getter:
-            test_user_getter = import_string(test_user_getter)
-            cls._test_user = test_user_getter()
-        return cls._test_user
+        if django_settings.DEBUG:
+            return WXUser.objects.first()
 
     @classmethod
     def get_jwt_session(cls, user, expire=None):
@@ -245,7 +241,7 @@ class JwtAuthMiddleware(object):
         payload = user_to_payload_handler(user)
         encoder = cls._get_encoder()
         token = encoder(payload)
-        request.jwt_user = user
+        request.wxuser = user
         request.jwt_session = cls.get_jwt_session(user, expire=expire)
         user_jwt_logged_in.send(user.__class__, request=request, user=user)
         return token

@@ -62,3 +62,14 @@ class IsWXSelf(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return obj == request.wxuser
+    
+class IsWXAuthenticated(permissions.BasePermission):
+    """
+    Allows access only to authenticated users.
+    """
+
+    def has_permission(self, request, view):
+        if request.wxuser:
+            return True
+        else:
+            return False
