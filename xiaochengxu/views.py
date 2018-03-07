@@ -145,3 +145,25 @@ class WXUserDetail(BaseViewMixin, generics.RetrieveUpdateAPIView):
     serializer_class = WXUserSerializer
     def get_object(self):
         return self.request.wxuser
+
+#coding:utf-8
+import hashlib
+from django.http.response import HttpResponse,Http404, JsonResponse
+
+def handle_message(request):
+    if request.method == 'GET':
+        token = '1hblsqTsdfsdfsd'
+        timestamp = str(request.GET.get('timestamp'))
+        nonce = str(request.GET.get('nonce'))
+        signature = str(request.GET.get('signature'))
+        echostr = str(request.GET.get('echostr'))
+        paralist = [token,timestamp,nonce]
+        paralist.sort()
+        parastr = ''.join(paralist)
+        siggen = hashlib.sha1(parastr).hexdigest()
+        if siggen==signature:
+            return HttpResponse(echostr)
+        else:
+            raise Http404
+    else:
+        return HttpResponse()

@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
@@ -10,4 +9,5 @@ urlpatterns = [
     url(r'^investlogs/(?P<pk>[0-9]+)/$', views.InvestlogDetail.as_view(), kwargs={'partial':True}),
     url(r'^wxusers/$', views.WXUserList.as_view()),
     url(r'^update_userinfo/$', views.WXUserDetail.as_view(), kwargs={'partial':True}),
+    url(r'^handle_message/$', views.handle_message, name='handle_message'),
 ]
