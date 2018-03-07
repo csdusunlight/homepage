@@ -188,10 +188,9 @@ def autoreply(request):
         ToUserName = xmlData.find('ToUserName').text
         FromUserName = xmlData.find('FromUserName').text
         CreateTime = xmlData.find('CreateTime').text
-        toUser = FromUserName
-        fromUser = ToUserName
-        openid = toUser
+        openid = ToUserName
         content = ''
+        logger.info('openid:'+openid)
         if msg_type == 'text':
             message = xmlData.find('Content').text
             prolist = list(Project.objects.filter(is_official=True, title__contains=message))
