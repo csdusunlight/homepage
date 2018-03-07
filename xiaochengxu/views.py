@@ -17,6 +17,7 @@ from public.Paginations import MyPageNumberPagination
 from rest_framework.exceptions import ValidationError
 from xiaochengxu.serializers import InvestLogSerializerForXCX, WXUserSerializer
 import logging
+from wafuli_admin.models import Dict
 logger = logging.getLogger('wafuli')
 
 # Create your views here.
@@ -151,7 +152,7 @@ class WXUserDetail(BaseViewMixin, generics.RetrieveUpdateAPIView):
 #coding:utf-8
 import hashlib
 from django.http.response import HttpResponse,Http404, JsonResponse
-
+import requests
 def handle_message(request):
     if request.method == 'GET':
         token = '1hblsqTsdfsdfsd'
@@ -169,6 +170,10 @@ def handle_message(request):
             raise Http404
     else:
         jsonres = autoreply(request)
+        access_token = Dict.objects.get(key='access_token_xcx').value
+        url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='+access_token
+        response = requests.post(url,data=jsonres)
+        logger.info('handlemessagereply:' + response.text)
         return HttpResponse(jsonres)
  
 
