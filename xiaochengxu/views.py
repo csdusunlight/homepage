@@ -10,12 +10,14 @@ from xiaochengxu.models import WXUser
 from rest_framework import generics, permissions
 from public.permissions import CsrfExemptSessionAuthentication, IsWxOwner, IsWXSelf,\
     IsWXAuthenticated
-from wafuli.models import InvestLog
+from wafuli.models import InvestLog, SubscribeShip, Project
 from restapi.serializers import InvestLogSerializer
 import django_filters
 from public.Paginations import MyPageNumberPagination
 from rest_framework.exceptions import ValidationError
 from xiaochengxu.serializers import InvestLogSerializerForXCX, WXUserSerializer
+import logging
+logger = logging.getLogger('wafuli')
 
 # Create your views here.
 def login(request):
@@ -166,4 +168,67 @@ def handle_message(request):
         else:
             raise Http404
     else:
+        othercontent = autoreply(request)
         return HttpResponse()
+ 
+
+import xml.etree.ElementTree as ET
+def autoreply(request):
+    try:
+        webData = request.body
+        xmlData = ET.fromstring(webData)
+
+        msg_type = xmlData.find('MsgType').text
+        ToUserName = xmlData.find('ToUserName').text
+        FromUserName = xmlData.find('FromUserName').text
+        CreateTime = xmlData.find('CreateTime').text
+        toUser = FromUserName
+        fromUser = ToUserName
+        openid = toUser
+        content = ''
+        if msg_type == 'text':
+            message = xmlData.find('Content').text
+            prolist = list(Project.objects.filter(is_official=True, title__contains=message))
+            for pro in prolist:
+                content += '\n' if content else ''
+                content += pro.title + u'：' + pro.strategy
+        elif msg_type == 'user_enter_tempsession':
+            sessionfrom = xmlData.find('SessionFrom').text
+            if sessionfrom.startswith('project_'):
+                project_id = sessionfrom.replace('project_', '')
+                project = Project.objects.get(id=project_id)
+                content = pro.title + u'：' + pro.strategy
+    except Exception, e:
+        logger.error(e)
+        content = u"客服繁忙，请稍后再试"
+    replyMsg = TextMsg(toUser, fromUser, content.encode('utf-8'))
+    return replyMsg.send()
+
+class Msg(object):
+    def __init__(self, xmlData):
+        self.ToUserName = xmlData.find('ToUserName').text
+        self.FromUserName = xmlData.find('FromUserName').text
+        self.CreateTime = xmlData.find('CreateTime').text
+        self.MsgType = xmlData.find('MsgType').text
+        self.MsgId = xmlData.find('MsgId').text
+
+import time
+class TextMsg(Msg):
+    def __init__(self, toUserName, fromUserName, content):
+        self.__dict = dict()
+        self.__dict['ToUserName'] = toUserName
+        self.__dict['FromUserName'] = fromUserName
+        self.__dict['CreateTime'] = int(time.time())
+        self.__dict['Content'] = content
+
+    def send(self):
+        XmlForm = """
+        <xml>
+        <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
+        <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
+        <CreateTime>{CreateTime}</CreateTime>
+        <MsgType><![CDATA[text]]></MsgType>
+        <Content><![CDATA[{Content}]]></Content>
+        </xml>
+        """
+        return XmlForm.format(**self.__dict)
