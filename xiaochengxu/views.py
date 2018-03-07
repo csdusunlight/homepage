@@ -168,12 +168,13 @@ def handle_message(request):
         else:
             raise Http404
     else:
-        othercontent = autoreply(request)
-        return HttpResponse()
+        jsonres = autoreply(request)
+        return HttpResponse(jsonres)
  
 
 import xml.etree.ElementTree as ET
 def autoreply(request):
+    openid = ''
     try:
         webData = request.body
         xmlData = ET.fromstring(webData)
@@ -201,8 +202,16 @@ def autoreply(request):
     except Exception, e:
         logger.error(e)
         content = u"客服繁忙，请稍后再试"
-    replyMsg = TextMsg(toUser, fromUser, content.encode('utf-8'))
-    return replyMsg.send()
+    content = content.encode('utf-8')
+    response = {
+        "touser":openid,
+        "msgtype":"text",
+        "text":
+        {
+             "content":content,
+        }
+    }
+    return response
 
 class Msg(object):
     def __init__(self, xmlData):
