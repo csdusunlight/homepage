@@ -188,7 +188,7 @@ def autoreply(request):
         ToUserName = xmlData.find('ToUserName').text
         FromUserName = xmlData.find('FromUserName').text
         CreateTime = xmlData.find('CreateTime').text
-        openid = ToUserName
+        openid = FromUserName
         content = ''
         logger.info('openid:'+openid)
         if msg_type == 'text':
