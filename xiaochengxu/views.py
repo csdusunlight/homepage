@@ -18,6 +18,7 @@ from rest_framework.exceptions import ValidationError
 from xiaochengxu.serializers import InvestLogSerializerForXCX, WXUserSerializer
 import logging
 from wafuli_admin.models import Dict
+from collections import OrderedDict
 logger = logging.getLogger('wafuli')
 
 # Create your views here.
@@ -228,31 +229,31 @@ def autoreply(request):
 # #     response = response.encode('utf-8')
     return response
 
-class Msg(object):
-    def __init__(self, xmlData):
-        self.ToUserName = xmlData.find('ToUserName').text
-        self.FromUserName = xmlData.find('FromUserName').text
-        self.CreateTime = xmlData.find('CreateTime').text
-        self.MsgType = xmlData.find('MsgType').text
-        self.MsgId = xmlData.find('MsgId').text
-
-import time
-class TextMsg(Msg):
-    def __init__(self, toUserName, fromUserName, content):
-        self.__dict = dict()
-        self.__dict['ToUserName'] = toUserName
-        self.__dict['FromUserName'] = fromUserName
-        self.__dict['CreateTime'] = int(time.time())
-        self.__dict['Content'] = content
-
-    def send(self):
-        XmlForm = """
-        <xml>
-        <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
-        <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
-        <CreateTime>{CreateTime}</CreateTime>
-        <MsgType><![CDATA[text]]></MsgType>
-        <Content><![CDATA[{Content}]]></Content>
-        </xml>
-        """
-        return XmlForm.format(**self.__dict)
+def get_project_list(request):
+    user = request.user
+    subs = SubscribeShip.objects.filter(user=user, is_on=True).select_related('project').order_by('project__szm')
+    projectNameList = []
+    group_key = ''
+    group_dic = {}
+    for sub in subs:
+        project = sub.project
+        id = project.id
+        title = project.title
+        logo = project.picture_url()
+        szm = project.szm
+        pinyin = project.pinyin
+        necessary_fields = project.necessary_fields
+        is_multisub_allowed = project.is_multisub_allowed
+        key = szm[0:1]
+        key = key.upper()
+        param = {}
+        param.update(id=id, name=title, logo=logo, key=key, necessary_fields=necessary_fields,
+                     is_multisub_allowed = is_multisub_allowed)
+        if key != group_key:
+            if group_dic:
+                projectNameList.append(group_dic)
+            group_dic = {'title':key,'item':[]}
+        group_dic['item'].append(param)
+    if group_dic:
+        projectNameList.append(group_dic)
+    return JsonResponse(projectNameList, safe=False)

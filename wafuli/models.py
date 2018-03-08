@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from public.pinyin import PinYin
 from docs.models import Document
 from xiaochengxu.models import WXUser
+from dragon import settings
 def get_today():
     return datetime.date.today()
 AUDIT_STATE = (
@@ -143,7 +144,7 @@ class Project(models.Model):
         
         """
         if self.company and self.company.logo:
-            return self.company.logo.url
+            return 'http://' + settings.FULIUNION_DOMAIN + self.company.logo.url
         elif self.pic and hasattr(self.pic, 'url'):
             return self.pic.url
         else:
