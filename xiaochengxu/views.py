@@ -203,11 +203,14 @@ def autoreply(request):
                 project_id = sessionfrom.replace('project_', '')
                 project = Project.objects.get(id=project_id)
                 content = pro.title + u'：' + pro.strategy
+            else:
+                weixin = WXUser.objects.get(openid=openid).app.cs_weixin
+                content = u"很高兴为您服务，查询攻略请回复平台名称，其他问题请询问人工客服，客服微信号：" + weixin
     except Exception, e:
         logger.error(e)
         content = u"客服繁忙，请稍后再试"
     if content=='':
-        content = u'人工客服'
+        content = u'没有找到'
 #     content = content.encode('utf-8')
     response = {
         "touser":openid,
