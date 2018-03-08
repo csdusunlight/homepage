@@ -45,7 +45,7 @@ def login(request):
     session_key = session_info.get('session_key')
     openid = session_info.get('openid')
     user = app.user
-    assert(user == request.user)
+    assert(user == request.user or request.user is None)
     user, created = WXUser.objects.get_or_create(app_id=app_id, openid=openid, 
                                                  defaults = {'user':user})
 #     if created:
@@ -170,6 +170,7 @@ def handle_message(request):
             raise Http404
     else:
         jsonres = autoreply(request)
+        logger.info('openid:'+str(jsonres))
         access_token = Dict.objects.get(key='access_token_xcx').value
         url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='+access_token
         response = requests.post(url,data=jsonres)
@@ -190,7 +191,6 @@ def autoreply(request):
         CreateTime = xmlData.find('CreateTime').text
         openid = FromUserName
         content = ''
-        logger.info('openid:'+openid)
         if msg_type == 'text':
             message = xmlData.find('Content').text
             prolist = list(Project.objects.filter(is_official=True, title__contains=message))
