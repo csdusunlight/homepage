@@ -45,7 +45,7 @@ def login(request):
     session_key = session_info.get('session_key')
     openid = session_info.get('openid')
     user = app.user
-    assert(user == request.user or request.user is None)
+#     assert(user == request.user or request.user is None)
     user, created = WXUser.objects.get_or_create(app_id=app_id, openid=openid, 
                                                  defaults = {'user':user})
 #     if created:
@@ -150,9 +150,8 @@ class WXUserDetail(BaseViewMixin, generics.RetrieveUpdateAPIView):
         return self.request.wxuser
 
 #coding:utf-8
-import hashlib
+import hashlib, urllib, requests
 from django.http.response import HttpResponse,Http404, JsonResponse
-import requests
 def handle_message(request):
     if request.method == 'GET':
         token = '1hblsqTsdfsdfsd'
@@ -170,15 +169,16 @@ def handle_message(request):
             raise Http404
     else:
         jsonres = autoreply(request)
-        logger.info('openid:'+str(jsonres))
+#         logger.info('openid:'+str(jsonres))
         access_token = Dict.objects.get(key='access_token_xcx').value
         url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='+access_token
-        response = requests.post(url,data=jsonres)
-        logger.info('handlemessagereply:' + response.text)
-        return HttpResponse(jsonres)
+#         headers = {"Content-Type": "application/json"} 
+        requests.post(url, data=json.dumps(jsonres,ensure_ascii=False).encode('utf-8'))
+        return HttpResponse('')
  
 
 import xml.etree.ElementTree as ET
+import re
 def autoreply(request):
     openid = ''
     try:
@@ -206,7 +206,9 @@ def autoreply(request):
     except Exception, e:
         logger.error(e)
         content = u"客服繁忙，请稍后再试"
-    content = content.encode('utf-8')
+    if content=='':
+        content = u'人工客服'
+#     content = content.encode('utf-8')
     response = {
         "touser":openid,
         "msgtype":"text",
@@ -215,6 +217,9 @@ def autoreply(request):
              "content":content,
         }
     }
+#     response = json.dumps(response)
+#     response=re.sub('test',u"人工",response)
+# #     response = response.encode('utf-8')
     return response
 
 class Msg(object):
