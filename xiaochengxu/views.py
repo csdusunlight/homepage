@@ -173,7 +173,8 @@ def handle_message(request):
         access_token = Dict.objects.get(key='access_token_xcx').value
         url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='+access_token
 #         headers = {"Content-Type": "application/json"} 
-        requests.post(url, data=json.dumps(jsonres,ensure_ascii=False).encode('utf-8'))
+        ret = requests.post(url, data=json.dumps(jsonres,ensure_ascii=False).encode('utf-8'))
+        logger.info(ret.text)
         return HttpResponse('')
  
 
@@ -197,15 +198,17 @@ def autoreply(request):
             for pro in prolist:
                 content += '\n' if content else ''
                 content += pro.title + u'：' + pro.strategy
-        elif msg_type == 'user_enter_tempsession':
-            sessionfrom = xmlData.find('SessionFrom').text
-            if sessionfrom.startswith('project_'):
-                project_id = sessionfrom.replace('project_', '')
-                project = Project.objects.get(id=project_id)
-                content = pro.title + u'：' + pro.strategy
-            else:
-                weixin = WXUser.objects.get(openid=openid).app.cs_weixin
-                content = u"很高兴为您服务，查询攻略请回复平台名称，其他问题请询问人工客服，客服微信号：" + weixin
+        elif msg_type == 'event' :
+            event = xmlData.find('Event').text
+            if event == 'user_enter_tempsession':
+                sessionfrom = xmlData.find('SessionFrom').text
+                if sessionfrom.startswith('project_'):
+                    project_id = sessionfrom.replace('project_', '')
+                    project = Project.objects.get(id=project_id)
+                    content = project.title + u'：' + project.strategy
+                else:
+                    weixin = WXUser.objects.get(openid=openid).app.cs_weixin
+                    content = u"很高兴为您服务，查询攻略请回复平台名称，其他问题请询问人工客服，客服微信号：" + weixin
     except Exception, e:
         logger.error(e)
         content = u"客服繁忙，请稍后再试"

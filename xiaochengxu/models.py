@@ -46,3 +46,16 @@ class WXUserlogin(models.Model):
         ordering = ["-time"]
     def __unicode__(self):
         return self.user.mobile
+    
+class WXUserMessage(models.Model):
+    user = models.ForeignKey(WXUser, related_name="user_msgs")
+    title = models.CharField(u"标题", max_length=30, default=u"系统消息")
+    time = models.DateTimeField(u"日期", default=timezone.now)
+    is_read = models.BooleanField(u"是否已读", default=False)
+    content = models.TextField(u"消息内容")
+    def __unicode__(self):
+        return self.title
+    class Meta:
+        verbose_name = u"消息"
+        verbose_name_plural = u"消息"
+        ordering = ['-time']
