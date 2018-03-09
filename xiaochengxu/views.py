@@ -11,7 +11,6 @@ from rest_framework import generics, permissions
 from public.permissions import CsrfExemptSessionAuthentication, IsWxOwner, IsWXSelf,\
     IsWXAuthenticated
 from wafuli.models import InvestLog, SubscribeShip, Project
-from restapi.serializers import InvestLogSerializer
 import django_filters
 from public.Paginations import MyPageNumberPagination
 from rest_framework.exceptions import ValidationError
@@ -99,7 +98,7 @@ class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
     def get_queryset(self):
         wxuser = self.request.wxuser
         return InvestLog.objects.filter(wxuser=wxuser)
-    serializer_class = InvestLogSerializer
+    serializer_class = InvestLogSerializerForXCX
     pagination_class = MyPageNumberPagination
     def perform_create(self, serializer):
         project = serializer.validated_data['project']
