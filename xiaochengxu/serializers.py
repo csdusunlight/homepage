@@ -20,5 +20,5 @@ class InvestLogSerializerForXCX(serializers.ModelSerializer):
     class Meta:
         model = InvestLog
         fields = ('audit_state', 'project_title','submit_time','invest_mobile','invest_name','invest_amount','invest_term',
-                             'invest_date', 'zhifubao','wxuser','audit_state_des')
+                             'invest_date', 'zhifubao','wxuser','audit_state_des', 'return_amount')
         read_only_fields = ('submit_time',)
