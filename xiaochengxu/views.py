@@ -117,7 +117,7 @@ class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
 
 class InvestlogDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = InvestLog.objects.all()
-    permission_classes = (IsWXSelf,)
+    permission_classes = (IsWxOwner,)
     serializer_class = InvestLogSerializerForXCX
     def perform_update(self, serializer):
         project = serializer.validated_data['project']
