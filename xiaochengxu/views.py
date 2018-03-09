@@ -252,6 +252,7 @@ def get_project_list(request):
             if group_dic:
                 projectNameList.append(group_dic)
             group_dic = {'title':key,'item':[]}
+            group_key = key
         group_dic['item'].append(param)
     if group_dic:
         projectNameList.append(group_dic)
