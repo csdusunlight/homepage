@@ -120,7 +120,7 @@ class InvestlogDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsWxOwner,)
     serializer_class = InvestLogSerializerForXCX
     def perform_update(self, serializer):
-        project = serializer.validated_data['project']
+        project = serializer.instance.project
         id = serializer.validated_data['id']
         invest_mobile = serializer.validated_data['invest_mobile']
         if not project.is_multisub_allowed:
