@@ -121,7 +121,7 @@ class InvestlogDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = InvestLogSerializerForXCX
     def perform_update(self, serializer):
         project = serializer.instance.project
-        id = serializer.validated_data['id']
+        id = serializer.instance.id
         invest_mobile = serializer.validated_data['invest_mobile']
         if not project.is_multisub_allowed:
             if project.company is None:
