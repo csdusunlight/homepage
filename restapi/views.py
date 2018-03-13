@@ -4,23 +4,22 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework import generics, permissions
 import django_filters
-from Paginations import MyPageNumberPagination
+from public.Paginations import MyPageNumberPagination
 from wafuli.models import Project, InvestLog, TransList, Notice, SubscribeShip,\
     Announcement, WithdrawLog, Mark, BookLog
-from permissions import CsrfExemptSessionAuthentication, IsAdmin
+from public.permissions import CsrfExemptSessionAuthentication, IsAdmin
 from restapi.serializers import UserSerializer, InvestLogSerializer,\
     TransListSerializer, NoticeSerializer, ProjectSerializer,\
     SubscribeShipSerializer, AnnouncementSerializer, DayStatisSerializer,\
     ApplyLogSerializer, WithdrawLogSerializer, MarkSerializer, BookLogSerializer
 from account.models import MyUser, ApplyLog
 from rest_framework.filters import SearchFilter,OrderingFilter
-from restapi.permissions import IsOwnerOrStaff, IsSelfOrStaff
+from public.permissions import IsOwner
 from restapi.Filters import InvestLogFilter, SubscribeShipFilter, UserFilter,\
     ApplyLogFilter, TranslistFilter, WithdrawLogFilter
 from django.db.models import Q
 from wafuli_admin.models import DayStatis
 from rest_framework.exceptions import ValidationError
-from account.tools import send_book_email
 from weixin.tasks import sendWeixinNotify
 import logging
 logger = logging.getLogger('wafuli')
@@ -29,43 +28,8 @@ logger = logging.getLogger('wafuli')
 class BaseViewMixin(object):
     authentication_classes = (CsrfExemptSessionAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
-class ProjectList(BaseViewMixin, generics.ListAPIView):
-    def get_queryset(self):
-        user = self.request.user
-        queryset = Project.objects.filter(state__in=['10','20'], )
-        if user.is_staff:
-            return queryset
-        else:
-            return queryset.filter(Q(is_official=True) | Q(user__id=user.id))
-        
-    serializer_class = ProjectSerializer
-    filter_backends = (SearchFilter, django_filters.rest_framework.DjangoFilterBackend, OrderingFilter)
-    filter_fields = ['state','type','is_multisub_allowed','is_official','category']
-    ordering_fields = ('state','pub_date','pinyin')
-    search_fields = ('title', 'introduction')
-    pagination_class = MyPageNumberPagination
-    def perform_create(self, serializer):
-        obj = serializer.save(is_official=False, category='self', user=self.request.user, state='10')
-        SubscribeShip.objects.create(project=obj, user=self.request.user)
-
-class ProjectDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
-    queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
-#     permission_classes = (IsOwnerOrStaff,)
     
-class UserList(BaseViewMixin, generics.ListAPIView):
-    queryset = MyUser.objects.all()
-    permission_classes = (IsAdmin,)
-    serializer_class = UserSerializer
-    filter_backends = (django_filters.rest_framework.DjangoFilterBackend, )
-    filter_class = UserFilter
-#     filter_fields = ['state',]
-    pagination_class = MyPageNumberPagination
 
-class UserDetail(BaseViewMixin,generics.RetrieveUpdateDestroyAPIView):
-    queryset = MyUser.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (IsSelfOrStaff,)
     
 class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
 #     def get_queryset(self):
@@ -95,26 +59,10 @@ class InvestlogList(BaseViewMixin, generics.ListCreateAPIView):
                 raise ValidationError({'detail':u"投资手机号重复"})
         serializer.save(is_official=is_official, category=category, audit_state='1', user=self.request.user)
 
-class InvestlogDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
-    queryset = InvestLog.objects.all()
-    permission_classes = (IsOwnerOrStaff,)
-    serializer_class = InvestLogSerializer
-    def perform_update(self, serializer):
-        project = serializer.validated_data['project']
-        id = serializer.validated_data['id']
-        invest_mobile = serializer.validated_data['invest_mobile']
-        if not project.is_multisub_allowed:
-            if project.company is None:
-                queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project=project)
-            else:
-                queryset=InvestLog.objects.filter(invest_mobile=invest_mobile, project__company_id=project.company_id)
-            if queryset.exclude(audit_state='2').exclude(id=id).exists():    
-                raise ValidationError({'detail':u"投资手机号重复"})
-        serializer.save()
     
 class TranslistList(BaseViewMixin, generics.ListAPIView):
     queryset = TransList.objects.all()
-    permission_classes = (IsOwnerOrStaff,)
+    permission_classes = (IsOwner,)
     serializer_class = TransListSerializer
     pagination_class = MyPageNumberPagination
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend, )
@@ -134,7 +82,7 @@ class NoticeList(BaseViewMixin, generics.ListAPIView):
 class NoticeDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializer
-    permission_classes = (IsOwnerOrStaff,)
+    permission_classes = (IsOwner,)
     
 class SubscribeShipList(BaseViewMixin, generics.ListAPIView):
     queryset = SubscribeShip.objects.all()
@@ -150,7 +98,7 @@ class SubscribeShipList(BaseViewMixin, generics.ListAPIView):
 class SubscribeShipDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = SubscribeShip.objects.all()
     serializer_class = SubscribeShipSerializer
-    permission_classes = (IsOwnerOrStaff,)
+    permission_classes = (IsOwner,)
     
 class AnnouncementList(BaseViewMixin, generics.ListAPIView):
     queryset = Announcement.objects.all()
@@ -158,26 +106,6 @@ class AnnouncementList(BaseViewMixin, generics.ListAPIView):
     pagination_class = MyPageNumberPagination
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend, OrderingFilter)
     ordering_fields = ('state', 'priority')
-    
-class AnnouncementDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
-    queryset = Announcement.objects.all()
-    serializer_class = AnnouncementSerializer
-    permission_classes = (IsAdmin,)
-    
-class DayStatisList(BaseViewMixin, generics.ListAPIView):
-    queryset = DayStatis.objects.all()
-    permission_classes = (IsAdmin,)
-    serializer_class = DayStatisSerializer
-    pagination_class = MyPageNumberPagination
-    
-class ApplyLogList(BaseViewMixin, generics.ListAPIView):
-    queryset = ApplyLog.objects.all()
-    permission_classes = (IsAdmin,)
-    serializer_class = ApplyLogSerializer
-    filter_backends = (django_filters.rest_framework.DjangoFilterBackend, )
-    filter_class = ApplyLogFilter
-    pagination_class = MyPageNumberPagination
-    
     
 class WithdrawLogList(BaseViewMixin, generics.ListAPIView):
     def get_queryset(self):

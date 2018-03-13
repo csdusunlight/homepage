@@ -23,7 +23,7 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
     def enforce_csrf(self, request):
         return  # To not perform the csrf check previously happening
     
-class IsOwnerOrStaff(permissions.BasePermission):
+class IsOwner(permissions.BasePermission):
     """
     Object-level permission to only allow owners of an object to edit it.
     Assumes the model instance has an `owner` attribute.
@@ -32,8 +32,8 @@ class IsOwnerOrStaff(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if not request.user.is_authenticated():
             return False
-        return request.user.is_staff or obj.user == request.user 
-class IsSelfOrStaff(permissions.BasePermission):
+        return obj.user == request.user
+class IsSelf(permissions.BasePermission):
     """
     Object-level permission to only allow owners of an object to edit it.
     Assumes the model instance has an `owner` attribute.
@@ -42,4 +42,34 @@ class IsSelfOrStaff(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if not request.user.is_authenticated():
             return False
-        return request.user.is_staff or obj == request.user
+        return obj == request.user
+class IsWxOwner(permissions.BasePermission):
+    """
+    Object-level permission to only allow owners of an object to edit it.
+    Assumes the model instance has an `owner` attribute.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        if request.wxuser:
+            return obj.wxuser == request.wxuser
+        else:
+            return False
+class IsWXSelf(permissions.BasePermission):
+    """
+    Object-level permission to only allow owners of an object to edit it.
+    Assumes the model instance has an `owner` attribute.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        return obj == request.wxuser
+    
+class IsWXAuthenticated(permissions.BasePermission):
+    """
+    Allows access only to authenticated users.
+    """
+
+    def has_permission(self, request, view):
+        if request.wxuser:
+            return True
+        else:
+            return False

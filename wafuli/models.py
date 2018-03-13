@@ -10,6 +10,8 @@ import datetime
 from django.core.urlresolvers import reverse
 from public.pinyin import PinYin
 from docs.models import Document
+from xiaochengxu.models import WXUser
+from dragon import settings
 def get_today():
     return datetime.date.today()
 AUDIT_STATE = (
@@ -142,7 +144,7 @@ class Project(models.Model):
         
         """
         if self.company and self.company.logo:
-            return self.company.logo.url
+            return 'http://' + settings.FULIUNION_DOMAIN + self.company.logo.url
         elif self.pic and hasattr(self.pic, 'url'):
             return self.pic.url
         else:
@@ -192,6 +194,7 @@ SUB_WAY = (
 )
 class InvestLog(models.Model):
     user = models.ForeignKey(MyUser, related_name="investlog_submit")
+    wxuser = models.ForeignKey(WXUser, related_name="investlog_of", blank=True, null=True, on_delete=models.SET_NULL)
     project = models.ForeignKey(Project, related_name="investlogs")
     submit_type = models.CharField(max_length=10, choices=SUB_TYPE, verbose_name=u"首投/复投")
     submit_way = models.CharField(max_length=10, choices=SUB_WAY, verbose_name=u"提交入口")
