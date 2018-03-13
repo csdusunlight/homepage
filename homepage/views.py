@@ -147,6 +147,7 @@ def submitOrder(request):
         investlog.invest_image = invest_image
         investlog.save(update_fields=['invest_image',])
     result['code'] = 0
+    result['investlog_id'] = investlog.id
     return JsonResponse(result)
 
 @login_required
