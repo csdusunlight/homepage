@@ -18,6 +18,7 @@ from xiaochengxu.serializers import InvestLogSerializerForXCX, WXUserSerializer
 import logging
 from wafuli_admin.models import Dict
 from collections import OrderedDict
+from wafuli.tools import saveImgAndGenerateUrl
 logger = logging.getLogger('wafuli')
 
 # Create your views here.
@@ -61,20 +62,37 @@ def login(request):
     # 这两个参数需要js获取
 #     user_info = crypt.decrypt(encrypted_data, iv)
 
-# def update_userinfo(request):
-#     user = request.wxuser
-#     userinfo = json.loads(request.body)
-# #     fields = ['nickName', 'avatarUrl', 'city', 'country', 'gender', 'province','language']
-# #     update_dict = dict((k,v) for k, v in userinfo.items() if k in fields)
-#     user.nickName = userinfo.get('nickName','')
+def update_userinfo(request):
+    user = request.wxuser
+    userinfo = json.loads(request.body)
+#     fields = ['nickName', 'avatarUrl', 'city', 'country', 'gender', 'province','language']
+#     update_dict = dict((k,v) for k, v in userinfo.items() if k in fields)
+#     nickName = userinfo.get('nickName','')
+#     if nickName:
+#         user.nickName = nickName
 #     user.avatarUrl = userinfo.get('avatarUrl','')
+#     if nickName:
+#         user.nickName = nickName
 #     user.city = userinfo.get('city','')
+#     if nickName:
+#         user.nickName = nickName
 #     user.country = userinfo.get('country','')
+#     if nickName:
+#         user.nickName = nickName
 #     user.gender = userinfo.get('gender','')
+#     if nickName:
+#         user.nickName = nickName
 #     user.province = userinfo.get('province','')
+#     if nickName:
+#         user.nickName = nickName
 #     user.language = userinfo.get('language','')
-#     user.save()
-#     return JsonResponse({})
+#     if nickName:
+#         user.nickName = nickName
+    for k, v in userinfo.items():
+        if v and hasattr(user, k):
+            setattr(user, k, v)
+    user.save()
+    return JsonResponse({'code':0})
 
 def bind_userinfo(request):
     user = request.wxuser
@@ -257,3 +275,29 @@ def get_project_list(request):
     if group_dic:
         projectNameList.append(group_dic)
     return JsonResponse(projectNameList, safe=False)
+
+
+@csrf_exempt
+def submit_screenshot(request):
+    imgurl_list = []
+    result = {}
+    id = request.POST.get('id')
+    investlog = InvestLog.objects.get(id=id)
+    invest_image = investlog.invest_image + ';'
+    if len(request.FILES)>6:
+        result = {'code':-2, 'msg':u"上传图片数量不能超过3张"}
+        return JsonResponse(result)
+    for key in request.FILES:
+        block = request.FILES[key]
+        if block.size > 100*1024:
+            result = {'code':-1, 'msg':u"每张图片大小不能超过100k，请重新上传"}
+            return JsonResponse(result)
+    for key in request.FILES:
+        block = request.FILES[key]
+        imgurl = saveImgAndGenerateUrl(key, block, 'screenshot')
+        imgurl_list.append(imgurl)
+    invest_image += ';'.join(imgurl_list)
+    investlog.invest_image = invest_image
+    investlog.save(update_fields=['invest_image',])
+    result['code'] = 0
+    return JsonResponse(result)
