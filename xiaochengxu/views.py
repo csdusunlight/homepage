@@ -53,7 +53,8 @@ def login(request):
 #         user.set_password('123456')
 #         user.save(update_fields=['password'])
     token = jwt_login(user, request)
-    ret = {'token':token,'code':0}
+    ret = {'token':token,'code':0, 'zhifubao':user.zhifubao, 'mobile':user.mobile,
+           'qq_number':user.qq_number, 'qq_name':user.qq_name}
     return JsonResponse(ret)
 #     crypt = WXBizDataCrypt(app_id, session_key)
     
@@ -65,29 +66,14 @@ def login(request):
 def update_userinfo(request):
     user = request.wxuser
     userinfo = json.loads(request.body)
-#     fields = ['nickName', 'avatarUrl', 'city', 'country', 'gender', 'province','language']
-#     update_dict = dict((k,v) for k, v in userinfo.items() if k in fields)
-#     nickName = userinfo.get('nickName','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.avatarUrl = userinfo.get('avatarUrl','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.city = userinfo.get('city','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.country = userinfo.get('country','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.gender = userinfo.get('gender','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.province = userinfo.get('province','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.language = userinfo.get('language','')
-#     if nickName:
-#         user.nickName = nickName
+    for k, v in userinfo.items():
+        if v and hasattr(user, k):
+            setattr(user, k, v)
+    user.save()
+    return JsonResponse({'code':0})
+def get_userinfo(request):
+    user = request.wxuser
+    userinfo = json.loads(request.body)
     for k, v in userinfo.items():
         if v and hasattr(user, k):
             setattr(user, k, v)
