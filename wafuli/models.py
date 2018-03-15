@@ -88,9 +88,11 @@ class Project(models.Model):
     type = models.CharField(u"项目类别", max_length=1, choices=Project_TYPE, blank=True)
     is_multisub_allowed = models.BooleanField(u"是否允许同一手机号多次提交", default=False)
     introduction = models.TextField(u"项目简介",max_length=100,blank=True)
-    price01 = models.CharField(u"一级代理价格",max_length=25, blank=True)
-    price02 = models.CharField(u"二级代理价格",max_length=25, blank=True)
-    price03 = models.CharField(u"三级代理价格",max_length=25, blank=True)
+    price01 = models.CharField(u"一级代理价格",max_length=25)
+    price02 = models.CharField(u"二级代理价格",max_length=25)
+    price03 = models.CharField(u"三级代理价格",max_length=25)
+    price04 = models.CharField(u"四级代理价格",max_length=25)
+    price05 = models.CharField(u"五级代理价格",max_length=25)
     cprice = models.CharField(u"客户指导价",max_length=40)
     shortprice = models.CharField(u"客户指导价简洁展示",max_length=20, help_text=u"格式必须为投资xxxx返xx，如投资1000返10")
     term = models.CharField(u"标期长度", max_length=20)
@@ -105,7 +107,7 @@ class Project(models.Model):
     pinyin = models.CharField(u"拼音全拼", max_length=100)
     szm = models.CharField(u"首字母", max_length=20)
     remark = models.CharField(u"项目备注", max_length=50, blank=True)
-    broker_rate = models.DecimalField(u"佣金比例，百分数", max_digits=10, decimal_places=2, default=0)
+    broker_rate = models.SmallIntegerField(u"佣金比例，百分数", default=0)
     def save(self, force_insert=False, force_update=False, using=None, 
              update_fields=None):
         pyin = PinYin()
