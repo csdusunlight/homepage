@@ -234,6 +234,8 @@ def autoreply(request):
 
 def get_project_list(request):
     user = request.user
+    if not user.is_authenticated():
+        return JsonResponse([], safe=False)
     subs = SubscribeShip.objects.filter(user=user, is_on=True).select_related('project').order_by('project__szm')
     projectNameList = []
     group_key = ''
