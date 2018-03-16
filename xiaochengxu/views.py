@@ -53,7 +53,8 @@ def login(request):
 #         user.set_password('123456')
 #         user.save(update_fields=['password'])
     token = jwt_login(user, request)
-    ret = {'token':token,'code':0}
+    ret = {'token':token,'code':0, 'zhifubao':user.zhifubao, 'mobile':user.mobile,
+           'qq_number':user.qq_number, 'qq_name':user.qq_name}
     return JsonResponse(ret)
 #     crypt = WXBizDataCrypt(app_id, session_key)
     
@@ -65,29 +66,14 @@ def login(request):
 def update_userinfo(request):
     user = request.wxuser
     userinfo = json.loads(request.body)
-#     fields = ['nickName', 'avatarUrl', 'city', 'country', 'gender', 'province','language']
-#     update_dict = dict((k,v) for k, v in userinfo.items() if k in fields)
-#     nickName = userinfo.get('nickName','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.avatarUrl = userinfo.get('avatarUrl','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.city = userinfo.get('city','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.country = userinfo.get('country','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.gender = userinfo.get('gender','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.province = userinfo.get('province','')
-#     if nickName:
-#         user.nickName = nickName
-#     user.language = userinfo.get('language','')
-#     if nickName:
-#         user.nickName = nickName
+    for k, v in userinfo.items():
+        if v and hasattr(user, k):
+            setattr(user, k, v)
+    user.save()
+    return JsonResponse({'code':0})
+def get_userinfo(request):
+    user = request.wxuser
+    userinfo = json.loads(request.body)
     for k, v in userinfo.items():
         if v and hasattr(user, k):
             setattr(user, k, v)
@@ -187,8 +173,10 @@ def handle_message(request):
             raise Http404
     else:
         jsonres = autoreply(request)
+        touser = jsonres['touser']
+        access_token = WXUser.objects.get(openid=touser).app.access_token
 #         logger.info('openid:'+str(jsonres))
-        access_token = Dict.objects.get(key='access_token_xcx').value
+#         access_token = Dict.objects.get(key='access_token_xcx').value
         url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='+access_token
 #         headers = {"Content-Type": "application/json"} 
         ret = requests.post(url, data=json.dumps(jsonres,ensure_ascii=False).encode('utf-8'))
@@ -248,6 +236,8 @@ def autoreply(request):
 
 def get_project_list(request):
     user = request.user
+    if not user.is_authenticated():
+        return JsonResponse([], safe=False)
     subs = SubscribeShip.objects.filter(user=user, is_on=True).select_related('project').order_by('project__szm')
     projectNameList = []
     group_key = ''

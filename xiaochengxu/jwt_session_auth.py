@@ -192,12 +192,12 @@ class JwtAuthMiddleware(object):
             print wxuser
             request.wxuser = wxuser
             request.jwt_session = self.get_jwt_session(wxuser)
-        if request.wxuser:
-            try:
-                user = App.objects.get(app_id=app_id).user
-            except App.DoesNotExist:
-                user = MyUser.objects.get(mobile='18500581509')
+#         if request.wxuser:
+        try:
+            user = App.objects.get(app_id=app_id).user
             request.user = user
+        except App.DoesNotExist:
+            pass
     def process_response(self, request, response):
         if hasattr(request, 'jwt_session'):
             request.jwt_session.save()
