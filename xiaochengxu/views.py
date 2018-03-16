@@ -281,7 +281,7 @@ def submit_screenshot(request):
     for key in request.FILES:
         block = request.FILES[key]
         print block.size
-        if block.size > 200*1024:
+        if block.size > 300*1024:
             result = {'code':-1, 'msg':u"每张图片大小不能超过100k，请重新上传"}
             return JsonResponse(result)
     print request.FILES
