@@ -173,8 +173,10 @@ def handle_message(request):
             raise Http404
     else:
         jsonres = autoreply(request)
+        touser = jsonres['touser']
+        access_token = WXUser.objects.get(openid=touser).app.access_token
 #         logger.info('openid:'+str(jsonres))
-        access_token = Dict.objects.get(key='access_token_xcx').value
+#         access_token = Dict.objects.get(key='access_token_xcx').value
         url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='+access_token
 #         headers = {"Content-Type": "application/json"} 
         ret = requests.post(url, data=json.dumps(jsonres,ensure_ascii=False).encode('utf-8'))
