@@ -5,13 +5,12 @@ Created on 20170919
 '''
 
 import logging
-from django.contrib.auth.models import AnonymousUser
 logger=logging.getLogger('wafuli')
 from django.http.response import Http404
 from account.models import MyUser
 class SubdomainMiddleware(object):
     def process_request(self, request):
-        if request.user is AnonymousUser or request.user is None:
+        if request.user is None or request.user.is_anonymous():
             domain_parts = request.get_host().split('.')
             if len(domain_parts) == 3:
                 domain_name = domain_parts[0]
