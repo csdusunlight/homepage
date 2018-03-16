@@ -221,7 +221,7 @@ a,span,p {
 .logs-item {
     width: 50%;
     display: inline-block;
-    padding-left: 80px;
+    font-size: 14px;
 }
 .link-qq {
     box-sizing: border-box;
