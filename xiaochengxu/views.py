@@ -279,6 +279,7 @@ def get_project_list(request):
 
 @csrf_exempt
 def submit_screenshot(request):
+    print 'code1'  #jzy
     imgurl_list = []
     result = {}
     id = request.POST.get('id')
@@ -289,15 +290,21 @@ def submit_screenshot(request):
         return JsonResponse(result)
     for key in request.FILES:
         block = request.FILES[key]
-        if block.size > 100*1024:
+        print block.size
+        if block.size > 200*1024:
             result = {'code':-1, 'msg':u"每张图片大小不能超过100k，请重新上传"}
             return JsonResponse(result)
+    print request.FILES
     for key in request.FILES:
         block = request.FILES[key]
+#         if key.find('.') == -1 and block.content_type.startswith('image/'):
+#             key += '.' + block.content_type.split('/')[1]
         imgurl = saveImgAndGenerateUrl(key, block, 'screenshot')
         imgurl_list.append(imgurl)
     invest_image += ';'.join(imgurl_list)
     investlog.invest_image = invest_image
     investlog.save(update_fields=['invest_image',])
     result['code'] = 0
+    print result['code']  #jzy
+    print 'code'  #jzy
     return JsonResponse(result)
