@@ -8,7 +8,6 @@ import datetime
 from django.utils import timezone
 from decimal import Decimal
 from account.models import MyUser
-
 APPSTATE = (
     ('0', u"正常"),
     ('1', u"欠费")
@@ -20,7 +19,7 @@ class App(models.Model):
     app_name = models.CharField(max_length=32)
     access_token = models.CharField(max_length=512, blank=True)
     cs_weixin = models.CharField(u"客服微信号", max_length=32)
-    state = models.CharField(u"小程序状态", choices=APPSTATE, default='0')
+    state = models.CharField(u"小程序状态", choices=APPSTATE, default='0', max_length=2)
     expire_stamp = models.IntegerField(blank=True)
     def __unicode__(self):
         return '%s:%s' % (self.app_name, self.app_id)
@@ -55,16 +54,3 @@ class WXUserlogin(models.Model):
         ordering = ["-time"]
     def __unicode__(self):
         return self.user.mobile
-    
-class WXUserMessage(models.Model):
-    user = models.ForeignKey(WXUser, related_name="user_msgs")
-    title = models.CharField(u"标题", max_length=30, default=u"系统消息")
-    time = models.DateTimeField(u"日期", default=timezone.now)
-    is_read = models.BooleanField(u"是否已读", default=False)
-    content = models.TextField(u"消息内容")
-    def __unicode__(self):
-        return self.title
-    class Meta:
-        verbose_name = u"消息"
-        verbose_name_plural = u"消息"
-        ordering = ['-time']
