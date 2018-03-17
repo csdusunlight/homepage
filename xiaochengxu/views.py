@@ -222,15 +222,16 @@ def autoreply(request):
         logger.error(e)
         content = u"客服繁忙，请稍后再试"
     if content=='':
-        app_id = wxuser.app.app_id
+        app = wxuser.app
+        app_id = app.app_id
         response = {
             "touser":openid,
             "msgtype":"link",
             "link": {
-                "title": "Happy Day",
-                "description": "Is Really A Happy Day",
+                "title": "欢迎光临" + app.app_name,
+                "description": "暂时没有您要查找的平台，请点击本条消息加微信，随时找我聊天",
                 "url": 'http://' + FANSHU_DOMAIN + reverse('xcx:get_contact_brcode',kwargs={'app_id':app_id}),
-                "thumb_url": 'http://' + FANSHU_DOMAIN + reverse('xcx:get_contact_brcode',kwargs={'app_id':app_id})
+                "thumb_url": ('http://' + FANSHU_DOMAIN + app.contact_brcode.url) if app.contact_brcode else ''
             }
         }
 #     content = content.encode('utf-8')
