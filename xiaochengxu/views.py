@@ -216,8 +216,9 @@ def autoreply(request):
                     project = Project.objects.get(id=project_id)
                     content = project.title + u'：' + project.strategy
                 else:
-                    weixin = wxuser.app.cs_weixin
-                    content = u"很高兴为您服务，查询攻略请回复平台名称，其他问题请询问人工客服，客服微信号：" + weixin
+#                     weixin = wxuser.app.cs_weixin
+                    content = ''
+#                     content = u"很高兴为您服务，查询攻略请回复平台名称，其他问题请询问人工客服，客服微信号：" + weixin
     except Exception, e:
         logger.error(e)
         content = u"客服繁忙，请稍后再试"
@@ -228,8 +229,8 @@ def autoreply(request):
             "touser":openid,
             "msgtype":"link",
             "link": {
-                "title": "欢迎光临" + app.app_name,
-                "description": "暂时没有您要查找的平台，请点击本条消息加微信，随时找我聊天",
+                "title": u"欢迎光临" + app.app_name,
+                "description": u"暂时没有您要查找的平台，请点击本条消息加微信，随时找我聊天",
                 "url": 'http://' + FANSHU_DOMAIN + reverse('xcx:get_contact_brcode',kwargs={'app_id':app_id}),
                 "thumb_url": ('http://' + FANSHU_DOMAIN + app.contact_brcode.url) if app.contact_brcode else ''
             }
