@@ -1,24 +1,22 @@
 #coding:utf-8
-from django.shortcuts import render
-from .models import App, MyUser
+from .models import App
 from django.http.response import JsonResponse
 from .jwt_session_auth import jwt_login
 from weixin_python.client import WXAPPAPI
 from django.views.decorators.csrf import csrf_exempt
 import json
 from xiaochengxu.models import WXUser
-from rest_framework import generics, permissions
+from rest_framework import generics
 from public.permissions import CsrfExemptSessionAuthentication, IsWxOwner, IsWXSelf,\
     IsWXAuthenticated
 from wafuli.models import InvestLog, SubscribeShip, Project
-import django_filters
 from public.Paginations import MyPageNumberPagination
 from rest_framework.exceptions import ValidationError
 from xiaochengxu.serializers import InvestLogSerializerForXCX, WXUserSerializer
 import logging
-from wafuli_admin.models import Dict
-from collections import OrderedDict
 from wafuli.tools import saveImgAndGenerateUrl
+from django.db.models import Q
+from django.shortcuts import render
 logger = logging.getLogger('wafuli')
 
 # Create your views here.
@@ -198,9 +196,12 @@ def autoreply(request):
         CreateTime = xmlData.find('CreateTime').text
         openid = FromUserName
         content = ''
+        WXUser.objects.get(openid=openid).app
         if msg_type == 'text':
             message = xmlData.find('Content').text
-            prolist = list(Project.objects.filter(is_official=True, title__contains=message))
+            user = WXUser.objects.get(openid=openid).user
+            prolist = list(Project.objects.filter(Q(is_official=True)|Q(user=user)).filter(state='10', 
+                            title__contains=message))
             for pro in prolist:
                 content += '\n' if content else ''
                 content += pro.title + u'：' + pro.strategy
@@ -219,16 +220,26 @@ def autoreply(request):
         logger.error(e)
         content = u"客服繁忙，请稍后再试"
     if content=='':
-        content = u'没有找到'
-#     content = content.encode('utf-8')
-    response = {
-        "touser":openid,
-        "msgtype":"text",
-        "text":
-        {
-             "content":content,
+        response = {
+            "touser":openid,
+            "msgtype":"link",
+            "link": {
+                "title": "Happy Day",
+                "description": "Is Really A Happy Day",
+                "url": "http://www.fuliunion.com",
+                "thumb_url": "http://www.fuliunion.com/static/images/qudao-logo.png"
+            }
         }
-    }
+#     content = content.encode('utf-8')
+    else:
+        response = {
+            "touser":openid,
+            "msgtype":"text",
+            "text":
+            {
+                "content":content,
+            }
+        }
 #     response = json.dumps(response)
 #     response=re.sub('test',u"人工",response)
 # #     response = response.encode('utf-8')
@@ -298,3 +309,8 @@ def submit_screenshot(request):
     print result['code']  #jzy
     print 'code'  #jzy
     return JsonResponse(result)
+
+def get_contact_brcode(request, app_id):
+    brcode = App.objects.get(app_id=app_id).contact_brcode.url
+    return render(request, 'contact.html', {'brcode':brcode})
+    
