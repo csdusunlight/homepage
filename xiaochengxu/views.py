@@ -311,6 +311,9 @@ def submit_screenshot(request):
     return JsonResponse(result)
 
 def get_contact_brcode(request, app_id):
-    brcode = App.objects.get(app_id=app_id).contact_brcode.url
+    app = App.objects.get(app_id=app_id)
+    brcode = ''
+    if app.contact_brcode:
+        brcode = app.contact_brcode.url
     return render(request, 'contact.html', {'brcode':brcode})
     
