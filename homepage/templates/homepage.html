@@ -273,7 +273,7 @@
       '<div class="project__detail">'+
 //    '<img class="project__img" src="" alt="" />'+
       '<div data-pic="{project_picture}" data-imgtxt="{project_title}" class="project__img"></div>'+
-      '<p class="project__profit project__info">预计最高年化<br /><span data-intrest="{project_intrest}" class="intrest project__profit-num">{intrest}%</span></p>'+
+      '<p class="project__profit project__info">预计最高年化<br /><span data-intrest="{project_intrest}%" class="intrest project__profit-num">{intrest}%</span></p>'+
       '<p class="project__price project__info">返现价格<br /><span data-price="{project_shortprice}" class="price project__price-num">{shortprice}</span></p>'+
       '<p class="project__money project__info">投资区间<br /><span class="investrange">{project_investrange}</span></p>'+
       '<p class="project__term project__info">标期<br /><span class="investrange">{project_term}</span></p><div class="project-btn-box">'+
@@ -454,7 +454,7 @@
             }
         })
         $('.intrest').each(function() {
-            if ($(this).text() == "") {
+            if ($(this).text() == "%") {
                 $(this).text($(this).data('intrest'));
             }
         })
