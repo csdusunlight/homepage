@@ -152,3 +152,25 @@ class BookLogList(BaseViewMixin, generics.ListCreateAPIView):
 # #         send_mail(subject, content, u'hunanjinyezi@126.com', ['690501772@qq.com',], auth_user='lvchunhui7@126.com',
 # #                    auth_password='95123120290')
     
+class ProjectList(BaseViewMixin, generics.ListAPIView):
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Project.objects.filter(state__in=['10','20'], )
+        if user.is_staff:
+            return queryset
+        else:
+            return queryset.filter(Q(is_official=True) | Q(user__id=user.id))
+        
+    serializer_class = ProjectSerializer
+    filter_backends = (SearchFilter, django_filters.rest_framework.DjangoFilterBackend, OrderingFilter)
+    filter_fields = ['state','type','is_multisub_allowed','is_official']
+    ordering_fields = ('state','pub_date','pinyin')
+    search_fields = ('title', 'introduction')
+    pagination_class = MyPageNumberPagination
+    def perform_create(self, serializer):
+        obj = serializer.save(is_official=False, user=self.request.user, state='10')
+        SubscribeShip.objects.create(project=obj, user=self.request.user)
+
+class ProjectDetail(BaseViewMixin, generics.RetrieveUpdateDestroyAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
