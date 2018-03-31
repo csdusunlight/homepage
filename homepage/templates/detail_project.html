@@ -601,7 +601,7 @@
         formdata.append('remark', remark);
 //      formdata.append('csrfmiddlewaretoken', csrfmiddlewaretoken);
         var submit_url = "{% url 'submitOrder' %}";
-        xhr.open("post", submit_url);
+        xhr.open("post", submit_url, false);
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 //      maskIn();
         xhr.onreadystatechange = function() {
@@ -726,6 +726,7 @@
             url: '/restapi/books/',
             dataType: "json",
             type: 'post',
+            async: false,
             data: {
                 'project': project_id,
                 'user': {{user.id}},

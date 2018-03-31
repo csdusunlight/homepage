@@ -815,7 +815,7 @@
             formdata.append('remark', remark);
             
             var submit_url = "{% url 'submitOrder' %}";
-            xhr.open("post", submit_url);
+            xhr.open("post", submit_url, false);
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
@@ -890,6 +890,7 @@
                     },
                     dataType:'json',//服务器返回json格式数据
                     type:'post',//HTTP请求类型
+                    async: false,
                     timeout:10000,//超时时间设置为10秒；
                     success:function(data){
     
