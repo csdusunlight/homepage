@@ -17,6 +17,8 @@ import logging
 from wafuli.tools import saveImgAndGenerateUrl
 from django.db.models import Q
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
+from dragon.settings import FANSHU_DOMAIN
 logger = logging.getLogger('wafuli')
 
 # Create your views here.
@@ -196,10 +198,10 @@ def autoreply(request):
         CreateTime = xmlData.find('CreateTime').text
         openid = FromUserName
         content = ''
-        WXUser.objects.get(openid=openid).app
+        wxuser = WXUser.objects.get(openid=openid)
         if msg_type == 'text':
             message = xmlData.find('Content').text
-            user = WXUser.objects.get(openid=openid).user
+            user = wxuser.user
             prolist = list(Project.objects.filter(Q(is_official=True)|Q(user=user)).filter(state='10', 
                             title__contains=message))
             for pro in prolist:
@@ -214,20 +216,23 @@ def autoreply(request):
                     project = Project.objects.get(id=project_id)
                     content = project.title + u'：' + project.strategy
                 else:
-                    weixin = WXUser.objects.get(openid=openid).app.cs_weixin
-                    content = u"很高兴为您服务，查询攻略请回复平台名称，其他问题请询问人工客服，客服微信号：" + weixin
+#                     weixin = wxuser.app.cs_weixin
+                    content = ''
+#                     content = u"很高兴为您服务，查询攻略请回复平台名称，其他问题请询问人工客服，客服微信号：" + weixin
     except Exception, e:
         logger.error(e)
         content = u"客服繁忙，请稍后再试"
     if content=='':
+        app = wxuser.app
+        app_id = app.app_id
         response = {
             "touser":openid,
             "msgtype":"link",
             "link": {
-                "title": "Happy Day",
-                "description": "Is Really A Happy Day",
-                "url": "http://www.fuliunion.com",
-                "thumb_url": "http://www.fuliunion.com/static/images/qudao-logo.png"
+                "title": u"欢迎光临" + app.app_name,
+                "description": u"暂时没有您要查找的平台，请点击本条消息加微信，随时找我聊天",
+                "url": 'http://' + FANSHU_DOMAIN + reverse('xcx:get_contact_brcode',kwargs={'app_id':app_id}),
+                "thumb_url": ('http://' + FANSHU_DOMAIN + app.contact_brcode.url) if app.contact_brcode else ''
             }
         }
 #     content = content.encode('utf-8')
