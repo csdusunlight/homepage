@@ -54,7 +54,7 @@ def login(request):
 #         user.save(update_fields=['password'])
     token = jwt_login(user, request)
     ret = {'token':token,'code':0, 'zhifubao':user.zhifubao, 'mobile':user.mobile,
-           'qq_number':user.qq_number, 'qq_name':user.qq_name}
+           'qq_number':user.qq_number, 'qq_name':user.qq_name, 'is_on_audite':app.is_on_audite}
     return JsonResponse(ret)
 #     crypt = WXBizDataCrypt(app_id, session_key)
     
@@ -300,7 +300,6 @@ def submit_screenshot(request):
         if block.size > 300*1024:
             result = {'code':-1, 'msg':u"每张图片大小不能超过100k，请重新上传"}
             return JsonResponse(result)
-    print request.FILES
     for key in request.FILES:
         block = request.FILES[key]
 #         if key.find('.') == -1 and block.content_type.startswith('image/'):
