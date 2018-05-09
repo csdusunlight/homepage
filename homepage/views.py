@@ -54,7 +54,10 @@ def index(request):
 @login_required
 def detail_project(request, id):
     project = Project.objects.get(id=id)
-    sub = SubscribeShip.objects.get(project=id,user=request.user)
+    try:
+        sub = SubscribeShip.objects.get(project=id,user=request.user)
+    except SubscribeShip.DoesNotExist:
+        raise Http404
     intrest = sub.intrest if sub.intrest else project.intrest
     price = sub.price if sub.price else project.cprice
     is_fanshu = 0
@@ -66,6 +69,8 @@ def detail_project(request, id):
             spl = strategy.split('/')
             pk = spl[-1] or spl[-2]
             doc = Document.objects.get(id=pk)
+            if not doc.in_on:
+                doc.content = u"文档已关闭"
             kwargs.update(doc=doc)
             cache_incr_or_set('doc_%s' % doc.id)
         except:
