@@ -1,5 +1,5 @@
 #coding:utf-8
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from wafuli.models import SubscribeShip, Notice, Project, InvestLog
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -54,10 +54,7 @@ def index(request):
 @login_required
 def detail_project(request, id):
     project = Project.objects.get(id=id)
-    try:
-        sub = SubscribeShip.objects.get(project=id,user=request.user)
-    except SubscribeShip.DoesNotExist:
-        raise Http404
+    sub = get_object_or_404(SubscribeShip, project=id,user=request.user)
     intrest = sub.intrest if sub.intrest else project.intrest
     price = sub.price if sub.price else project.cprice
     is_fanshu = 0
