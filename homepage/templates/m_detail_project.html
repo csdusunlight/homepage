@@ -153,7 +153,6 @@
                     </div>
                     <div id="item2" style="overflow-y: scroll;" class="mui-slider-item mui-control-content" value="2">
                         <form>
-                            {% csrf_token %}
                             <div class="input-box">
                               <label class="input-title">QQ&nbsp;&nbsp;</label>
                               <input type="text"class="form-test2" data-form="required isQQ" placeholder="qq号码，以便于及时联系，限15字符" id="qq_yuyue" maxlength="15">
@@ -187,7 +186,6 @@
                     </div>       
                     <div id="item3" style="overflow-y: scroll;" class="mui-slider-item mui-control-content" value="2">
                         <form class="f">
-                            {% csrf_token %}
                             <div class="limit-input input-box" data-limit="5">
                                 <label class="input-title">提交手机号&nbsp;&nbsp;</label>
                                 <input id="telnum" class="form-test" data-form="required isPhone" type="text" maxlength=11 placeholder="平台注册手机号，限11字符">
@@ -876,7 +874,6 @@
                     mui.alert("必填写项不能为空");
                     return;
                 }
-                var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
                 mui.ajax('/restapi/books/',{
                     data: {
                         'project': project_id,
