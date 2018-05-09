@@ -66,7 +66,7 @@ def detail_project(request, id):
             spl = strategy.split('/')
             pk = spl[-1] or spl[-2]
             doc = Document.objects.get(id=pk)
-            if not doc.in_on:
+            if not doc.is_on:
                 doc.content = u"文档已关闭"
             kwargs.update(doc=doc)
             cache_incr_or_set('doc_%s' % doc.id)
