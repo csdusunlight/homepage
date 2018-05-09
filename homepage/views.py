@@ -190,3 +190,10 @@ def look_up(request):
         return render(request, template, {})
     else:
         return redirect('hm_index')
+    
+# 404错误
+def page_not_found(request):
+    return render(request,'404.html')
+# # 500错误
+# def page_error(request):
+#     return render(request, '500.html', {})

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-
+handler404 = 'homepage.views.page_not_found'
 
 urlpatterns = [
 #    url(r'^', include('wafuli.urls',)),
