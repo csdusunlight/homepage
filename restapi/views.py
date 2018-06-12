@@ -11,12 +11,12 @@ from public.permissions import CsrfExemptSessionAuthentication, IsAdmin
 from restapi.serializers import UserSerializer, InvestLogSerializer,\
     TransListSerializer, NoticeSerializer, ProjectSerializer,\
     SubscribeShipSerializer, AnnouncementSerializer, DayStatisSerializer,\
-    ApplyLogSerializer, WithdrawLogSerializer, MarkSerializer, BookLogSerializer
-from account.models import MyUser, ApplyLog
+    MarkSerializer, BookLogSerializer
+from account.models import MyUser
 from rest_framework.filters import SearchFilter,OrderingFilter
 from public.permissions import IsOwner
 from restapi.Filters import InvestLogFilter, SubscribeShipFilter, UserFilter,\
-    ApplyLogFilter, TranslistFilter, WithdrawLogFilter
+    TranslistFilter, WithdrawLogFilter
 from django.db.models import Q
 from wafuli_admin.models import DayStatis
 from rest_framework.exceptions import ValidationError
@@ -107,17 +107,7 @@ class AnnouncementList(BaseViewMixin, generics.ListAPIView):
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend, OrderingFilter)
     ordering_fields = ('state', 'priority')
     
-class WithdrawLogList(BaseViewMixin, generics.ListAPIView):
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_staff:
-            return WithdrawLog.objects.all()
-        else:
-            return WithdrawLog.objects.filter(user=user)
-    serializer_class = WithdrawLogSerializer
-    filter_backends = (django_filters.rest_framework.DjangoFilterBackend, )
-    filter_class = WithdrawLogFilter
-    pagination_class = MyPageNumberPagination
+
 
 class MarkList(BaseViewMixin, generics.ListCreateAPIView):
     def get_queryset(self):

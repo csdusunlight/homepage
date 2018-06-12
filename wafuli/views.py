@@ -36,7 +36,6 @@ from wafuli.models import MAdvert_PC, Project, Company, InvestLog, SubscribeShip
 import logging
 from django.http.response import Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
-from account.models import ApplyLog
 logger = logging.getLogger('wafuli')
 def index(request):
     logger.error(request.user.username)
@@ -917,19 +916,6 @@ def display_screenshot(request):
         img_list.append({'name':name,'url':url})
     return render(request, 'screenshot.html', {'img_list':img_list})
 
-@login_required
-def display_qualification(request):
-    id = request.GET.get('id', None)
-    if not id:
-        raise Http404
-    log = ApplyLog.objects.get(id=id)
-    if not request.user.is_staff:
-        raise Http404
-    url_list = log.qualification.split(';')
-    img_list = []
-    for url in url_list:
-        name = url.split('/')[-1]
-        img_list.append({'name':name,'url':url})
-    return render(request, 'screenshot.html', {'img_list':img_list})
+
 
     

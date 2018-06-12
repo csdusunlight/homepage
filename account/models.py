@@ -58,6 +58,48 @@ USER_LEVEL = (
     ('04', u'四级代理'),
     ('05', u'五级代理'),
 )
+USER_ORIGIN = (
+    ('1', u'学生党'),
+    ('2', u'宝妈'),
+    ('3', u'羊毛党'),
+    ('4', u'兼职'),
+    ('5', u'个人站长'),
+    ('6', u'金融大Ｖ'),
+    ('7', u'理财师'),
+    ('8', u'理财推手'),
+
+)
+USER_EXP_YEAR = (
+    ('1', u'新手'),
+    ('2', u'1年之内'),
+    ('3', u'1-2年'),
+    ('4', u'3年以上'),
+)
+USER_CUSTOME_VOLUMN = (
+    ('1', u'50人以下'),
+    ('2', u'50到100人'),
+    ('3', u'100人到500人'),
+    ('4', u'500人'),
+)
+USER_FUNDS_VOLUMN = (
+    ('1', u'50万以下'),
+    ('2', u'50到100万'),
+    ('3', u'100到500万'),
+    ('4', u'500万'),
+)
+USER_INVEST_ORIENTATION = (
+    ('1', u'小额量大单'),
+    ('2', u'低息大额单'),
+    ('3', u'短期高返单'),
+    ('4', u'媒体单'),
+)
+IS_CHANNEL = (
+    ('0', u'非渠道用户'),
+    ('-1',u'审核中'),
+    ('1', u'渠道用户'),
+)
+
+
 class MyUser(AbstractBaseUser, PermissionsMixin):
 #     email = models.EmailField('email address', max_length=255)
     mobile = models.CharField('mobile number', max_length=11, unique=True,)
@@ -68,7 +110,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     type = models.CharField(u'用户类型', default='agent',max_length=10)
     level = models.CharField(u"用户等级", choices=USER_LEVEL, default='03', max_length=2)
     domain_name = models.CharField(u"个人主页域名", max_length=20, unique=True)
-    cs_qq = models.CharField(u"客服QQ号", max_length=20,)
+    cs_qq = models.CharField(u"客服QQ号", max_length=20, blank=True)
     color = models.CharField(u'个人主页色调', choices=COLORS, default='0', max_length=2)
     submit_bg = models.CharField(u'交单页面背景', default='0', max_length=2)
     picture = models.ImageField(upload_to='photos/user_headphoto', verbose_name=u"个人头像")
@@ -85,7 +127,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     admin_permissions = models.ManyToManyField('AdminPermission',
         verbose_name='admin permissions', blank=True,
         related_name="user_set", related_query_name="user")
-    is_autowith = models.BooleanField(u'是否自动提现', default=True)
+    is_autowith = models.BooleanField(u'是否自动提现', default=False)
     is_book_email_notice = models.BooleanField(u'是否预约单邮件通知', default=True)
     margin_account = models.DecimalField(u'保证金账户余额', default = Decimal(0), max_digits=10, decimal_places=2)
     inviter = models.ForeignKey('self', related_name = 'invitees',
@@ -93,8 +135,12 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     invite_code = models.CharField(u"邀请码", blank=True, max_length=10)
     invite_settle = models.DecimalField(u'上月员工推广结算金额', default = Decimal(0), max_digits=10, decimal_places=2)
     
-    objects = MyUserManager()
+    zhifubao = models.CharField(u"支付宝账号（邮箱或手机号）", blank=True, max_length=50)
+    zhifubao_real_name = models.CharField(u"支付宝实名", blank=True, max_length=20)
 
+    is_channel = models.CharField(u"是否渠道", choices=IS_CHANNEL, default='0', max_length=2)  #
+    num_message_sync = models.IntegerField(u"新消息数量",default='0')
+    objects = MyUserManager()
     USERNAME_FIELD = 'mobile'
     REQUIRED_FIELDS = ['username','qq_number']
     def get_fanshu_domain(self):
@@ -127,6 +173,8 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         return self.admin_permissions.filter(code=code).exists()
     def has_permission100(self):
         return self.has_admin_perms('100')
+    def has_permission200(self):
+        return self.has_admin_perms('200')
     def picture_url(self):
         """
         Returns the URL of the image associated with this Object.
@@ -228,4 +276,33 @@ class ApplyLog(models.Model):
     def __unicode__(self):
         return self.mobile
 
- 
+class ApplyLogForChannel(models.Model):
+    submit_time = models.DateTimeField(u'提交时间', default=timezone.now)
+    audit_time = models.DateTimeField(u'审核时间', null=True, blank=True)
+    admin_user = models.ForeignKey(MyUser, related_name="applylogforchannel", null=True)
+    user = models.ForeignKey(MyUser, related_name="applylog_custom")
+    audit_reason = models.CharField(u"审核原因", max_length=30)
+    audit_state = models.CharField(max_length=10, choices=AUDIT_STATE, verbose_name=u"审核状态")
+    user_origin = models.CharField(u"用户来源", choices=USER_ORIGIN, max_length=2)
+    user_exp_year = models.CharField(u"用户经验年限", choices=USER_EXP_YEAR, max_length=2)
+    user_custom_volumn = models.CharField(u"用户客户体量", choices=USER_CUSTOME_VOLUMN, max_length=2)
+    user_funds_volumn = models.CharField(u"用户资金体量", choices=USER_FUNDS_VOLUMN, max_length=2)
+    user_invest_orientation = models.CharField(u"用户投资去向", choices=USER_INVEST_ORIENTATION, max_length=2)
+
+    class Meta:
+        ordering = ["submit_time",]
+    def __unicode__(self):
+        return self.user.mobile
+
+class Message(models.Model):
+    user = models.ForeignKey(MyUser, related_name="user_msgs")
+    title = models.CharField(u"标题", max_length=30, default=u"系统消息")
+    time = models.DateTimeField(u"日期", default=timezone.now)
+    is_read = models.BooleanField(u"是否已读", default=False)
+    content = models.TextField(u"消息内容")
+    def __unicode__(self):
+        return self.title
+    class Meta:
+        verbose_name = u"消息"
+        verbose_name_plural = u"消息"
+        ordering = ['-time']

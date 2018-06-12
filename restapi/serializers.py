@@ -7,7 +7,7 @@ Created on 2017年8月10日
 from rest_framework import serializers
 from wafuli.models import Project, InvestLog, TransList, Notice, SubscribeShip,\
     Announcement, WithdrawLog, Mark, BookLog
-from account.models import MyUser, ApplyLog
+from account.models import MyUser
 from wafuli_admin.models import DayStatis
 from wafuli.models import Company
 
@@ -49,13 +49,6 @@ class NoticeSerializer(serializers.ModelSerializer):
         model = Notice
         fields = '__all__'
         read_only_fields = ('user', 'time')
-
-class ApplyLogSerializer(serializers.ModelSerializer):
-    admin_mobile = serializers.CharField(source='admin_user.mobile')
-    class Meta:
-        model = ApplyLog
-#         fields = '__all__'
-        exclude = ('password',)
 # SubscribeShip
 class SubscribeShipSerializer(serializers.ModelSerializer):
     project_category = serializers.CharField(source='project.category', read_only=True)

@@ -78,14 +78,15 @@ class Project(models.Model):
     pub_date = models.DateTimeField(u"创建时间", default=timezone.now)
     user = models.ForeignKey(MyUser, null=True, related_name="created_projects")
     is_official = models.BooleanField(u"是否官方项目", default=False)
-    category = models.CharField(u"项目属性", max_length=20, choices=Project_CATE)
+    category = models.CharField(u"项目属性", max_length=20, choices=Project_CATE, default='self')
     is_addedto_repo = models.BooleanField(u"是否加入项目库", default=True)
     is_book = models.BooleanField(u"是否需要预约", default=False)
     state = models.CharField(u"项目状态", max_length=2, choices=Project_STATE, default='10')
+    end_date = models.DateField(u"最近暂停日期", default=None, null=True, blank=True)
     pic = models.ImageField(upload_to='photos/%Y/%m/%d', verbose_name=u"标志图片上传（最大不超过30k，越小越好）", blank=True)
     strategy = models.URLField(u"攻略链接")
     doc = models.ForeignKey(Document, null=True, on_delete=models.SET_NULL, default=None, blank=True)
-    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, verbose_name=u"合作平台")
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, verbose_name=u"合作平台", related_query_name='project')
     type = models.CharField(u"项目类别", max_length=1, choices=Project_TYPE, blank=True)
     is_multisub_allowed = models.BooleanField(u"是否允许同一手机号多次提交", default=False)
     introduction = models.TextField(u"项目简介",max_length=100,blank=True)
@@ -160,6 +161,9 @@ class Project(models.Model):
             return self.mobile
     def __unicode__(self):
         return self.title
+    def get_project_price(self, level):
+#         level = self.user.level
+        return getattr(self.project, 'price'+str(level)) or self.project.default_price
     
 class SubscribeShip(models.Model):
     user = models.ForeignKey(MyUser)
@@ -193,13 +197,21 @@ SUB_TYPE = (
     ('1', u'首投'),
     ('2', u'复投'),
 )
+
 SUB_WAY = (
     ('1', u'主页提交'),
     ('2', u'逐条提交'),
-    ('3', u'表格提交'),
+    ('3', u'表格提交(按项目)'),
     ('4', u'移动端自助提交'),
+    ('5', u'表格提交(不区分项目)'),
 )
 class InvestLog(models.Model):
+    PAY_STATE = (
+        ('1', u'未打款'),
+        ('2', u'打款中'),
+        ('3', u'已打款'),
+        ('4', u'打款失败'),
+    )
     user = models.ForeignKey(MyUser, related_name="investlog_submit")
     wxuser = models.ForeignKey(WXUser, related_name="investlog_of", blank=True, null=True, on_delete=models.SET_NULL)
     project = models.ForeignKey(Project, related_name="investlogs")
@@ -220,10 +232,11 @@ class InvestLog(models.Model):
     expect_amount = models.CharField(u'用户预期返现金额(6)', max_length=20, blank=True)
     admin_user = models.ForeignKey(MyUser, related_name="investlog_admin", null=True)
     audit_time = models.DateTimeField(u'审核时间', null=True, blank=True, default=None)
-    audit_state = models.CharField(max_length=10, choices=AUDIT_STATE, verbose_name=u"审核状态")
+    audit_state = models.CharField(max_length=10, choices=AUDIT_STATE, verbose_name=u"审核状态", default='1')
     preaudit_state = models.CharField(max_length=10, choices=AUDIT_STATE, default='1', verbose_name=u"预审状态")
     audit_reason = models.CharField(u"审核说明", max_length=30, blank=True)
     settle_amount = models.DecimalField(u'结算金额', max_digits=10, decimal_places=2, default=0)
+    delta_amount = models.DecimalField(u'补差金额（已计入结算金额）', max_digits=6, decimal_places=2, default=0)
     return_amount = models.DecimalField(u'返现金额', max_digits=10, decimal_places=2, null=True)
     broker_amount = models.DecimalField(u'佣金', max_digits=10, decimal_places=2, default=0)
     remark = models.CharField(u"备注", max_length=100, blank=True)
@@ -231,6 +244,11 @@ class InvestLog(models.Model):
     appeal_reason = models.CharField(u"申诉理由", max_length=50, blank=True)
     presettle_amount = models.DecimalField(u'预结算金额', max_digits=10, decimal_places=2, default=0)
     preaudit_time = models.DateTimeField(u'预审核时间', null=True, blank=True, default=None)
+    pay_state = models.CharField(max_length=1, choices=PAY_STATE, verbose_name=u"打款状态", default='1')
+#     pay_remark = models.CharField(u"打款转账备注", max_length=50, blank=True)
+    pay_reason = models.CharField(u"打款审核说明", max_length=50, blank=True)
+    pay_apply_time = models.DateTimeField(u'申请打款时间', null=True, blank=True, default=None)
+    pay_time = models.DateTimeField(u'打款时间', null=True, blank=True, default=None)
     translist = GenericRelation('TransList')
     def __unicode__(self):
         return u"来自渠道用户：%s 的投资数据提交：%s" % (self.user, self.invest_amount)
@@ -288,7 +306,7 @@ class AdminLog(models.Model):
     time = models.DateTimeField(u'操作时间', auto_now_add=True)
     remark = models.CharField(u"备注", max_length=100)
     def __unicode__(self):
-        return u"%s给%s做了%s操作,时间：%s" % (self.admin_user, self.custom_user, self.get_event_type_display(),
+        return u"%s给%s做了%s操作,时间：%s" % (self.admin_user, self.custom_user, self.get_type_display(),
                                        self.time)
     class Meta:
         ordering = ["-time",]
@@ -330,6 +348,7 @@ class WithdrawLog(models.Model):
     admin_user = models.ForeignKey(MyUser, related_name="withdrawlog_admin", null=True)
     audit_reason = models.CharField(u"审核原因", max_length=30)
     audit_state = models.CharField(max_length=10, choices=AUDIT_STATE, verbose_name=u"审核状态")
+    except_info = models.CharField(max_length=100, verbose_name=u"异常信息") 
     class Meta:
         ordering = ["submit_time","-amount"]
     def __unicode__(self):
