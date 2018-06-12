@@ -4,7 +4,6 @@ Created on 2017年11月24日
 
 @author: lch
 '''
-from wafuli_admin.models import Dict
 from weixin.settings import submit_investlog_notify_templateid,\
     book_invest_notify_templateid, withdraw_success_notify_templateid,\
     withdraw_apply_notify_templateid, withdraw_fail_notify_templateid,\

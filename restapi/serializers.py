@@ -8,7 +8,6 @@ from rest_framework import serializers
 from wafuli.models import Project, InvestLog, TransList, Notice, SubscribeShip,\
     Announcement, WithdrawLog, Mark, BookLog
 from account.models import MyUser
-from wafuli_admin.models import DayStatis
 from wafuli.models import Company
 
 class UserSerializer(serializers.ModelSerializer):
@@ -83,10 +82,6 @@ class AnnouncementSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('time',)
         
-class DayStatisSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DayStatis
-        fields = '__all__'
 class WithdrawLogSerializer(serializers.ModelSerializer):
     real_name = serializers.CharField(source="user.user_bankcard.first.real_name")
     bank = serializers.CharField(source="user.user_bankcard.first.get_bank_display")

@@ -10,7 +10,7 @@ from wafuli.models import Project, InvestLog, TransList, Notice, SubscribeShip,\
 from public.permissions import CsrfExemptSessionAuthentication, IsAdmin
 from restapi.serializers import UserSerializer, InvestLogSerializer,\
     TransListSerializer, NoticeSerializer, ProjectSerializer,\
-    SubscribeShipSerializer, AnnouncementSerializer, DayStatisSerializer,\
+    SubscribeShipSerializer, AnnouncementSerializer, \
     MarkSerializer, BookLogSerializer
 from account.models import MyUser
 from rest_framework.filters import SearchFilter,OrderingFilter
@@ -18,7 +18,6 @@ from public.permissions import IsOwner
 from restapi.Filters import InvestLogFilter, SubscribeShipFilter, UserFilter,\
     TranslistFilter, WithdrawLogFilter
 from django.db.models import Q
-from wafuli_admin.models import DayStatis
 from rest_framework.exceptions import ValidationError
 from weixin.tasks import sendWeixinNotify
 import logging
