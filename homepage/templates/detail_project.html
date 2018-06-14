@@ -233,8 +233,12 @@
                                 <input type="text" class="date date_picker" placeholder="选择投资日期" />
                             </div>
                             <div class="popup__item limit-input"  data-limit="4">
-                                <span class="popup__itemname">收款信息：</span>
-                                <input type="text" class="zfb" maxlength="64" placeholder="收款帐号 如支付宝、qq等，限64字符" />
+                                <span class="popup__itemname">支付宝：</span>
+                                <input type="text" class="zfb" placeholder="请填写支付宝账号" />
+                            </div>
+                            <div class="popup__item limit-input"  data-limit="9">
+                                <span class="popup__itemname">支付宝姓名：</span>
+                                <input type="text" class="zfbname" placeholder="请填写支付宝姓名" />
                             </div>
                             <div class="popup__item limit-input"  data-limit="6">
                                 <span class="popup__itemname">返现金额：</span>
@@ -537,11 +541,11 @@
         key_arr[2] = $('.term').val();
         key_arr[3] = $('.date').val();
         key_arr[4] = $('.zfb').val();
+        key_arr[9] = $('.zfbname').val();
         key_arr[6] = $('.return_amount').val();
         key_arr[7] = $('.qq').val();
         var is_futou = $('input[name="is_futou"]:checked').val();
         var remark = $('.remark').val();
-        
         for (limit_id in limit) {
             if (key_arr[limit[limit_id]] || !key_arr[8]) {
                 if (limit[limit_id] == 8) {
@@ -576,7 +580,7 @@
                 return;
             }
         }
-        console.log(project_id+', ' + key_arr[5]+', ' + key_arr[0]+', ' + key_arr[1]+', ' + key_arr[2]+', ' + key_arr[3]+', '+ key_arr[4]+', ' + key_arr[5]+', ' + key_arr[6]+', ' + key_arr[7]+', ' + remark+', ' + is_futou+', ');
+        console.log(project_id+', ' + key_arr[5]+', ' + key_arr[0]+', ' + key_arr[1]+', ' + key_arr[2]+', ' + key_arr[3]+', '+ key_arr[4]+', '+ key_arr[9]+', ' + key_arr[5]+', ' + key_arr[6]+', ' + key_arr[7]+', ' + remark+', ' + is_futou+', ');
         for (limit_id in limit) {
             if (limit[limit_id] == 8) {
                 if (file_list.length==0){
@@ -595,6 +599,7 @@
         formdata.append('invest_term', key_arr[2]);
         formdata.append('invest_date', key_arr[3]);
         formdata.append('zhifubao', key_arr[4]);
+        formdata.append('zfbname', key_arr[9]);
         formdata.append('expect_amount', key_arr[6]);
         formdata.append('qq_number', key_arr[7]);
         formdata.append('submit_type', is_futou);

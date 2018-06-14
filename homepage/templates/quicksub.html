@@ -195,9 +195,15 @@
           <p class="input-tips">提示内容部分</p>
         </div>
         <div class="limit-input input-box" data-limit="4">
-          <label class="input-title">收款信息<i class="input-mark">*</i></label>
-          <p class="input-detail">收款帐号 如支付宝、qq等，限64字符</p>
-          <input type="text" class="form-test" data-form="required" maxlength="64" placeholder="" id="zfb">
+          <label class="input-title">支付宝<i class="input-mark">*</i></label>
+          <p class="input-detail">支付宝账号</p>
+          <input type="text" class="form-test" data-form="required" placeholder="" id="zfb">
+          <p class="input-tips">提示内容部分</p>
+        </div>
+        <div class="limit-input input-box" data-limit="9">
+          <label class="input-title">支付宝姓名<i class="input-mark">*</i></label>
+          <p class="input-detail">支付宝姓名</p>
+          <input type="text" class="form-test" data-form="required" placeholder="" id="zfbname">
           <p class="input-tips">提示内容部分</p>
         </div>
         <div class="limit-input input-box" data-limit="6">
@@ -478,6 +484,7 @@
         key_arr[2] = document.getElementById('term').value;
         key_arr[3] = document.getElementById('date').value;
         key_arr[4] = document.getElementById('zfb').value;
+        key_arr[9] = document.getElementById('zfbname').value;
         key_arr[6] = document.getElementById('return_amount').value;
         key_arr[7] = document.getElementById('qq').value;
         var is_futou = $('input[name="is_futou"]:checked')[0].value;
@@ -528,6 +535,7 @@
         formdata.append('invest_term', key_arr[2]);
         formdata.append('invest_date', key_arr[3]);
         formdata.append('zhifubao', key_arr[4]);
+        formdata.append('zfbname', key_arr[9]);
         formdata.append('expect_amount', key_arr[6]);
         formdata.append('qq_number', key_arr[7]);
         formdata.append('submit_type', is_futou);
