@@ -301,6 +301,20 @@
                 invest_type = $(this).data('isfutou');
                 console.log(limit_str+'/'+invest_type)
                 
+                document.getElementById('telnum').value = '';
+                document.getElementById('invest_account').value = '';
+                document.getElementById('amount').value = '';
+                document.getElementById('term').value = '';
+                document.getElementById('date').value = '';
+                document.getElementById('zfb').value = '';
+                document.getElementById('zfbname').value = '';
+                document.getElementById('return_amount').value = '';
+                document.getElementById('qq').value = '';
+                $('input[name="is_futou"][value="1"]').attr("checked", true);
+                $(".img-list").html('');
+                document.getElementById("choose").value = '';
+                file_list = [];
+                
                 $('.look-detail').show();
                 $('.look-detail').attr('href', '/detail/project/'+ project_id +'/');
                 $('.submit-box').show();
