@@ -197,3 +197,6 @@ def page_not_found(request):
 # # 500错误
 # def page_error(request):
 #     return render(request, '500.html', {})
+# 404错误
+def new_index(request):
+    return render(request,'index.html')
