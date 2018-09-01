@@ -31,7 +31,8 @@ def display_doc(request, id):
 #             doc.view_count = view_count + 1
             cache_incr_or_set('doc_%s' % doc.id)
             temp_count = cache.get('doc_%s' % doc.id)
-            doc.view_count += temp_count
+            if temp_count:
+                doc.view_count += temp_count
             return render(request, 'display_doc.html', {'doc':doc})
         else:
             return render(request, 'hide_doc.html', )
